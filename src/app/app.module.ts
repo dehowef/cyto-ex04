@@ -2,34 +2,39 @@ import { NgModule, Type } from '@angular/core';
 import { BrowserModule, Title }  from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// Covalent Modules
 import { CovalentCoreModule } from '@covalent/core';
 import { CovalentHttpModule, IHttpInterceptor } from '@covalent/http';
 import { CovalentHighlightModule } from '@covalent/highlight';
 import { CovalentMarkdownModule } from '@covalent/markdown';
 
-import { AppComponent } from './app.component';
-import { MainComponent } from './main/main.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { UsersComponent } from './users/users.component';
-import { UsersFormComponent } from './users/form/form.component';
-import { LogsComponent } from './logs/logs.component';
-import { FormComponent } from './form/form.component';
-import { DetailComponent } from './detail/detail.component';
-import { LoginComponent } from './login/login.component';
-import { DashboardProductComponent } from './dashboard-product/dashboard-product.component';
-import { ProductOverviewComponent } from './dashboard-product/overview/overview.component';
-import { ProductStatsComponent } from './dashboard-product/stats/stats.component';
-import { ProductFeaturesComponent } from './dashboard-product/features/features.component';
-import { FeaturesFormComponent } from './dashboard-product/features/form/form.component';
-import { TemplatesComponent } from './templates/templates.component';
-import { DashboardTemplateComponent } from './templates/dashboard/dashboard.component';
-import { EmailTemplateComponent } from './templates/email/email.component';
-import { EditorTemplateComponent } from './templates/editor/editor.component';
+// External Modules
+import { RequestInterceptor } from '../config/interceptors/request.interceptor';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { TreeModule } from 'angular-tree-component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
+// Router
 import { appRoutes, appRoutingProviders } from './app.routes';
 
-import { RequestInterceptor } from '../config/interceptors/request.interceptor';
+// Components
+import { AppComponent } from './app.component';
 
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AlertComponent } from './alert/alert.component';
+import { LoginComponent } from './login/login.component';
+
+import { MainComponent } from './main/main.component';
+import { DashboardComponent } from './main/dashboard/dashboard.component';
+import { GraphComponent } from './main/graph/graph.component';
+import { WorkspaceComponent } from './main/workspace/workspace.component';
+import { AdminComponent } from './main/admin/admin.component';
+import { HelpComponent } from './main/help/help.component';
+
+// Services
+import { AuthGuardService } from '../services/auth-guard.service';
+import { AlertService } from '../services/alert.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { AgensApiService } from '../services/agens-api.service';
 
 const httpInterceptorProviders: Type<any>[] = [
   RequestInterceptor,
@@ -40,21 +45,12 @@ const httpInterceptorProviders: Type<any>[] = [
     AppComponent,
     MainComponent,
     DashboardComponent,
-    DashboardProductComponent,
-    ProductOverviewComponent,
-    ProductStatsComponent,
-    ProductFeaturesComponent,
-    FeaturesFormComponent,
-    UsersComponent,
-    UsersFormComponent,
-    LogsComponent,
-    FormComponent,
-    DetailComponent,
     LoginComponent,
-    TemplatesComponent,
-    DashboardTemplateComponent,
-    EmailTemplateComponent,
-    EditorTemplateComponent,
+    AlertComponent,
+    GraphComponent,
+    AdminComponent,
+    HelpComponent,
+    WorkspaceComponent,
   ], // directives, components, and pipes owned by this NgModule
   imports: [
     BrowserModule,
@@ -69,11 +65,17 @@ const httpInterceptorProviders: Type<any>[] = [
     CovalentMarkdownModule,
     appRoutes,
     NgxChartsModule,
+    TreeModule,
+    NgxDatatableModule
   ], // modules needed to run this module
   providers: [
     appRoutingProviders,
     httpInterceptorProviders,
     Title,
+    AlertService,
+    AuthGuardService,
+    AuthenticationService,
+    AgensApiService
   ], // additional providers needed for this module
   entryComponents: [ ],
   bootstrap: [ AppComponent ],

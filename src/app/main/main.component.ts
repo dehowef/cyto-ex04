@@ -20,22 +20,22 @@ export class MainComponent implements OnInit {
       route: '/',
       icon: 'dashboard',
     }, {
-      title: 'Product Dashboard',
-      route: '/product',
+      title: 'Graph Query',
+      route: '/graph',
       icon: 'view_quilt',
     }, {
-      title: 'Product Logs',
-      route: '/logs',
+      title: 'Workspace',
+      route: '/workspace',
       icon: 'receipt',
     }, {
-      title: 'Manage Users',
-      route: '/users',
+      title: 'Administration',
+      route: '/admin',
       icon: 'people',
     }, {
-      title: 'Covalent Templates',
-      route: '/templates',
+      title: 'Help',
+      route: '/help',
       icon: 'view_module',
-    },
+    }
   ];
 
   constructor(

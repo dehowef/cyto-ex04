@@ -1,44 +1,75 @@
-<div layout="column" layout-fill>
-  <md-toolbar color="primary" class="md-whiteframe-z1">
-    <span>Login</span>
-  </md-toolbar>
-  <div class="md-content" layout-padding flex>
-    <div layout-gt-xs="row" layout-align-gt-xs="center start" class="margin">
-      <div flex-gt-xs="50">
-        <md-card tdMediaToggle="gt-xs" [mediaClasses]="['push-top-lg']">
-          <md-card-title><md-icon class="md-icon-logo" svgIcon="assets:covalent"></md-icon> Login</md-card-title>
-          <md-card-subtitle>sign in via your current corporate account</md-card-subtitle>
-          <md-divider></md-divider>
-          <md-card-content>
-            <form #loginForm="ngForm">
-              <div layout="row">
-                <md-input-container flex> 
-                  <input mdInput #userElement #userControl="ngModel" placeholder="Username" type="text" maxlength="30" name="username" [(ngModel)]="username" required>
-                  <span md-prefix><md-icon>person</md-icon></span>
-                  <md-hint align="start">
-                    <span [hidden]="!userControl.errors?.required || userControl.pristine" class="tc-red-600">Required</span>
-                  </md-hint>
-                  <md-hint align="end">{{userElement.value.length}} / 30</md-hint>
-                </md-input-container>
+<body class="bgc-light-blue-600">
+<div class="loginForm_line">
+  <div class="center animated fadeIn">
+      
+      <md-card layout="column">
+              <div class="logo">
+                  <img src="../../../../assets/img/logo_bn.png">
               </div>
-              <div layout="row">
-                <md-input-container flex> 
-                  <input mdInput #passElement #passControl="ngModel" placeholder="Password" type="password" name="password" [(ngModel)]="password" required>
-                  <span md-prefix><md-icon>lock</md-icon></span>
-                  <md-hint align="start">
-                    <span [hidden]="!passControl.errors?.required || passControl.pristine" class="tc-red-600">Required</span>
-                  </md-hint>
-                  <md-hint align="end">Something hard to guess</md-hint>
-                </md-input-container>
+              <div class="loginForm">
+                  <div>
+                      <form layout="column" #loginForm="ngForm">
+                          <md-input-container>
+                              <md-placeholder md-no-float>HOST name/address</md-placeholder>
+                              <span md-prefix><md-icon>flash_on</md-icon></span>
+                              <input mdInput class="inputLogin" #ctrlHost [(ngModel)]="request.host" value="{{request.host}}" 
+                                    type="text" required [ngModelOptions]="{standalone: true}">
+                              <md-hint>
+                                  <span [hidden]="!ctrlHost.errors?.required || ctrlHost.pristine" class="tc-red-600 animated fadeInDown"> This is Required </span>
+                              </md-hint>
+                          </md-input-container>
+                          <md-input-container>
+                              <md-placeholder md-no-float>PORT</md-placeholder>
+                              <span md-prefix><md-icon>group_work</md-icon></span>
+                              <input mdInput class="inputLogin" #ctrlPort [(ngModel)]="request.port" value="{{request.port}}" 
+                                    type="text" required [ngModelOptions]="{standalone: true}">
+                              <md-hint>
+                                  <span [hidden]="!ctrlPort.errors?.required || ctrlPort.pristine" class="tc-red-600 animated fadeInDown"> This is Required </span>
+                              </md-hint>
+                          </md-input-container>
+
+                          <md-input-container>
+                              <md-placeholder md-no-float>DATABASE</md-placeholder>
+                              <span md-prefix><md-icon>share</md-icon></span>
+                              <input mdInput class="inputLogin" #ctrlDb [(ngModel)]="request.db" value="{{request.db}}" 
+                                    type="text" required [ngModelOptions]="{standalone: true}">
+                              <md-hint>
+                                  <span [hidden]="!ctrlDb.errors?.required || ctrlDb.pristine" class="tc-red-600 animated fadeInDown"> This is Required </span>
+                              </md-hint>
+                          </md-input-container>
+                          
+                          <md-input-container>
+                              <md-placeholder md-no-float>USERNAME</md-placeholder>
+                              <span md-prefix><md-icon>person</md-icon></span>
+                              <input mdInput class="inputLogin" #ctrlUserId [(ngModel)]="request.user_id" value="{{request.user_id}}" 
+                                    type="text" required [ngModelOptions]="{standalone: true}">
+                              <md-hint class="text-right">
+                                  <span [hidden]="!ctrlUserId.errors?.required || ctrlUserId.pristine" class="tc-red-600 animated fadeInDown"> This is Required </span>
+                              </md-hint>
+                          </md-input-container>
+
+                          <md-input-container>
+                              <md-placeholder>PASSWORD</md-placeholder>
+                              <span md-prefix><md-icon>lock</md-icon></span>
+                              <input mdInput class="inputLogin" #ctrlUserPw [(ngModel)]="request.user_pw" value="{{request.user_pw}}" 
+                                    type="password" required [ngModelOptions]="{standalone: true}">
+                              <md-hint>
+                                  <span [hidden]="!ctrlUserPw.errors?.required || ctrlUserPw.pristine" class="tc-red-600 animated fadeInDown"> This is Required </span>
+                              </md-hint>
+                          </md-input-container>
+                      </form>
+                      
+                  </div>
               </div>
-            </form>
-          </md-card-content>
-          <md-divider></md-divider>
-          <md-card-actions layout="row">
-            <button flex md-raised-button color="accent" [disabled]="!loginForm.form.valid" (click)="login()">Sign In</button>
-          </md-card-actions>
-        </md-card>
-      </div>
-    </div>    
+              <div layout="column"> 
+                  <md-checkbox color="accent" class="text-md inline-block tc-grey-600">Remember Me</md-checkbox>  
+                  <button md-ripple md-raised-button [routerLink]="['/']" color="primary" [disabled]="!loginForm.form.valid" (click)="login()" flex> SIGN-IN</button>
+                  <a [routerLink]="['/register']" class="text-md text-center" flex>Don't have an Account? <u>SIGN-UP</u></a>  
+              </div> 
+              <ag-alert></ag-alert>
+
+      </md-card>
+    
   </div>
 </div>
+</body>

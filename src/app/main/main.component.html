@@ -25,12 +25,11 @@
 
     <md-list> 
       <a (click)="sidenav.toggle()" mdTooltip="LIST" mdTooltipPosition="after"><md-icon class="bgc-light-blue-800 tc-grey-50">dehaze</md-icon></a>
-      <a [routerLink]="['/contents']" mdTooltip="DASHBOARD" mdTooltipPosition="after"><md-icon>dashboard</md-icon></a>
+      <a [routerLink]="['/']" mdTooltip="DASHBOARD" mdTooltipPosition="after"><md-icon>dashboard</md-icon></a>
       <a [routerLink]="['/graph']" mdTooltip="GRAPH-QUERY" mdTooltipPosition="after"><md-icon>pie_chart</md-icon></a>
-      <a [routerLink]="['/menu4']" mdTooltip="WORKSPACE" mdTooltipPosition="after"><md-icon>insert_drive_file</md-icon></a>
-      <a [routerLink]="['/menu3']" mdTooltip="ADMIN" mdTooltipPosition="after"><md-icon>person</md-icon></a>
-      <!--<a [routerLink]="['/menu5']" mdTooltip="SETTING" mdTooltipPosition="after"><md-icon>settings</md-icon></a>  -->
-      <a [routerLink]="['/menu6']" mdTooltip="HELP" mdTooltipPosition="after"><md-icon>help</md-icon></a>  
+      <a [routerLink]="['/workspace']" mdTooltip="WORKSPACE" mdTooltipPosition="after"><md-icon>insert_drive_file</md-icon></a>
+      <a [routerLink]="['/admin']" mdTooltip="ADMIN" mdTooltipPosition="after"><md-icon>person</md-icon></a>
+      <a [routerLink]="['/help']" mdTooltip="HELP" mdTooltipPosition="after"><md-icon>help</md-icon></a>  
     </md-list>
     <span flex></span>
     <img src="../../../../assets/img/logo_bn.png">
