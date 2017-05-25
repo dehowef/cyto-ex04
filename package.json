@@ -1,38 +1,28 @@
 {
-  "name": "covalent-quickstart",
-  "version": "1.0.0-beta.3",
+  "name": "agens-manager-frontend",
+  "version": "0.0.1",
   "private": true,
-  "description": "Quickstart App with @covalent packages",
+  "description": "Graph Visualization and DB Client for AgensGraph",
   "keywords": [
-    "angular",
-    "components",
-    "reusable"
+    "angular4",
+    "cytoscape",
+    "angular-cli"
   ],
   "scripts": {
     "e2e": "ng e2e",
     "lint": "ng lint",
     "reinstall": "rm -rf node_modules tmp deploy dist && npm i",
-    "postinstall": "webdriver-manager update",
-    "start-api": "cd mock-api && covalent-data &",
-    "stop-api": "pkill covalent-data",
-    "webdriver-update": "bash ./node_modules/.bin/webdriver-manager update",
-    "test": "ng test --code-coverage --single-run",
-    "ghpages-deploy": "ng build --base-href /covalent-quickstart/ --aot -prod --sourcemap=false && bash scripts/ghpages-deploy"
+    "test": "ng test --code-coverage --single-run"
   },
   "engines": {
     "node": ">4.4 < 7",
     "npm": ">3"
   },
-  "repository": "https://github.com/teradata/covalent-quickstart.git",
+  "repository": "https://github.com/maxmin93/cyto-ex04",
   "license": "MIT",
-  "author": "Teradata UX",
+  "author": "bitnine.net",
   "contributors": [
-    "Kyle Ledbetter <kyle.ledbetter@teradata.com>",
-    "Richa Vyas <richa.vyas@teradata.com>",
-    "Ed Morales <eduardo.morales@teradata.com>",
-    "Jason Weaver <jason.weaver@teradata.com>",
-    "Jeremy Smartt <jeremy.smartt@teradata.com>",
-    "Ilsun Park <ilsun.park@teradata.com>"
+    "Byeong-Guk Min <maxmin93@gmail.com>"
   ],
   "dependencies": {
     "@angular/animations": "^4.0.0",
@@ -83,8 +73,6 @@
     "karma-firefox-launcher": "1.0.0",
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "phantomjs-prebuilt": "2.1.7",
-    "protractor": "~5.1.0",
     "ts-node": "~2.1.0",
     "tslint": "^4.5.1",
     "typescript": "~2.2.0"
