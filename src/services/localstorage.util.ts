@@ -1,20 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Http, Response, Headers } from '@angular/http';
-
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
-
-import { LocalStorageUtil } from './localstorage.util';
-
-@Injectable()
-export class AuthGuardService implements CanActivate {
-
-  constructor(
-    private router: Router
-  ) { }
 /*
-  removeStorage(key) {
+ *  Code Referrence =>
+ *    https://stackoverflow.com/a/30730835/6811653
+ */
+export class LocalStorageUtil {
+
+  public static removeStorage(key) {
     try {
         localStorage.removeItem(key);
         localStorage.removeItem(key + '_expiresIn');
@@ -25,7 +15,7 @@ export class AuthGuardService implements CanActivate {
     return true; 
   }
 
-  getStorage(key) {
+  public static getStorage(key) {
     var now = Date.now();  //epoch time, lets deal only with integer
     // set expiration for storage
     var expiresIn = Number(localStorage.getItem(key+'_expiresIn'));
@@ -47,7 +37,7 @@ export class AuthGuardService implements CanActivate {
     }
   }
 
-  setStorage(key, value, expires) {
+  public static setStorage(key, value, expires) {
     if( expires===undefined || expires===null ){
         expires = (1*60*60);  // default: seconds for 1 hour
     } else {
@@ -65,16 +55,5 @@ export class AuthGuardService implements CanActivate {
     }
     return true;
   }
-*/
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if ( LocalStorageUtil.getStorage('currentUser') ) {
-        // logged in so return true
-        return true;
-    }
-
-    // not logged in so redirect to login page with the return url
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
-    return false;
-  }
-
+  
 }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 
 import { AgensRequestConnect } from '../models/agens-request-connect';
+import { LocalStorageUtil } from './localstorage.util';
 
 @Injectable()
 export class AuthenticationService {
@@ -33,8 +34,8 @@ export class AuthenticationService {
             user.user_id = request.user_id;
             console.log('login(): \n'+JSON.stringify(user));
             
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            // auto expire of localStorage = 3600 seconds
+            LocalStorageUtil.setStorage( 'currentUser', JSON.stringify(user), 3600 );
         }
       });
       // .toPromise()
@@ -44,7 +45,7 @@ export class AuthenticationService {
 
   logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+    LocalStorageUtil.removeStorage( 'currentUser' );
   }
 
   private handleError(error: any): Promise<any> {
