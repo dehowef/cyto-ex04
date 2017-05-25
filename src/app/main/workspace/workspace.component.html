@@ -1,3 +1,90 @@
-<p>
-  workspace works!
-</p>
+<div class="content">
+   
+   <span layout="row" layout-align="center center">
+        <h4 class="page_title">WORKSPACE <small class="block">Learn one way to build applications with Angular and reuse your code </small></h4>
+        <span flex></span>
+        <span class="help" layout="row">
+            <md-icon>highlight</md-icon>
+            <p>HOW CAN I HELP YOU?</p>
+        </span>
+    </span>
+  <!-- 
+    Graph tab title
+  -->
+
+    <md-card class="savedata overflow-auto">
+        <div layout-align="end" layout="row">
+            <h5>Workspace</h5>
+            <span flex></span>
+            <td-search-box class="push-right-sm"
+                    backIcon="arrow_back" 
+                    placeholder="SEARCH" 
+                    [showUnderline]="true" 
+                    [debounce]="500" 
+                    [alwaysVisible]="false" 
+                    (searchDebounce)="searchSource($event)" 
+                    >
+            </td-search-box>
+        </div>
+        <table td-data-table >                        
+            <th td-data-table-column 
+                *ngFor="let column of sourcesColumns"
+                [numeric]="column.numeric">
+                {{column.label}}
+            </th>
+            <th td-data-table-column>
+                <span></span>
+            </th>
+
+            <tr td-data-table-row *ngFor="let row of filteredDataSource">
+                <td td-data-table-cell *ngFor="let column of sourcesColumns" [numeric]="column.numeric">
+                    {{column.format ? column.format(row[column.name]) : row[column.name]}}
+                </td>
+                <td td-data-table-cell>
+                    <div layout="row" class="opt_icon">
+                        <button (click)="openEditGraph()" mdTooltip="SETTING" mdTooltipPosition="above" ><md-icon class="change">build</md-icon></button>
+                        <button (click)="deleteGraph()" mdTooltip="DELETE" mdTooltipPosition="above"><md-icon class="delete">delete</md-icon></button>
+                        <button class="btn-show2" mdTooltip="PLAY" mdTooltipPosition="above"><md-icon class="play">play_circle_filled</md-icon></button> 
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </md-card>
+    
+    <div layout="row">
+        <md-card flex class="minigraph1">
+            <div layout="row" layout-align="center center" class="graph_title">
+                <div layout="row">
+                    <md-icon>bubble_chart</md-icon>
+                    <h4>
+                        Car <br> 
+                        <small> Last modified date 2017.04.20</small>
+                    </h4>
+                </div>
+                <span flex></span>
+                <a mdTooltip="EDIT" mdTooltipPosition="above" [routerLink]="['/graph']"><md-icon>settings</md-icon></a>
+                <a class="btn-close1" mdTooltip="CLOSE" mdTooltipPosition="above"><md-icon>cancel</md-icon></a>
+            </div>
+            <md-card-content>
+            </md-card-content>
+        </md-card>
+        <md-card flex >
+            <div layout="row" layout-align="center center" class="graph_title">
+                <div layout="row">
+                    <md-icon>bubble_chart</md-icon>
+                    <h4>
+                        Starbucks <br>
+                        <small> Last modified date 2017.04.17</small>
+                    </h4>
+                </div>
+                <span flex></span>
+                <a mdTooltip="EDIT" mdTooltipPosition="above" [routerLink]="['/graph']"><md-icon>settings</md-icon></a>
+                <a class="btn-close2"><md-icon mdTooltip="CLOSE" mdTooltipPosition="above">cancel</md-icon></a>
+            </div>
+            <md-card-content>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>
+
+

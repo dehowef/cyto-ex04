@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
+import { TdMediaService } from '@covalent/core';
 
 @Component({
   selector: 'ag-help',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HelpComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public media: TdMediaService,
+  ) {
+  }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.media.broadcast();
   }
 
 }

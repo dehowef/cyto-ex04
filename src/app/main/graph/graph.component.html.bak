@@ -2,7 +2,7 @@
   <span layout="row" layout-align="center center">
     <h4 class="page_title">GRAPH <small class="block">Learn one way to build applications with Angular and reuse your code </small></h4>
     <span flex></span>
-    <span class="page_title_icon">
+  <span class="page_title_icon">
       <!--<a mdTooltip="New" mdTooltipPosition="before" (click)="openNewGraph()"><md-icon>add</md-icon></a>-->
       <a mdTooltip="New" mdTooltipPosition="before" (click)="newGraphGard()"><md-icon>add</md-icon></a>
       <a [mdMenuTriggerFor]="folderOpen" mdTooltip="Open" mdTooltipPosition="before"><md-icon>folder_open</md-icon></a>
@@ -28,6 +28,64 @@
       </md-menu>
     </span>
   </span>
+
+  <div [tdToggle]="newGraphOpen">
+    <md-card layout="column" class="newgraph_card md-elevation-z0 bgc-light-blue-50">
+      <div class="push-left-sm push-right-sm">
+        <form layout="row" flex>
+          <md-input-container flex class="push-right-md">
+            <md-placeholder>NAME</md-placeholder>
+            <input mdInput>
+          </md-input-container>
+          <md-input-container flex>
+            <md-placeholder>EDGE</md-placeholder>
+            <input mdInput>
+          </md-input-container>
+        </form>
+        <form layout="row" flex>
+          <md-input-container flex class="push-right-md">
+            <md-placeholder>FROM</md-placeholder>
+            <input mdInput>
+          </md-input-container>
+          <md-input-container flex>
+            <md-placeholder>TO</md-placeholder>
+            <input mdInput>
+          </md-input-container>
+        </form>
+      </div>
+      <div class="pad-left-md pad-right-lg" layout="row" layout-align="end center">
+        <h4 class="tc-grey-700">NEW <small>BITNINE AGENSMANAGER GRAPH</small></h4>
+        <span flex hide-gt-md></span>
+        <div layout="row" layout-margin>
+          <a md-raised-button flex class="tc-blue-400" (click)="newGraphProject()">NEW</a>
+          <a md-raised-button flex class="bgc-blue-400 tc-grey-50" (click)="openGraphProject()">LOAD</a>
+          <a md-raised-button flex class="bgc-blue-400 tc-grey-50" (click)="saveGraphProject()">SAVE</a>
+          <div [tdFade]="newGraphSave" layout="row" layout-align="end center" class="push-right-lg">
+            <p class="text-md push-right-md">Do you want to save " {{title}} " ? </p>
+            <button md-button>OKAY</button>
+            <button md-button>CANCER</button>
+          </div>
+          <a mdTooltip="Save" mdTooltipPosition="before" class="push-right-sm push-top-xs" (click)="toggleSaveFile()">
+            <md-icon>save</md-icon>
+          </a>
+        </div>
+      </div>
+    </md-card>
+  </div>
+
+  <md-card *ngIf="hide">
+    <md-card-title>
+      <h6 class="tc-red-500">ERROR!</h6>
+    </md-card-title>
+    <md-card-subtitle>
+      <p>the secret you entered is not a valid encrypted secret</p>
+    </md-card-subtitle>
+    <md-card-content>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur libero enim, pharetra pulvinar molestie commodo,
+        suscipit nec lorem. Integer elementum erat a dictum cursus. Vestibulum ultrices massa et varius tempus. Etiam hendrerit
+        neque ac imperdiet mattis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+    </md-card-content>
+  </md-card>
 
   <md-tab-group>
     <md-tab>
@@ -55,7 +113,7 @@ ORDER BY COUNT(*) DESC , friend_of_friend.name
         </md-card-content>
       </md-card>
 
-      <md-card class="bgc-light-blue-50 md-elevation-z0">
+      <md-card class="bgc-light-blue-50 md-elevation-z0" *ngIf="show">
 
         <!-- GRAPH -->
         <td-expansion-panel expand="true">
@@ -147,8 +205,7 @@ ORDER BY COUNT(*) DESC , friend_of_friend.name
               <div id="one1" class="gra_example">Movie</div>
               <div id="one2" class="gra_example">Person</div>
               <div id="one3" class="gra_example">Acted_in</div>
-              <span class="gra_con" layout="column">
-                
+              <span class="gra_con" layout="column">                            
                 <button [mdMenuTriggerFor]="layoutMenu" md-icon-button mdTooltip="LAYOUT" mdTooltipPosition="before"><md-icon>web</md-icon></button>
                 <md-menu #layoutMenu="mdMenu">
                   <div class="Open_M_Head">
@@ -217,8 +274,8 @@ ORDER BY COUNT(*) DESC , friend_of_friend.name
           </md-sidenav-container>
 
         </td-expansion-panel>
-        <td-expansion-panel class="tc-grey-700">
 
+        <td-expansion-panel class="tc-grey-700">
           <ng-template td-expansion-panel-label>
             <h4>ROWS &nbsp; <small class="text-xs">AGENSMANAGER</small></h4>
           </ng-template>
@@ -229,15 +286,15 @@ ORDER BY COUNT(*) DESC , friend_of_friend.name
                 after 551 </p>
             </div>
           </td-expansion-summary>
+
           <md-divider></md-divider>
           <div class="pad-md">
             <td-data-table [data]="filteredData" [columns]="columns" [sortable]="true" [sortBy]="sortBy" [sortOrder]="sortOrder" (sortChange)="sort($event)">
             </td-data-table>
           </div>
-
         </td-expansion-panel>
-        <td-expansion-panel class="tc-grey-700">
 
+        <td-expansion-panel class="tc-grey-700">
           <ng-template td-expansion-panel-label>
             <h4>JSON DATA &nbsp; <small class="text-xs">AGENSMANAGER</small></h4>
           </ng-template>
@@ -250,11 +307,34 @@ ORDER BY COUNT(*) DESC , friend_of_friend.name
           <div class="pad-md">
             <td-json-formatter [data]="object" [levelsOpen]="1"></td-json-formatter>
           </div>
-
         </td-expansion-panel>
+
       </md-card>
 
       <!--<app-graph-item></app-graph-item>-->
+
+    </md-tab>
+    <md-tab>
+
+      <ng-template md-tab-label>{{title1}}</ng-template>
+      <div layout="row" layout-align="start center" class="push-top-sm" flex>
+        <md-icon class="tc-blue-400">bubble_chart</md-icon>
+        <p class="pad-left-sm text-md tc-blue-400"> File Name </p>
+        <md-input-container class="pad-left-sm">
+          <input mdInput [(ngModel)]="title1">
+        </md-input-container>
+        <span flex></span>
+        <div [tdFade]="newGraphSave" layout="row" layout-align="end center" class="push-right-lg">
+          <p class="text-md push-right-md">Do you want to save " {{title1}} " ? </p>
+          <button md-button>OKAY</button>
+          <button md-button>CANCER</button>
+        </div>
+        <a mdTooltip="Save" mdTooltipPosition="before" class="push-right-sm push-top-xs" (click)="toggleSaveFile()">
+          <md-icon>save</md-icon>
+        </a>
+      </div>
+
+      <!--<child></child>-->
 
     </md-tab>
   </md-tab-group>

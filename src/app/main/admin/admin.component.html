@@ -1,3 +1,83 @@
-<p>
-  admin works!
-</p>
+<div class="content">
+
+  <span layout="row" layout-align="center center">
+        <h4 class="page_title">ADMIN <small class="block">Learn one way to build applications with Angular and reuse your code </small></h4>
+        <span flex></span>
+  <span class="help" layout="row">
+            <md-icon>highlight</md-icon>
+            <p>HOW CAN I HELP YOU?</p>
+        </span>
+  </span>
+  <!-- 
+    Graph tab title
+  -->
+
+  <div layout-gt-md="row" class="admin_container">
+    <md-card flex="33%">
+      <div layout="row" class="admin_text">
+        <md-icon>share</md-icon>
+        <h3>Tuples In </h3>
+      </div>
+      <md-card-content class="graph">
+      </md-card-content>
+    </md-card>
+    <md-card flex="33%">
+      <div layout="row" class="admin_text">
+        <md-icon>equalizer</md-icon>
+        <h3>Tuples Out </h3>
+      </div>
+      <md-card-content class="graph">
+      </md-card-content>
+    </md-card>
+    <md-card flex="33%">
+      <div layout="row" class="admin_text">
+        <md-icon>equalizer</md-icon>
+        <h3>Block I/O </h3>
+      </div>
+      <md-card-content class="graph">
+      </md-card-content>
+    </md-card>
+  </div>
+
+  <md-card>
+    <div layout="row">
+      <h4>SERVER ACTIVITY</h4>
+      <span flex></span>
+      <td-search-box class="push-right-md push-top-sm" #searchBox backIcon="arrow_back" placeholder="SEARCH" [showUnderline]="true"
+        [alwaysVisible]="false" (searchDebounce)="search($event)">
+      </td-search-box>
+    </div>
+    <md-card-content>
+      <md-tab-group>
+        <md-tab>
+          <ng-template md-tab-label>Sessions</ng-template>
+          <div class="push-md">
+            <table td-data-table>
+              <th td-data-table-column *ngFor="let column of adminColumns" [numeric]="column.numeric" [sortable]="true" [sortOrder]="sortOrder"
+                (sortChange)="sort($event)">
+                {{column.label}}
+              </th>
+              <th td-data-table-column>
+                <span></span>
+              </th>
+
+              <tr td-data-table-row *ngFor="let row of filteredData">
+                <td td-data-table-cell *ngFor="let column of adminColumns" [numeric]="column.numeric">
+                  {{column.format ? column.format(row[column.name]) : row[column.name]}}
+                </td>
+                <td td-data-table-cell>
+                  <div layout="row" class="opt_icon">
+                    <button (click)="deleteGraph()"><md-icon class="delete">delete</md-icon></button>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </md-tab>
+        <md-tab>
+          <ng-template md-tab-label>Locks</ng-template>
+        </md-tab>
+      </md-tab-group>
+    </md-card-content>
+  </md-card>
+</div>
