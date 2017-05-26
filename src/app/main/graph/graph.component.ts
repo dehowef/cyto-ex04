@@ -68,7 +68,14 @@ export class GraphComponent implements AfterViewInit, OnInit {
   ) {
   }
 
+  ngOnInit(): void { 
+    // console.log("GraphComponent.ngOnInit():");
+    this.media.broadcast(); 
+  }
+
   ngAfterViewInit(): void {
+    // console.log("GraphComponent.ngAfterViewInit():");
+
     // broadcast to all listener observables when loading the page
     this.media.broadcast();
 
@@ -87,8 +94,6 @@ export class GraphComponent implements AfterViewInit, OnInit {
       theme: 'eclipse'
     });
   }
-
-  ngOnInit(): void { this.media.broadcast(); }
 
   toggleError() {    
     this.hide = !this.hide; 

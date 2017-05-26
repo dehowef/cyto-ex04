@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Http, Response, Headers } from '@angular/http';
 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
-
 import { AuthenticationService } from './authentication.service';
 
 @Injectable()

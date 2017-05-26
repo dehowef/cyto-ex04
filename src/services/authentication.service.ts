@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/toPromise';
 
 import * as GlobalConfig from '../app/global.config';
 
@@ -42,8 +43,10 @@ export class AuthenticationService {
   }
 
   public getToken():string {
+    // let data = localStorage.getItem(this.userKey);
+    // if( data && data !== "" ){
     let data = this.getStorage(this.userKey);
-    if( data && data !== "" ){
+    if( data ){
       let user = JSON.parse( data );
       if( user.token && user.token !== "") return user.token;
     }
@@ -51,7 +54,8 @@ export class AuthenticationService {
   }
 
   public isLogin():boolean {    
-    return this.getToken() !== null ? true : false;
+    // return this.getToken() !== null ? true : false;
+    return localStorage.getItem(this.userKey) !== null ? true : false;
   }
 
   public logout():boolean {

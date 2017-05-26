@@ -48,9 +48,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private apiSerivce: AgensApiService
   ) { }
 
-  ngOnInit(): void { this.filter(); }
+  ngOnInit(): void { 
+    // console.log("DashboardComponent.ngOnInit():");
+    this.filter(); 
+  }
 
   ngAfterViewInit(): void {
+    // console.log("DashboardComponent.ngAfterViewInit():");
     if (localStorage.getItem('currentUser')) {
         let user = JSON.parse( localStorage.getItem('currentUser') );
         if(user.host) this.host = user.host;

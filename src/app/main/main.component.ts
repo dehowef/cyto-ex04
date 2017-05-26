@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -11,7 +11,7 @@ import { TdLoadingService, LoadingType, LoadingMode } from '@covalent/core';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewInit {
 
   title: string;
 
@@ -48,10 +48,15 @@ export class MainComponent implements OnInit {
 
 
   ngOnInit() {
+    // console.log("MainComponent.ngOnInit():");
     this.media.broadcast();
 
     this._titleService.setTitle( this.routes[0]['title'] );
     this.title = this._titleService.getTitle();
+  }
+
+  ngAfterViewInit(){
+    // console.log("MainComponent.ngAfterViewInit():");
   }
 
   logout(): void {
