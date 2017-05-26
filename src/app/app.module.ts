@@ -4,12 +4,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Covalent Modules
 import { CovalentCoreModule } from '@covalent/core';
-import { CovalentHttpModule, IHttpInterceptor } from '@covalent/http';
 import { CovalentHighlightModule } from '@covalent/highlight';
 import { CovalentMarkdownModule } from '@covalent/markdown';
 
 // External Modules
-import { RequestInterceptor } from '../config/interceptors/request.interceptor';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TreeModule } from 'angular-tree-component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -36,10 +34,6 @@ import { AlertService } from '../services/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { AgensApiService } from '../services/agens-api.service';
 
-const httpInterceptorProviders: Type<any>[] = [
-  RequestInterceptor,
-];
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,11 +50,6 @@ const httpInterceptorProviders: Type<any>[] = [
     BrowserModule,
     BrowserAnimationsModule,
     CovalentCoreModule,
-    CovalentHttpModule.forRoot({
-      interceptors: [{
-        interceptor: RequestInterceptor, paths: ['**'],
-      }],
-    }),
     CovalentHighlightModule,
     CovalentMarkdownModule,
     appRoutes,
@@ -70,7 +59,6 @@ const httpInterceptorProviders: Type<any>[] = [
   ], // modules needed to run this module
   providers: [
     appRoutingProviders,
-    httpInterceptorProviders,
     Title,
     AlertService,
     AuthGuardService,

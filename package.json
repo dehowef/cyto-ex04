@@ -2,9 +2,9 @@
   "name": "agens-manager-frontend",
   "version": "0.0.1",
   "private": true,
-  "description": "Graph Visualization and DB Client for AgensGraph",
+  "description": "Graph Visualization Tool and DB Client for AgensGraph",
   "keywords": [
-    "angular4",
+    "covalent",
     "cytoscape",
     "angular-cli"
   ],

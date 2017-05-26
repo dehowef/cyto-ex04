@@ -1,5 +1,5 @@
-export { UsersService, IUser } from './users.service';
-export { ItemsService } from './items.service';
-export { ProductsService } from './products.service';
+export { AgensApiService } from './agens-api.service';
+export { AuthGuardService } from './auth-guard.service';
+export { AuthenticationService } from './authentication.service';
 export { AlertService } from './alert.service';
-export { FeaturesService, IFeature } from './features.service';
+export { WindowRefService } from './window-ref.service';

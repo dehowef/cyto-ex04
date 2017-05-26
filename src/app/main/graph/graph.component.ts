@@ -73,7 +73,6 @@ export class GraphComponent implements AfterViewInit, OnInit {
     this.media.broadcast();
 
     this.div_editor = this.el.nativeElement.querySelector('textarea#code');
-    // console.log(div);
 
     // CodeMirror
     var mime = 'application/x-cypher-query';

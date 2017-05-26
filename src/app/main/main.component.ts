@@ -63,7 +63,6 @@ export class MainComponent implements OnInit {
     this.title = this._titleService.getTitle();
     // change sub-page
     this._router.navigate([link]);
-    // console.log('routeSub: link='+link);
     this.showSnackBar('routeSub: link='+link);
   }
 

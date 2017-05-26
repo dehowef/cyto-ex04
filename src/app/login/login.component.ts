@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { TdLoadingService } from '@covalent/core';
@@ -14,7 +14,7 @@ import { AgensRequestConnect } from '../../models/agens-request-connect';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
 
   request: AgensRequestConnect;
 
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService,
+    private auth: AuthenticationService,
     private alertService: AlertService,
 
     private _loadingService: TdLoadingService
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     // reset login status
-    this.authenticationService.logout();
+    if( this.auth.isLogin() ) this.auth.logout();
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -54,9 +54,13 @@ export class LoginComponent implements OnInit {
     this.request.user_pw = '';
   }
 
+  ngAfterViewInit(){
+  }
+
   login() {
     this.loading = true;
-    this.authenticationService.login(this.request)
+
+    this.auth.login(this.request)
         .subscribe(
             data => {
                 this.router.navigate([this.returnUrl]);

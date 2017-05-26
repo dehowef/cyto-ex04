@@ -3,51 +3,41 @@ import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
+import * as GlobalConfig from '../app/global.config';
+import { AuthenticationService } from './authentication.service';
+
 import { AgensRequestQuery } from '../models/agens-request-query';
 import { AgensResponseResult } from '../models/agens-response-result';
 
 @Injectable()
 export class AgensApiService {
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private apiUrl = 'http://127.0.0.1:8085/api/v1/demo';
+  
+  private apiUrl = GlobalConfig.AGENS_DEMO_API;
 
   constructor (
-    private http: Http
+    private http: Http,
+    private auth: AuthenticationService
   ) {}
-
-  createAuthorizationHeader( token:String ):Headers {
-    return new Headers({'Content-Type': 'application/json', 'Authorization':token}); 
-  }
-
-  getToken(){
-    if(localStorage.getItem('currentUser')){
-      let user = JSON.parse( localStorage.getItem('currentUser') );
-      if(user.token && user.token !== "") return user.token;
-    }
-    return "";
-  }
 
   dbMeta() {
     const url = `${this.apiUrl}/meta`;
-    var headers = this.createAuthorizationHeader(this.getToken());
-
-    console.log("dbMeta()");
+    var headers = this.auth.createAuthorizationHeader(this.auth.getToken());
 
     return this.http
       .get(url,{headers: headers})
       .toPromise()
-      .then(res => res.json())
+      .then(res => {
+        return res.json();
+      })
       .catch(this.handleError);
   }
 
+  // request = { 
+  //   "sql" : "match path=(a:production {'title': 'Haunted House'})-[]-(b:company {'name': 'Ludo Studio'}) return path limit 10" 
+  // };
   dbQuery( request:AgensRequestQuery ){
     const url = `${this.apiUrl}/query`;
-    var headers = this.createAuthorizationHeader(this.getToken());
-    // var queryRequest = { 
-    //   "sql" : "match path=(a:production {'title': 'Haunted House'})-[]-(b:company {'name': 'Ludo Studio'}) return path limit 10" 
-    // };
-
-    console.log("dbQuery():");
+    var headers = this.auth.createAuthorizationHeader(this.auth.getToken());
 
     return this.http
       .post(url, JSON.stringify(request), {headers: headers})
