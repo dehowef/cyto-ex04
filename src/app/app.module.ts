@@ -34,6 +34,10 @@ import { AlertService } from '../services/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { AgensApiService } from '../services/agens-api.service';
 
+// Reuse Strategy
+import {RouteReuseStrategy} from "@angular/router";
+import {CustomReuseStrategy} from "./reuse-strategy";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +67,8 @@ import { AgensApiService } from '../services/agens-api.service';
     AlertService,
     AuthGuardService,
     AuthenticationService,
-    AgensApiService
+    AgensApiService,
+    {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}
   ], // additional providers needed for this module
   entryComponents: [ ],
   bootstrap: [ AppComponent ],

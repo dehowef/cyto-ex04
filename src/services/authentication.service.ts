@@ -14,7 +14,8 @@ export class AuthenticationService {
   private headers = new Headers({'Content-Type': 'application/json'});
   private apiUrl = GlobalConfig.AGENS_DEMO_API;
   private userKey = GlobalConfig.USER_KEY;
-
+  private isDoing = false;
+  
   constructor(
     private http: Http
   ) { }
@@ -45,29 +46,66 @@ export class AuthenticationService {
   public getToken():string {
     // let data = localStorage.getItem(this.userKey);
     // if( data && data !== "" ){
-    let data = this.getStorage(this.userKey);
-    if( data ){
-      let user = JSON.parse( data );
-      if( user.token && user.token !== "") return user.token;
+    //   let user = JSON.parse( data );
+    //   if( user.token && user.token !== "") return user.token;
+    // }
+    // return null;
+
+    // set expiration for storage
+    let expiresIn = Number(localStorage.getItem(this.userKey+'_expiresIn'));
+    if( expiresIn===undefined || expiresIn===null ){ 
+      return null;
     }
-    return null;
+
+    let token = null;
+    let data = localStorage.getItem(this.userKey);
+    if( data && data !== "" ){
+      let user = JSON.parse( data );
+      if( user.token && user.token !== "") token = user.token;
+    }
+    if( !token ) return null;
+
+    let now = Date.now();
+    if (expiresIn < now) {  // Expired
+      console.log( `userKey Expire: ${expiresIn} < ${now}`);
+      this.removeStorage(this.userKey);
+      // if userKey, release connection in server (Async)
+      if( !this.isDoing ) {
+        this.releaseConnection(token).subscribe(
+          data => {
+            console.log('releaseConnection() is done!');
+            this.isDoing = false;
+          });
+      }
+      return null;
+    }
+
+    return token;
   }
 
-  public isLogin():boolean {    
-    // return this.getToken() !== null ? true : false;
-    return localStorage.getItem(this.userKey) !== null ? true : false;
+  public isLogin() {
+    let token = this.getToken();
+    if( !token ) return null;
+
+    // release connection in server
+    const url = `${this.apiUrl}/is_login`;
+    return this.http.get(url, {headers: this.createAuthorizationHeader(token)})
+      .toPromise()
+      .then((response: Response) => {
+        console.log('isLogin() => '+JSON.stringify(response.json()));
+        let data = response.json();
+        if( data && data.status ) return true;
+        return false;        
+      })
+      .catch(this.handleError);    
   }
 
   public logout():boolean {
-
     let token = this.getToken();
     if( !token ) return false;
     
-    // release connection in server
-    this.releaseConnection();
     // remove user from local storage to log user out
     this.removeStorage( this.userKey );
-
     return true;
   }
 
@@ -76,15 +114,13 @@ export class AuthenticationService {
     return Promise.reject(error.message || error);
   }
 
-  private releaseConnection(){
-    let token = this.getToken();
-    if( !token ) return;
+  private releaseConnection(token){
+    this.isDoing = true;
 
     // release connection in server
     const url = `${this.apiUrl}/disconnect`;
     return this.http.get(url, {headers: this.createAuthorizationHeader(token)})
-      .toPromise()
-      .then((response: Response) => {
+      .map((response: Response) => {
         console.log('logout() => '+JSON.stringify(response.json()));
       })
       .catch(this.handleError);
@@ -111,9 +147,6 @@ export class AuthenticationService {
     var now = Date.now();
     if (expiresIn < now) {  // Expired
         console.log( `storage Expire('${key}'): ${expiresIn} < ${now}`);
-        // if userKey, release connection in server
-        if( key === this.userKey && expiresIn > 0 ) this.releaseConnection();
-
         this.removeStorage(key);
         return null;
     } else {

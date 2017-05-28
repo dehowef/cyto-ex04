@@ -18,15 +18,17 @@ const routes: Routes = [
     {
       path: '', component: DashboardComponent
     },{ 
-      path: 'graph', component: GraphComponent
+      path: 'graph', component: GraphComponent, data: { shouldDetach: true }
     },{ 
-      path: 'workspace', component: WorkspaceComponent
+      path: 'workspace', component: WorkspaceComponent, data: { shouldDetach: true }
     },{ 
       path: 'admin', component: AdminComponent
     },{ 
       path: 'help', component: HelpComponent
     },
-  ]}
+  ]},
+  // all other routes
+  { path: '**', redirectTo: '' }  
 ];
 
 export const appRoutingProviders: any[] = [
