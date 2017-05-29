@@ -44,13 +44,13 @@
         </div>
         <md-card-content>
           <form>
-            <textarea id="code" name="code">
+<textarea id="agens-code" name="code">
 // Cypher Mode for CodeMirror, using the neo theme
 MATCH (joe { name: 'Joe' })-[:knows*2..2]-(friend_of_friend)
 WHERE NOT (joe)-[:knows]-(friend_of_friend)
 RETURN friend_of_friend.name, COUNT(*)
 ORDER BY COUNT(*) DESC , friend_of_friend.name
-            </textarea>
+</textarea>
           </form>
         </md-card-content>
       </md-card>
@@ -64,6 +64,7 @@ ORDER BY COUNT(*) DESC , friend_of_friend.name
               <h4>GRAPH &nbsp; <small class="text-xs">AGENSMANAGER</small></h4>
             </ng-template>
             <td-expansion-summary></td-expansion-summary>
+
             <!-- Graph setting side -->
             <md-sidenav #sideset mode="over" opened="false" align="end">
               <div layout="column">
@@ -73,9 +74,7 @@ ORDER BY COUNT(*) DESC , friend_of_friend.name
                   <button md-icon-button (click)="reset()" mdTooltip="Clear" mdTooltipPosition="above"><md-icon class="text-md">reply</md-icon></button>
                   <button md-icon-button (click)="sideset.close()" mdTooltip="Close" mdTooltipPosition="above"><md-icon>close</md-icon></button>
                 </div>
-
                 <form layout="column">
-
                   <div layout="center center">
                     <h5>GRAPH</h5>
                   </div>
@@ -89,7 +88,6 @@ ORDER BY COUNT(*) DESC , friend_of_friend.name
                       </md-input-container>
                     </div>
                   </div>
-
                   <div layout="center center">
                     <h5>NODES</h5>
                   </div>
@@ -111,7 +109,6 @@ ORDER BY COUNT(*) DESC , friend_of_friend.name
                       <md-option>Black</md-option>
                     </md-select>
                   </div>
-
                   <div layout="center center">
                     <h5>EDGES</h5>
                   </div>
@@ -133,45 +130,40 @@ ORDER BY COUNT(*) DESC , friend_of_friend.name
                       <md-option>Black</md-option>
                     </md-select>
                   </div>
-
                 </form>
                 <div layout="column" layout-margin class="setsidefoot">
                   <button md-button class="" flex>OKAY</button>
                 </div>
               </div>
-
             </md-sidenav>
 
             <!-- Graph content -->
-            <div class="gra_content relative">
-              <div id="one1" class="gra_example">Movie</div>
-              <div id="one2" class="gra_example">Person</div>
-              <div id="one3" class="gra_example">Acted_in</div>
-              <span class="gra_con" layout="column">
-                
+            <div id="agens-graph" class="gra_content relative">
+
+              <span id="agens-graph-toolbar" class="gra_con" layout="column">
                 <button [mdMenuTriggerFor]="layoutMenu" md-icon-button mdTooltip="LAYOUT" mdTooltipPosition="before"><md-icon>web</md-icon></button>
                 <md-menu #layoutMenu="mdMenu">
                   <div class="Open_M_Head">
                     <h4>LAYOUT<br><small>SELECT YOUR GRAPH LAYOUT</small></h4>
                   </div>
                   <md-divider></md-divider>
-                  <button md-menu-item><div layout="column"><h4>GRID</h4></div></button>
+                  <button md-menu-item (click)="changeLayout(0)"><div layout="column"><h4>GRID</h4></div></button>
                   <md-divider></md-divider>
-                  <button md-menu-item><div layout="column"><h4>RANDOM</h4></div></button>    
+                  <button md-menu-item (click)="changeLayout(1)"><div layout="column"><h4>RANDOM</h4></div></button>    
                   <md-divider></md-divider>
-                  <button md-menu-item><div layout="column"><h4>BREADTHFIRST</h4></div></button> 
+                  <button md-menu-item (click)="changeLayout(2)"><div layout="column"><h4>BREADTHFIRST</h4></div></button> 
                   <md-divider></md-divider>
-                  <button md-menu-item><div layout="column"><h4>CIRCLE</h4></div></button>
+                  <button md-menu-item (click)="changeLayout(3)"><div layout="column"><h4>CIRCLE</h4></div></button>
                   <md-divider></md-divider>
-                  <button md-menu-item><div layout="column"><h4>COLA</h4></div></button>
+                  <button md-menu-item (click)="changeLayout(4)"><div layout="column"><h4>COLA</h4></div></button>
                   <md-divider></md-divider>
-                  <button md-menu-item><div layout="column"><h4>CONCENTRIC</h4></div></button>
+                  <button md-menu-item (click)="changeLayout(5)"><div layout="column"><h4>CONCENTRIC</h4></div></button>
                   <md-divider></md-divider>
-                  <button md-menu-item><div layout="column"><h4>COSE</h4></div></button>
+                  <button md-menu-item (click)="changeLayout(6)"><div layout="column"><h4>COSE</h4></div></button>
                   <md-divider></md-divider>
-                  <button md-menu-item><div layout="column"><h4>COSE-BILKENT</h4></div></button>
+                  <button md-menu-item (click)="changeLayout(7)"><div layout="column"><h4>COSE-BILKENT</h4></div></button>
                   <md-divider></md-divider>
-                  <button md-menu-item><div layout="column"><h4>DAGRE</h4></div></button>
+                  <button md-menu-item (click)="changeLayout(8)"><div layout="column"><h4>DAGRE</h4></div></button>
                 </md-menu>
 
                 <button md-icon-button mdTooltip="SEARCH" mdTooltipPosition="before"><md-icon>search</md-icon></button>
@@ -203,18 +195,14 @@ ORDER BY COUNT(*) DESC , friend_of_friend.name
               <button md-icon-button mdTooltip="HELP" mdTooltipPosition="before"><md-icon>help</md-icon></button>
             </span>
 
-              <div class="gra_info">
-                <span class="one">Displaying 14 nodes, 1241257777234 relationships!</span>
-                <span class="two">Displaying 2345 nodes, 15 relationships!</span>
-                <span class="three">Displaying 14 nodes, 141516 relationships!</span>
-              </div>
-              <md-chip-list>
-                <md-chip [selected]="true" color="primary">Moive(12)</md-chip>
-                <md-chip [selected]="true" color="primary">Person(4)</md-chip>
-                <md-chip [selected]="true" color="primary">Acted_in(14)</md-chip>
-              </md-chip-list>
-            </div>
-          </md-sidenav-container>
+            <md-chip-list style="position: absolute; bottom: 0;">
+              <md-chip [selected]="true" color="primary">Moive(12)</md-chip>
+              <md-chip [selected]="true" color="primary">Person(4)</md-chip>
+              <md-chip [selected]="true" color="primary">Acted_in(14)</md-chip>
+            </md-chip-list>
+
+          </div>
+        </md-sidenav-container>
 
         </td-expansion-panel>
         <td-expansion-panel class="tc-grey-700">

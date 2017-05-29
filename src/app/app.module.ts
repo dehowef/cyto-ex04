@@ -33,6 +33,7 @@ import { AuthGuardService } from '../services/auth-guard.service';
 import { AlertService } from '../services/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { AgensApiService } from '../services/agens-api.service';
+import { WindowRefService } from '../services/window-ref.service';
 
 // Reuse Strategy
 import {RouteReuseStrategy} from "@angular/router";
@@ -68,6 +69,7 @@ import {CustomReuseStrategy} from "./reuse-strategy";
     AuthGuardService,
     AuthenticationService,
     AgensApiService,
+    WindowRefService,
     {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}
   ], // additional providers needed for this module
   entryComponents: [ ],

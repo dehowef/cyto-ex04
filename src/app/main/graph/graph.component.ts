@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { TdDataTableService, TdDataTableSortingOrder, ITdDataTableSortChangeEvent, ITdDataTableColumn } from '@covalent/core';
 import { IPageChangeEvent } from '@covalent/core';
 
+import { WindowRefService } from '../../../services/window-ref.service';
+
 declare var $: any;
 declare var CodeMirror: any;
 
@@ -16,6 +18,9 @@ declare var CodeMirror: any;
 })
 export class GraphComponent implements AfterViewInit, OnInit {
   
+  window:any = null;
+  graph:any = null;
+
   title: string = "No title"
   title1: string = "No title"
   
@@ -65,7 +70,9 @@ export class GraphComponent implements AfterViewInit, OnInit {
     public dialog: MdDialog,
     private _dialogService: TdDialogService,
     private _dataTableService: TdDataTableService,
+    private winRef: WindowRefService
   ) {
+    this.window = winRef.nativeWindow;    
   }
 
   ngOnInit(): void { 
@@ -74,12 +81,12 @@ export class GraphComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    // console.log("GraphComponent.ngAfterViewInit():");
+    console.log("GraphComponent.ngAfterViewInit():");
 
     // broadcast to all listener observables when loading the page
     this.media.broadcast();
 
-    this.div_editor = this.el.nativeElement.querySelector('textarea#code');
+    this.div_editor = this.el.nativeElement.querySelector('textarea#agens-code');
 
     // CodeMirror
     var mime = 'application/x-cypher-query';
@@ -93,6 +100,22 @@ export class GraphComponent implements AfterViewInit, OnInit {
       autofocus: true,
       theme: 'eclipse'
     });
+
+    // AgensGraph Factory
+    this.graph = this.window.agens.graphFactory(
+        this.el.nativeElement.querySelector('div#agens-graph')
+      );
+    this.el.nativeElement.querySelector('span#agens-graph-toolbar').style.zIndex = "999";
+  }
+
+  changeLayout(index){
+    if( this.window.agens === undefined || this.graph === undefined ) return;
+    let selectedLayout = this.window.agens.layoutTypes[Number(index)];
+    console.log( "change layout : "+selectedLayout.name );
+
+    var layout = this.graph.makeLayout(selectedLayout);
+    layout.run();
+    this.graph.fit( this.graph.elements(), 50 ); // fit to all the layouts    
   }
 
   toggleError() {    
