@@ -7,6 +7,9 @@ import { TdDataTableService, TdDataTableSortingOrder, ITdDataTableSortChangeEven
 import { IPageChangeEvent } from '@covalent/core';
 
 import { WindowRefService } from '../../../services/window-ref.service';
+import { AgensApiService } from '../../../services/agens-api.service';
+import { AgensRequestQuery } from '../../../models/agens-request-query';
+import { AgensResponseResult } from '../../../models/agens-response-result';
 
 declare var $: any;
 declare var CodeMirror: any;
@@ -21,6 +24,17 @@ export class GraphComponent implements AfterViewInit, OnInit {
   window:any = null;
   graph:any = null;
 
+  result:AgensResponseResult = null;  
+  result_json:any = {};
+  result_json_expand:boolean = false;
+
+  query:string =
+`match path=(a:production {'title': 'Haunted House'})-[]-(b:company) 
+return path 
+limit 10
+`;
+
+
   title: string = "No title"
   title1: string = "No title"
   
@@ -28,7 +42,7 @@ export class GraphComponent implements AfterViewInit, OnInit {
   div_cy: any;
 
   editor: any;
-  div_editor: any;
+  editorRef: any;
 
   show = false;
   hide = false;
@@ -52,25 +66,14 @@ export class GraphComponent implements AfterViewInit, OnInit {
   sortBy: string = 'a';
   sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending; 
 
-  object: any = {
-    "stringProperty": "This is a string",
-    "dateProperty": "2017-04-07T08:32:52.933Z",
-    "numberProperty": 10000,
-    "booleanProperty": true,
-    "numberArray": [      1,      2,      3,      4,      5,      6    ],
-    "objectArray": [      {},      {}    ],
-    "longNameeeeeeeeeeeProoooopeeeeeeeeeeertyy": "got truncated",
-    "emptyObject": {},
-    "emptyArray": []
-  };
-
   constructor(
     public media: TdMediaService,
     private el: ElementRef,
     public dialog: MdDialog,
     private _dialogService: TdDialogService,
     private _dataTableService: TdDataTableService,
-    private winRef: WindowRefService
+    private winRef: WindowRefService,
+    private apiSerivce: AgensApiService
   ) {
     this.window = winRef.nativeWindow;    
   }
@@ -86,12 +89,11 @@ export class GraphComponent implements AfterViewInit, OnInit {
     // broadcast to all listener observables when loading the page
     this.media.broadcast();
 
-    this.div_editor = this.el.nativeElement.querySelector('textarea#agens-code');
-
-    // CodeMirror
-    var mime = 'application/x-cypher-query';
+    // CodeMirror Editor
+    this.editorRef = this.el.nativeElement.querySelector('textarea#agensQuery');
     // get mime type
-    this.editor = CodeMirror.fromTextArea( this.div_editor, {
+    var mime = 'application/x-cypher-query';
+    this.editor = CodeMirror.fromTextArea( this.editorRef, {
       mode: mime,
       indentWithTabs: true,
       smartIndent: true,
@@ -105,9 +107,11 @@ export class GraphComponent implements AfterViewInit, OnInit {
     this.graph = this.window.agens.graphFactory(
         this.el.nativeElement.querySelector('div#agens-graph')
       );
+    // Cytoscape의 canvas가 영역을 전부 덮어버리기 때문에, 툴바 우선순위를 올려야 함
     this.el.nativeElement.querySelector('span#agens-graph-toolbar').style.zIndex = "999";
   }
 
+  // cytoscape makeLayout & run
   changeLayout(index){
     if( this.window.agens === undefined || this.graph === undefined ) return;
     let selectedLayout = this.window.agens.layoutTypes[Number(index)];
@@ -116,6 +120,20 @@ export class GraphComponent implements AfterViewInit, OnInit {
     var layout = this.graph.makeLayout(selectedLayout);
     layout.run();
     this.graph.fit( this.graph.elements(), 50 ); // fit to all the layouts    
+  }
+
+  // request query to server
+  requestQuery(){
+    let sql:string = String(this.editor.getValue());
+    console.log( "** SQL: \n"+sql );
+    this.result_json_expand = false;
+    
+    let query:AgensRequestQuery = new AgensRequestQuery( sql );
+    this.apiSerivce.dbQuery(query)
+      .then(data => {
+        this.result = new AgensResponseResult(data);
+        this.result_json = this.result.getRows();
+      });     
   }
 
   toggleError() {    

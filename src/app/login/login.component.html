@@ -51,7 +51,7 @@
                           <md-input-container>
                               <md-placeholder>PASSWORD</md-placeholder>
                               <span md-prefix><md-icon>lock</md-icon></span>
-                              <input mdInput class="inputLogin" #ctrlUserPw [(ngModel)]="request.user_pw" value="{{request.user_pw}}" 
+                              <input mdInput class="inputLogin" #ctrlUserPw (keyup.enter)="login()" [(ngModel)]="request.user_pw" value="{{request.user_pw}}" 
                                     type="password" required [ngModelOptions]="{standalone: true}">
                               <md-hint>
                                   <span [hidden]="!ctrlUserPw.errors?.required || ctrlUserPw.pristine" class="tc-red-600 animated fadeInDown"> This is Required </span>
