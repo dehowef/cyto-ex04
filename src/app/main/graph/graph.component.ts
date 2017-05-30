@@ -1,6 +1,6 @@
 import { Component, HostBinding, AfterViewInit, ElementRef, OnInit, Input } from '@angular/core';
 import { TdMediaService, TdDialogService } from '@covalent/core';
-import { MdDialog } from '@angular/material';
+// import { MdDialog } from '@angular/material';
 import { Router } from '@angular/router';
 
 import { TdDataTableService, TdDataTableSortingOrder, ITdDataTableSortChangeEvent, ITdDataTableColumn } from '@covalent/core';
@@ -8,8 +8,11 @@ import { IPageChangeEvent } from '@covalent/core';
 
 import { WindowRefService } from '../../../services/window-ref.service';
 import { AgensApiService } from '../../../services/agens-api.service';
+import { DialogsService } from '../../../services/dialogs.service';
+
 import { AgensRequestQuery } from '../../../models/agens-request-query';
-import { AgensResponseResult } from '../../../models/agens-response-result';
+import { AgensResponseResult, AgensResponseResultMeta, AgensResponseResultQuery } from '../../../models/agens-response-result';
+
 
 declare var $: any;
 declare var CodeMirror: any;
@@ -27,6 +30,11 @@ export class GraphComponent implements AfterViewInit, OnInit {
   result:AgensResponseResult = null;  
   result_json:any = {};
   result_json_expand:boolean = false;
+  result_table:any = [];
+  result_table_columns: ITdDataTableColumn[] = [];
+  result_table_expand:boolean = false;
+
+  loading:boolean = false;
 
   query:string =
 `match path=(a:production {'title': 'Haunted House'})-[]-(b:company) 
@@ -34,13 +42,7 @@ return path
 limit 10
 `;
 
-
   title: string = "No title"
-  title1: string = "No title"
-  
-  cy: any;
-  div_cy: any;
-
   editor: any;
   editorRef: any;
 
@@ -53,23 +55,16 @@ limit 10
   data: any[] = [
     { a: 'Born', m: 'Tagline', b: 'Born' },
   ];
-
-  columns: ITdDataTableColumn[] = [
-    { name: 'a', label: 'a' },
-    { name: 'm', label: 'm' },
-    { name: 'b', label: 'd' },
-  ];
-
   filteredData: any[] = this.data;
   filteredTotal: number = this.data.length; 
-
   sortBy: string = 'a';
   sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending; 
 
   constructor(
     public media: TdMediaService,
     private el: ElementRef,
-    public dialog: MdDialog,
+    private dialogsService: DialogsService,
+    // public dialog: MdDialog,
     private _dialogService: TdDialogService,
     private _dataTableService: TdDataTableService,
     private winRef: WindowRefService,
@@ -126,15 +121,63 @@ limit 10
   requestQuery(){
     let sql:string = String(this.editor.getValue());
     console.log( "** SQL: \n"+sql );
+    this.loading = true;
     this.result_json_expand = false;
+    this.result_table_expand = false;
     
     let query:AgensRequestQuery = new AgensRequestQuery( sql );
     this.apiSerivce.dbQuery(query)
       .then(data => {
         this.result = new AgensResponseResult(data);
-        this.result_json = this.result.getRows();
-      });     
+        this.setResultJson(this.result);
+        this.setResultTable(this.result);
+        this.result_table_expand = true;
+        this.loading = false;
+      });
   }
+
+  setResultJson( result:AgensResponseResult ){
+    this.result_json = result.getRows();
+  }
+  setResultTable( result:AgensResponseResult ){
+    let meta = result.getMeta();
+    this.result_table_columns = [];
+    for( let item of meta ){
+      let isNumber:boolean = ['int', 'number', 'long'].indexOf(item.type) >= 0;
+      let graphFormat:any = ['graphpath', 'vertex', 'edge', 'jsonb'].indexOf(item.type) >= 0 ?
+              v => JSON.stringify(v).substr(0,80)+".." : undefined ;
+      let col = { name: item.label, label: item.label, numeric: isNumber
+              , sortable: (graphFormat === undefined), format: graphFormat };
+      this.result_table_columns.push( col );
+    }
+    let rows = result.getRows();
+    this.result_table = [];
+    for( let row of rows ){
+      let index = 0;
+      let item:any = {};
+      for( let col of meta ){
+        item[col.label] = row[index++];
+        // let isGraphElement:boolean = ['graphpath', 'vertex', 'edge', 'jsonb'].indexOf(col.type) >= 0;
+        // if( isGraphElement ) item[col.label] = JSON.stringify(value).substr(0,100)+"..";
+        // else item[col.label] = value;
+      }
+      this.result_table.push( item );
+    }
+  }
+  showColumnDetail(label: string, value: any): void {
+    this.dialogsService.dlgShowColumnDetail(label, value);
+  }
+
+  newGraph() {
+    if( this.graph === undefined ) return;
+    this.graph.elements().remove();
+    this.graph.style( this.window.agens.defaultStyle );
+
+    this.result_json = {};
+    this.result_json_expand = false;
+    this.result_table_expand = false;
+  }
+
 
   toggleError() {    
     this.hide = !this.hide; 
@@ -146,10 +189,6 @@ limit 10
 
   toggleInstall() {    
     this.show = !this.show; 
-  }
-
-  newGraphGard() {
-    this.newGraphOpen = !this.newGraphOpen;
   }
 
   reset(): void {

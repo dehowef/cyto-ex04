@@ -1,0 +1,16 @@
+<md-dialog-content>
+  <md-toolbar color="primary">
+    <span>ShowDetail : &nbsp;</span>
+    <h4>{{label}}</h4>
+    <span class="toolbar-fill-remaining"></span>
+
+    <button md-icon-button mdTooltip="Close" (click)="dialogRef.close()">
+      <md-icon class="md-24"><i class="material-icons">clear</i></md-icon>  
+    </button>
+  </md-toolbar>
+  <div class="wrap">
+    <div class="pad-md">
+      <td-json-formatter [data]="value" [levelsOpen]="2"></td-json-formatter>
+    </div>    
+  </div>
+</md-dialog-content>

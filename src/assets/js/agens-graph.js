@@ -8,8 +8,8 @@
 
 (function( agens, $, undefined ) { 
 
-  // Private Property : defaultStyle
-  var defaultStyle = [{
+  // Public Property : defaultStyle
+  agens.defaultStyle = [{
       selector: 'node',
       css: {
           'content': 'data(id)',
@@ -188,7 +188,7 @@
   // Public Property : defaultSetting
   agens.defaultSetting = {
     container: document.getElementById('agens-graph'),
-    style: defaultStyle,
+    style: agens.defaultStyle,
     elements: defaultElements,    
     layout: defaultLayout,
     // initial viewport state:

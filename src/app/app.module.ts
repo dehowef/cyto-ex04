@@ -34,10 +34,14 @@ import { AlertService } from '../services/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { AgensApiService } from '../services/agens-api.service';
 import { WindowRefService } from '../services/window-ref.service';
+import { DialogsService } from '../services/dialogs.service';
 
 // Reuse Strategy
 import {RouteReuseStrategy} from "@angular/router";
 import {CustomReuseStrategy} from "./reuse-strategy";
+
+// Dialogs
+import { ShowColumnDetailComponent } from './dialogs/show-column-detail/show-column-detail.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +54,7 @@ import {CustomReuseStrategy} from "./reuse-strategy";
     AdminComponent,
     HelpComponent,
     WorkspaceComponent,
+    ShowColumnDetailComponent,
   ], // directives, components, and pipes owned by this NgModule
   imports: [
     BrowserModule,
@@ -70,9 +75,12 @@ import {CustomReuseStrategy} from "./reuse-strategy";
     AuthenticationService,
     AgensApiService,
     WindowRefService,
+    DialogsService,
     {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}
   ], // additional providers needed for this module
-  entryComponents: [ ],
+  entryComponents: [ 
+    ShowColumnDetailComponent
+  ],
   bootstrap: [ AppComponent ],
 })
 export class AppModule {}

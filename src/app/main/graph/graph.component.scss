@@ -56,3 +56,13 @@ div.content {
             &:hover ~ div span.three { display: block; }}
     } 
 }
+
+.loading-container {
+  position: absolute;
+  top: 200px;
+  z-index: 2;
+  width:40%;
+  left: 40%;
+  margin: 0 auto;
+//   right: 0;
+}
