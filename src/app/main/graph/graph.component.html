@@ -56,51 +56,6 @@
   <!-- RESULTs : json, table, graph -->
   <md-card class="bgc-light-blue-50 md-elevation-z0">
 
-    <!-- JSON -->
-    <td-expansion-panel class="tc-teal-500" [expand]="result_json_expand">
-      <ng-template td-expansion-panel-label>
-        <h4>JSON &nbsp; <small class="text-xs">result</small></h4>
-      </ng-template>
-      <div class="pad-md">
-        <td-json-formatter [data]="result_json" [levelsOpen]="1"></td-json-formatter>
-      </div>
-    </td-expansion-panel>
-
-    <!-- TABLE -->
-    <td-expansion-panel class="tc-brown-600" [expand]="result_table_expand">
-      <ng-template td-expansion-panel-label>
-        <h4>ROWS &nbsp; <small class="text-xs">result</small></h4>
-      </ng-template>
-      <div class="pad-md">
-
-        <div class="mat-table-container">
-          <table td-data-table>
-            <th style="text-align:center" td-data-table-column
-                *ngFor="let column of result_table_columns"
-                [numeric]="column.numeric">
-              {{column.label}}
-            </th>
-            <tr td-data-table-row *ngFor="let row of result_table">
-              <td style="padding-left: 5px; text-align:left" td-data-table-cell *ngFor="let column of result_table_columns" [numeric]="column.numeric">
-                {{column.format ? column.format(row[column.name]) : row[column.name]}}
-                <button *ngIf="column.format" (click)="showColumnDetail(column.name, row[column.name])" md-button [class.mat-accent]="true">showDetail</button>
-              </td>
-            </tr>
-          </table>
-        </div>
-<!--
-        <td-data-table [data]="result_table" [columns]="result_table_columns"
-            [sortable]="true" [sortBy]="rowNum" [sortOrder]="ASC" (sortChange)="sort($event)">
-          <ng-template tdDataTableTemplate="type" let-value="value" let-row="row" let-column="column">
-            <div layout="row">
-              <span style="text-align:left" flex>{{value}}</span>
-            </div>
-          </ng-template>            
-        </td-data-table>
--->        
-      </div>
-    </td-expansion-panel>
-
     <!-- GRAPH -->
     <td-expansion-panel expand="true">
       <md-sidenav-container>
@@ -211,8 +166,8 @@
             </md-menu>
 
             <button md-icon-button mdTooltip="SEARCH" mdTooltipPosition="before"><md-icon>search</md-icon></button>
-            <button md-icon-button mdTooltip="BEFORE" mdTooltipPosition="before"><md-icon>skip_previous</md-icon></button>
-            <button md-icon-button mdTooltip="AFTER" mdTooltipPosition="before"><md-icon>skip_next</md-icon></button>
+            <button md-icon-button (click)="cyUndo()" mdTooltip="BEFORE" mdTooltipPosition="before"><md-icon>skip_previous</md-icon></button>
+            <button md-icon-button (click)="cyRedo()" mdTooltip="AFTER" mdTooltipPosition="before"><md-icon>skip_next</md-icon></button>
             <button md-icon-button mdTooltip="INSERT TEXT" mdTooltipPosition="before"><md-icon>textsms</md-icon></button>
             <button md-icon-button mdTooltip="INSERT LINK" mdTooltipPosition="before"><md-icon>insert_link</md-icon></button>
             <button md-icon-button mdTooltip="INSERT photo" mdTooltipPosition="before"><md-icon>photo</md-icon></button>
@@ -234,15 +189,62 @@
             <button md-icon-button (click)="dlgFullScreen()" mdTooltip="Full Screen" mdTooltipPosition="before"><md-icon>open_with</md-icon></button>
             <button md-icon-button mdTooltip="HELP" mdTooltipPosition="before"><md-icon>help</md-icon></button>
           </span>
-
-          <md-chip-list style="position: absolute; bottom: 0;">
-            <md-chip [selected]="true" color="primary">Moive(12)</md-chip>
-            <md-chip [selected]="true" color="primary">Person(4)</md-chip>
-            <md-chip [selected]="true" color="primary">Acted_in(14)</md-chip>
-          </md-chip-list>
-
         </div>
+        <!--<md-chip-list id="agens-graph-labels" style="position: absolute; bottom: 20px;">-->
+        <md-chip-list id="agens-graph-labels">
+          <md-chip *ngFor="let label of result_labels" [selected]="true" style="z-index: 9"
+              (click)="cySelectLabel(label.type, label.name)" [color]="(label.type == 'vertex') ? 'primary':'accent'">
+            {{label.name}}({{label.count}})
+          </md-chip>
+          <!--<md-chip [selected]="true" color="primary">Moive(12)</md-chip>-->
+        </md-chip-list>
+        
       </md-sidenav-container>
+    </td-expansion-panel>
+
+    <!-- TABLE -->
+    <td-expansion-panel class="tc-brown-600" [expand]="result_table_expand">
+      <ng-template td-expansion-panel-label>
+        <h4>ROWS &nbsp; <small class="text-xs">result</small></h4>
+      </ng-template>
+      <div class="pad-md">
+
+        <div class="mat-table-container">
+          <table td-data-table>
+            <th style="text-align:center" td-data-table-column
+                *ngFor="let column of result_table_columns"
+                [numeric]="column.numeric">
+              {{column.label}}
+            </th>
+            <tr td-data-table-row *ngFor="let row of result_table">
+              <td style="padding-left: 5px; text-align:left" td-data-table-cell *ngFor="let column of result_table_columns" [numeric]="column.numeric">
+                {{column.format ? column.format(row[column.name]) : row[column.name]}}
+                <button *ngIf="column.format" (click)="showColumnDetail(column.name, row[column.name])" md-button [class.mat-accent]="true">showDetail</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+<!--
+        <td-data-table [data]="result_table" [columns]="result_table_columns"
+            [sortable]="true" [sortBy]="rowNum" [sortOrder]="ASC" (sortChange)="sort($event)">
+          <ng-template tdDataTableTemplate="type" let-value="value" let-row="row" let-column="column">
+            <div layout="row">
+              <span style="text-align:left" flex>{{value}}</span>
+            </div>
+          </ng-template>            
+        </td-data-table>
+-->        
+      </div>
+    </td-expansion-panel>
+
+    <!-- JSON -->
+    <td-expansion-panel class="tc-teal-500" [expand]="result_json_expand">
+      <ng-template td-expansion-panel-label>
+        <h4>JSON &nbsp; <small class="text-xs">result</small></h4>
+      </ng-template>
+      <div class="pad-md">
+        <td-json-formatter [data]="result_json" [levelsOpen]="1"></td-json-formatter>
+      </div>
     </td-expansion-panel>
 
   </md-card>

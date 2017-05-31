@@ -2,6 +2,7 @@ import { Component, HostBinding, AfterViewInit, ElementRef, OnInit, Input } from
 import { TdMediaService, TdDialogService } from '@covalent/core';
 // import { MdDialog } from '@angular/material';
 import { Router } from '@angular/router';
+// import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 
 import { TdDataTableService, TdDataTableSortingOrder, ITdDataTableSortChangeEvent, ITdDataTableColumn } from '@covalent/core';
 import { IPageChangeEvent } from '@covalent/core';
@@ -28,11 +29,12 @@ export class GraphComponent implements AfterViewInit, OnInit {
   graph:any = null;
 
   result:AgensResponseResult = null;  
-  result_json:any = {};
+  result_json:any = null;
   result_json_expand:boolean = false;
   result_table:any = [];
   result_table_columns: ITdDataTableColumn[] = [];
   result_table_expand:boolean = false;
+  result_labels:any[] = [];
 
   loading:boolean = false;
 
@@ -102,8 +104,12 @@ limit 10
     this.graph = this.window.agens.graphFactory(
         this.el.nativeElement.querySelector('div#agens-graph')
       );
-    // Cytoscape의 canvas가 영역을 전부 덮어버리기 때문에, 툴바 우선순위를 올려야 함
-    this.el.nativeElement.querySelector('span#agens-graph-toolbar').style.zIndex = "999";
+    // Cytoscape의 canvas가 영역을 전부 덮어버리기 때문에, zIndex 우선순위를 올려야 함
+    this.el.nativeElement.querySelector('span#agens-graph-toolbar').style.zIndex = "9";
+    // this.el.nativeElement.querySelector('md-chip-list#agens-graph-labels').style.zIndex = "9";
+
+    // md-chip TEST
+    this.result_labels = this.getLabels( this.window.agens.defaultElements );
   }
 
   // cytoscape makeLayout & run
@@ -132,9 +138,32 @@ limit 10
         this.setResultTable(this.result);
         this.result_table_expand = true;
 
-        this.window.agens.loadData( this.result.getCyElements());
+        let eles = this.result.getCyElements();
+        this.window.agens.loadData( eles );
+        this.result_labels = this.getLabels( eles );
+
         this.loading = false;
       });
+  }
+  getLabels( eles:any ):any[] {
+    let labels = new Map<string,any>();
+    for( let item of eles['nodes'] ){
+      if( labels.has(item.data.label) ) labels.get(item.data.label).count += 1;
+      else {
+        labels.set(item.data.label, { name: item.data.label, type: 'vertex', count: 1 });
+      }
+    }
+    for( let item of eles['edges'] ){
+      if( labels.has(item.data.label) ) labels.get(item.data.label).count += 1;
+      else {
+        labels.set(item.data.label, { name: item.data.label, type: 'edge', count: 1 });
+      }
+    }
+    let labelArray:any[] = [];
+    for( let key of Array.from(labels.keys()) ){
+      labelArray.push(labels.get(key) );
+    }
+    return labelArray;
   }
 
   setResultJson( result:AgensResponseResult ){
@@ -174,11 +203,12 @@ limit 10
     this.graph.style( this.window.agens.defaultStyle );
 
     this.result = null;
-    this.result_json = {};
+    this.result_json = null;
     this.result_json_expand = false;
     this.result_table_expand = false;
     this.result_table_columns = [];
     this.result_table = [];
+    this.result_labels = [];
   }
   newGraph() {
     if( this.graph === undefined ) return;
@@ -198,6 +228,21 @@ limit 10
     if( this.graph === undefined ) return;
 
     this.dialogsService.dlgFullScreenGraph( this.graph.json() );
+  }
+
+  cyUndo(): void{
+    if( this.window.agens.api.unre === undefined ) return;
+    this.window.agens.api.unre.undo();
+  }
+  cyRedo(): void{
+    if( this.window.agens.api.unre === undefined ) return;
+    this.window.agens.api.unre.redo();
+  }
+  cySelectLabel( labelType, labelName ){
+    console.log(`clicked md-chip: label('${labelType}', '${labelName}')`);
+    this.graph.elements(':selected').unselect();
+    let type:string = (labelType == 'vertex') ? 'node' : 'edge';
+    this.graph.elements(`${type}[label='${labelName}']`).select();
   }
 
   toggleError() {    
