@@ -19,6 +19,10 @@ export class AgensTypePath {
     if( data.hasOwnProperty('evertex')) this.evertex = new AgensTypeVertex(data['evertex']);
   }
 
+  public static getType(){
+    return "graphpath";
+  }
+
   public toNodes():any[] {
     let eles:any[] = [];
     for( let vertex of this.vertexes ){
@@ -52,10 +56,17 @@ export class AgensTypeVertex {
     if( data.hasOwnProperty('props')) this.props = data['props'];
   }
 
+  public static getType(){
+    return "vertex";
+  }
+
   public toNode():any {
     let name = this.props.hasOwnProperty('name') ? this.props['name']
         : (this.props.hasOwnProperty('title') ? this.props['title'] : this.vid);
-    let ele = {'data': { 'id': this.vid, 'label': this.label, 'name': name, 'props': this.props }};
+    // name = '<b>111&nbsp; '+name+'</b>';    // 모두 텍스트로만 출력됨
+    let ele = {'data': { 
+        'id': this.vid, 'label': this.label, 'name': name, 'props': this.props 
+        }, selectable: true, selected: false};
     return ele;
   }
 };
@@ -75,12 +86,17 @@ export class AgensTypeEdge {
     if( data.hasOwnProperty('props')) this.props = data['props'];
   }
 
+  public static getType(){
+    return "edge";
+  }
+
   public toEdge():any {
     let name = this.props.hasOwnProperty('name') ? this.props['name']
         : (this.props.hasOwnProperty('title') ? this.props['title'] : this.eid);
-    let ele = {'data': { 'id': this.eid, 'label': this.label, 'name': name, 'props': this.props,
-      'source': this.svid, 'target': this.evid
-    }};
+    let ele = {'data': { 
+        'id': this.eid, 'label': this.label, 'name': name, 'props': this.props,
+        'source': this.svid, 'target': this.evid
+        }, selectable: true, selected: false};
     return ele;
   }
 };

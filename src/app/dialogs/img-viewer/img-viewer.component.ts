@@ -8,7 +8,7 @@ import { MdDialogRef } from '@angular/material';
 })
 export class ImgViewerComponent implements OnInit {
 
-  imgType: string = 'png';
+  imgType: string = '';
   imgSrc: any = null;
 
   constructor(
@@ -18,8 +18,8 @@ export class ImgViewerComponent implements OnInit {
   ngOnInit() {
   }
 
-  onChangeImageType( value: string): void {
-    this.imgType = value;
+  closeDialog() {
+    this.dialogRef.close();
   }
-  
+
 }

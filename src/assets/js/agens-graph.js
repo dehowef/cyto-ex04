@@ -12,8 +12,8 @@
   agens.defaultStyle = [{
       selector: 'node',
       css: {
-          'content': 'data(id)',
-          'text-opacity': 0.5,
+          'content': 'data(name)',
+          'text-opacity': 0.7,
           'text-valign': 'center',
           'text-halign': 'right',
           'background-color': '#11479e'            
@@ -75,22 +75,22 @@
   // Private Property : defaultElements
   var defaultElements = {
     nodes: [
-      { data: { id: 'a', name: 'node A', href: 'http://js.cytoscape.org#a' }, selectable: true, selected: false },
-      { data: { id: 'b', name: 'node B', href: 'http://js.cytoscape.org#b' }, selectable: true, selected: false },
-      { data: { id: 'c', name: 'node C', href: 'http://js.cytoscape.org#c' }, selectable: true, selected: false },
-      { data: { id: 'd', name: 'node D', href: 'http://js.cytoscape.org#d' }, selectable: true, selected: false },
-      { data: { id: 'e', name: 'node E', href: 'http://js.cytoscape.org#e' }, selectable: true, selected: false },
-      { data: { id: 'f', name: 'node F', href: 'http://js.cytoscape.org#f' }, selectable: true, selected: false },
-      { data: { id: 'g', name: 'node G', href: 'http://js.cytoscape.org#g' }, selectable: true, selected: false },
-      { data: { id: 'h', name: 'node H', href: 'http://js.cytoscape.org#h' }, selectable: true, selected: false },
-      { data: { id: 'i', name: 'node I', href: 'http://js.cytoscape.org#i' }, selectable: true, selected: false },
-      { data: { id: 'j', name: 'node J', href: 'http://js.cytoscape.org#j' }, selectable: true, selected: false },
-      { data: { id: 'k', name: 'node K', href: 'http://js.cytoscape.org#k' }, selectable: true, selected: false },
-      { data: { id: 'l', name: 'node L', href: 'http://js.cytoscape.org#l' }, selectable: true, selected: false },
-      { data: { id: 'm', name: 'node M', href: 'http://js.cytoscape.org#m' }, selectable: true, selected: false },
-      { data: { id: 'n', name: 'node N', href: 'http://js.cytoscape.org#n' }, selectable: true, selected: false },
-      { data: { id: 'o', name: 'node O', href: 'http://js.cytoscape.org#o' }, selectable: true, selected: false },
-      { data: { id: 'p', name: 'node P', href: 'http://js.cytoscape.org#p' }, selectable: true, selected: false },
+      { data: { id: 'a', name: 'node A', href: 'http://js.cytoscape.org#a' }, classes: 'node-a', selectable: true, selected: false },
+      { data: { id: 'b', name: 'node B', href: 'http://js.cytoscape.org#b' }, classes: 'node-a', selectable: true, selected: false },
+      { data: { id: 'c', name: 'node C', href: 'http://js.cytoscape.org#c' }, classes: 'node-b', selectable: true, selected: false },
+      { data: { id: 'd', name: 'node D', href: 'http://js.cytoscape.org#d' }, classes: 'node-b', selectable: true, selected: false },
+      { data: { id: 'e', name: 'node E', href: 'http://js.cytoscape.org#e' }, classes: 'node-c', selectable: true, selected: false },
+      { data: { id: 'f', name: 'node F', href: 'http://js.cytoscape.org#f' }, classes: 'node-c', selectable: true, selected: false },
+      { data: { id: 'g', name: 'node G', href: 'http://js.cytoscape.org#g' }, classes: 'node-c', selectable: true, selected: false },
+      { data: { id: 'h', name: 'node H', href: 'http://js.cytoscape.org#h' }, classes: 'node-a', selectable: true, selected: false },
+      { data: { id: 'i', name: 'node I', href: 'http://js.cytoscape.org#i' }, classes: 'node-a', selectable: true, selected: false },
+      { data: { id: 'j', name: 'node J', href: 'http://js.cytoscape.org#j' }, classes: 'node-a', selectable: true, selected: false },
+      { data: { id: 'k', name: 'node K', href: 'http://js.cytoscape.org#k' }, classes: 'node-a', selectable: true, selected: false },
+      { data: { id: 'l', name: 'node L', href: 'http://js.cytoscape.org#l' }, classes: 'node-d', selectable: true, selected: false },
+      { data: { id: 'm', name: 'node M', href: 'http://js.cytoscape.org#m' }, classes: 'node-d', selectable: true, selected: false },
+      { data: { id: 'n', name: 'node N', href: 'http://js.cytoscape.org#n' }, classes: 'node-d', selectable: true, selected: false },
+      { data: { id: 'o', name: 'node O', href: 'http://js.cytoscape.org#o' }, classes: 'node-d', selectable: true, selected: false },
+      { data: { id: 'p', name: 'node P', href: 'http://js.cytoscape.org#p' }, classes: 'node-d', selectable: true, selected: false },
       { data: { id: 'q', name: 'node Q', href: 'http://js.cytoscape.org#q' }, selectable: true, selected: false },
       { data: { id: 'r', name: 'node R', href: 'http://js.cytoscape.org#r' }, selectable: true, selected: false },
     ],           
@@ -226,6 +226,43 @@
   };
 
   // Public Function : graphFactory()
+  agens.loadData = function(data){
+    if( agens.cy === undefined ) return;
+    // initialize
+    agens.cy.elements().remove();
+    agens.cy.style( agens.defaultStyle );
+
+    // load data
+    agens.cy.add( data );
+
+    // just use the regular qtip api but on cy elements
+    agens.cy.elements().qtip({
+      content: function(){ 
+        var name = this.data('name');
+        var label = this.data('label');
+        var id = this.id();
+        return `id: ${id}<br>\nlabel: ${label}<br>\nname: ${name}`; 
+      },
+      position: {
+        my: 'bottom left',  // Position my top left...
+        at: 'top right', // at the bottom right of...
+      },
+      style: {
+        classes: 'qtip-tipsy qtip-shadow qtip-rounded',
+        tip: {
+          width: 16,
+          height: 8
+        }
+      }
+    });
+
+    // adjust layout
+    agens.cy.makeLayout(defaultLayout).run();
+    agens.cy.fit( agens.cy.elements(), 50 ); // fit to all the layouts
+    agens.cy.resize();    
+  };
+
+  // Public Function : graphFactory()
   agens.graphFactory = function(target){
     agens.defaultSetting.container = target;
     return cytoscape(agens.defaultSetting);
@@ -236,7 +273,12 @@
 
     // just use the regular qtip api but on cy elements
     agens.cy.elements().qtip({
-      content: function(){ return 'Example qTip on ele ' + this.id() },
+      content: function(){ 
+        var name = this.data('name');
+        var label = this.data('label');
+        var id = this.id();
+        return `id: ${id}<br>\nlabel: ${label}<br>\nname: ${name}`; 
+      },
       position: {
         my: 'bottom left',  // Position my top left...
         at: 'top right', // at the bottom right of...

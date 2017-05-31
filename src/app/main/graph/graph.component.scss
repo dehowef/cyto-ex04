@@ -3,11 +3,12 @@ div.Open_M_Head { padding: 16px; }
 .radius15 { border-radius: 15px; }
 
 div.content {
+    padding-right: 20px;
     .newgraph_card { border-radius: 0 0 0 15px; 
         div { border-radius: 15px 0 0 15px; }    
     }
     span.page_title_icon { a { padding: 6px; } }
-    md-card { margin: 20px 0; }
+    md-card { margin-right: 40px; }
     div.edi_head { 
           h4 { line-height: 37px; }  
           a { display: inline-block; padding: 8px; cursor: pointer; }
@@ -65,4 +66,19 @@ div.content {
   left: 40%;
   margin: 0 auto;
 //   right: 0;
+}
+
+/////////////////////////////////////////////////
+
+.node-a {
+    background-color: yellow;
+}
+.node-b {
+    background-color: red;
+}
+.node-c {
+    background-color: violet;
+}
+.node-d {
+    background-color: green;
 }

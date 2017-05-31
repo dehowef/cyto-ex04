@@ -17,11 +17,15 @@ export class GraphStyleComponent implements OnInit {
   edgeWidth: number = 1;
 
   constructor(
-    public dialogRef: MdDialogRef<GraphStyleComponent>
+    private dialogRef: MdDialogRef<GraphStyleComponent>
     //, private cpService: ColorPickerService
   ) { }
 
   ngOnInit() {
+  }
+
+  closeDialog(isChanged:boolean) {
+    this.dialogRef.close(isChanged);
   }
 
   onNodeColorChange(): void{

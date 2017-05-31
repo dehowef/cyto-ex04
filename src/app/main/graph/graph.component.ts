@@ -122,8 +122,7 @@ limit 10
     let sql:string = String(this.editor.getValue());
     console.log( "** SQL: \n"+sql );
     this.loading = true;
-    this.result_json_expand = false;
-    this.result_table_expand = false;
+    this.clearGraph();
     
     let query:AgensRequestQuery = new AgensRequestQuery( sql );
     this.apiSerivce.dbQuery(query)
@@ -132,6 +131,8 @@ limit 10
         this.setResultJson(this.result);
         this.setResultTable(this.result);
         this.result_table_expand = true;
+
+        this.window.agens.loadData( this.result.getCyElements());
         this.loading = false;
       });
   }
@@ -168,16 +169,36 @@ limit 10
     this.dialogsService.dlgShowColumnDetail(label, value);
   }
 
-  newGraph() {
-    if( this.graph === undefined ) return;
+  clearGraph(){
     this.graph.elements().remove();
     this.graph.style( this.window.agens.defaultStyle );
 
+    this.result = null;
     this.result_json = {};
     this.result_json_expand = false;
     this.result_table_expand = false;
+    this.result_table_columns = [];
+    this.result_table = [];
+  }
+  newGraph() {
+    if( this.graph === undefined ) return;
+    this.clearGraph();
   }
 
+  dlgImgViewer(imgType:string){
+    if( this.graph === undefined ) return;
+    let imgSrc:any = null;
+    if( imgType === 'PNG' ) imgSrc = this.graph.png();
+    else imgSrc = this.graph.jpg();
+
+    this.dialogsService.dlgImgViewer(imgType, imgSrc);
+  }
+
+  dlgFullScreen(){
+    if( this.graph === undefined ) return;
+
+    this.dialogsService.dlgFullScreenGraph( this.graph.json() );
+  }
 
   toggleError() {    
     this.hide = !this.hide; 

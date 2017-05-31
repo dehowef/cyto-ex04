@@ -1,3 +1,5 @@
+import { AgensTypePath, AgensTypeVertex, AgensTypeEdge } from './agens-data-types';
+
 export class AgensResponseResult {
   query: AgensResponseResultQuery = null;
   meta: AgensResponseResultMeta[] = [];
@@ -26,14 +28,46 @@ export class AgensResponseResult {
   public getRows() {
     return this.rows;
   }
-
   public getMeta() {
     return this.meta;
   }
-
   public getQuery(){
     return this.query;
   }
+
+  public getCyElements():any {
+    let eles:any = {
+      nodes: [],
+      edges: []
+    };
+
+    for( let row of this.rows ){
+      let idx = 0;
+      for( let meta of this.meta ){
+        let colData:any = row[idx++];
+        switch( meta.type ){
+          case 'graphpath': {
+            let path:AgensTypePath = new AgensTypePath(colData);
+            eles.nodes = eles.nodes.concat( path.toNodes() );
+            eles.edges = eles.edges.concat( path.toEdges() );
+            break;
+          }
+          case 'vertex': {
+            let vertex:AgensTypeVertex = new AgensTypeVertex(colData);
+            eles.nodes.push( vertex.toNode() );
+            break;
+          }
+          case 'edge': {
+            let edge:AgensTypeEdge = new AgensTypeEdge(colData);
+            eles.edges.push( edge.toEdge() );
+            break;
+          }
+        }
+      }
+    }  
+    return eles;
+  }
+
 };
 
 export class AgensResponseResultQuery {

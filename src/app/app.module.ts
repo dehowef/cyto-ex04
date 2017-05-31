@@ -44,6 +44,7 @@ import {CustomReuseStrategy} from "./reuse-strategy";
 import { ShowColumnDetailComponent } from './dialogs/show-column-detail/show-column-detail.component';
 import { ImgViewerComponent } from './dialogs/img-viewer/img-viewer.component';
 import { GraphStyleComponent } from './dialogs/graph-style/graph-style.component';
+import { FullScreenGraphComponent } from './dialogs/full-screen-graph/full-screen-graph.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { GraphStyleComponent } from './dialogs/graph-style/graph-style.component
     ShowColumnDetailComponent,
     ImgViewerComponent,
     GraphStyleComponent,
+    FullScreenGraphComponent,
   ], // directives, components, and pipes owned by this NgModule
   imports: [
     BrowserModule,
@@ -86,6 +88,7 @@ import { GraphStyleComponent } from './dialogs/graph-style/graph-style.component
     ShowColumnDetailComponent,
     ImgViewerComponent,
     GraphStyleComponent,
+    FullScreenGraphComponent,
   ],
   bootstrap: [ AppComponent ],
 })

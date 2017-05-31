@@ -1,17 +1,9 @@
 <md-dialog-content>
   <md-toolbar color="primary">
-    <span>Image Type &nbsp; &nbsp;</span>
-    <select id="cyPrintType" (change)="onChangeImageType($event.target.value)">
-      <option value="png" selected="selected">PNG</option>
-      <option value="jpg">JPG</option>
-    </select>
-    <button md-icon-button mdTooltip="Download" (click)="dialogRef.close(imgType)">
-      <md-icon class="md-24"><i class="material-icons">cloud_download</i></md-icon>  
-    </button>
-
+    <span>Image Type : &nbsp; &nbsp;</span><h4>{{imgType}}</h4>
+    <!--<span>** Note: click image by mouse right-button and save as 'image filename' on your local drive</span>-->
     <span class="toolbar-fill-remaining"></span>
-
-    <button md-icon-button mdTooltip="Close" (click)="dialogRef.close()">
+    <button md-icon-button mdTooltip="Close" (click)="closeDialog()">
       <md-icon class="md-24"><i class="material-icons">clear</i></md-icon>  
     </button>
   </md-toolbar>

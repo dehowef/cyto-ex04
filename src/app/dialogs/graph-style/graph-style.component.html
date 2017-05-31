@@ -3,7 +3,7 @@
     <span>Graph Styles</span>
     <span class="toolbar-fill-remaining"></span>
 
-    <button md-icon-button mdTooltip="Close" (click)="dialogRef.close()">
+    <button md-icon-button mdTooltip="Close" (click)="closeDialog(null)">
       <md-icon class="md-24"><i class="material-icons">clear</i></md-icon>  
     </button>
   </md-toolbar>
@@ -29,8 +29,8 @@
         </p>
       </md-card-content>
       <md-card-actions align="end">
-        <button md-button>Apply</button>
-        <button md-button>Cancel</button>
+        <button md-button (click)="closeDialog(true)">Apply</button>
+        <button md-button (click)="closeDialog(false)">Cancel</button>
       </md-card-actions>
     </md-card>
 

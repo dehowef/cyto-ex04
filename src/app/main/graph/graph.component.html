@@ -216,26 +216,22 @@
             <button md-icon-button mdTooltip="INSERT TEXT" mdTooltipPosition="before"><md-icon>textsms</md-icon></button>
             <button md-icon-button mdTooltip="INSERT LINK" mdTooltipPosition="before"><md-icon>insert_link</md-icon></button>
             <button md-icon-button mdTooltip="INSERT photo" mdTooltipPosition="before"><md-icon>photo</md-icon></button>
-            <button [mdMenuTriggerFor]="exportMenu"md-icon-button mdTooltip="EXPORT" mdTooltipPosition="before"><md-icon>file_download</md-icon></button>
 
-            <md-menu #exportMenu="mdMenu">
-              <div class="Open_M_Head"><h4>EXPORT <br><small>SELECT EXPORT TYPE</small></h4></div>                                    
+            <button [mdMenuTriggerFor]="exportMenu" md-icon-button mdTooltip="EXPORT" mdTooltipPosition="before"><md-icon>file_download</md-icon></button>
+            <md-menu #exportMenu="mdMenu" xPosition="before" yPosition="below">
+              <div class="Open_M_Head"><h4>EXPORT <br><small>Select image type</small></h4></div>                                    
               <md-divider></md-divider>
-              <button md-menu-item>
-                <md-icon>gradient</md-icon><div layout="column"><h4><small>EXPORT</small> SVG</h4></div>
-              </button>
-              <md-divider></md-divider>
-              <button md-menu-item>
-                <md-icon>style</md-icon><div layout="column"><h4><small>EXPORT</small> JSON</h4></div>
+              <button md-menu-item (click)="dlgImgViewer('PNG')">
+                <md-icon>gradient</md-icon> &nbsp; <span>PNG</span>
               </button>    
               <md-divider></md-divider>
-              <button md-menu-item>
-                <md-icon>image</md-icon><div layout="column"><h4><small>EXPORT</small> PNG</h4></div>
+              <button md-menu-item (click)="dlgImgViewer('JPG')">
+                <md-icon>image</md-icon> &nbsp; <span>JPG</span>
               </button>            
             </md-menu>
             
             <button (click)="sideset.open()" md-icon-button mdTooltip="SETTING" mdTooltipPosition="before"><md-icon>settings</md-icon></button>
-            <button md-icon-button mdTooltip="Full Screen" mdTooltipPosition="before"><md-icon>open_with</md-icon></button>
+            <button md-icon-button (click)="dlgFullScreen()" mdTooltip="Full Screen" mdTooltipPosition="before"><md-icon>open_with</md-icon></button>
             <button md-icon-button mdTooltip="HELP" mdTooltipPosition="before"><md-icon>help</md-icon></button>
           </span>
 
