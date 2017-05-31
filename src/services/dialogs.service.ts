@@ -3,8 +3,8 @@ import { Observable } from 'rxjs/Rx';
 import { MdDialogRef, MdDialog, MdDialogConfig } from '@angular/material';
 
 import { ShowColumnDetailComponent } from '../app/dialogs/show-column-detail/show-column-detail.component';
-// import { ImgViewerComponent } from '../components/dialogs/img-viewer/img-viewer.component';
-// import { CySytlesComponent } from '../components/dialogs/cy-sytles/cy-sytles.component';
+import { ImgViewerComponent } from '../app/dialogs/img-viewer/img-viewer.component';
+import { GraphStyleComponent } from '../app/dialogs/graph-style/graph-style.component';
 
 @Injectable()
 export class DialogsService {
@@ -26,11 +26,8 @@ export class DialogsService {
     return dialogRef.afterClosed();
   }
 
-/*
   public dlgImgViewer(imgType: string, imgSrc: any): Observable<string> {
-
     let dialogRef: MdDialogRef<ImgViewerComponent>;
-
     dialogRef = this.dialog.open(ImgViewerComponent, {
         width: '50vw', height: '50vh',
         position: {
@@ -43,19 +40,17 @@ export class DialogsService {
     return dialogRef.afterClosed();
   }
 
-  public dlgCyStyles(cy: any): Observable<boolean> {
-
-    let dialogRef: MdDialogRef<CySytlesComponent>;
-
-    dialogRef = this.dialog.open(CySytlesComponent, {
+  public dlgCyStyles(graph: any): Observable<boolean> {
+    let dialogRef: MdDialogRef<GraphStyleComponent>;
+    dialogRef = this.dialog.open(GraphStyleComponent, {
         width: '50vw', height: '50vh',
         position: {
           top: '24px', right: '20px'
         }
     });
-    dialogRef.componentInstance.cy = cy;
+    dialogRef.componentInstance.graph = graph;
 
     return dialogRef.afterClosed();
   }
-*/
+
 }

@@ -1,0 +1,38 @@
+<md-dialog-content>
+  <md-toolbar color="primary">
+    <span>Graph Styles</span>
+    <span class="toolbar-fill-remaining"></span>
+
+    <button md-icon-button mdTooltip="Close" (click)="dialogRef.close()">
+      <md-icon class="md-24"><i class="material-icons">clear</i></md-icon>  
+    </button>
+  </md-toolbar>
+  <div class="wrap">
+
+    <md-card>
+      <md-card-header>
+        <md-card-title>Color</md-card-title>
+        <md-card-subtitle>Use color-picker</md-card-subtitle>
+      </md-card-header>
+      <md-card-content>
+        <p>Node : &nbsp; &nbsp;
+<!--          
+          Color <input style="width:80px" cpOKButton="true" cpCancelButton="true" [(colorPicker)]="nodeColor" [style.background]="nodeColor" [value]="nodeColor" (blur)="onNodeColorChange()"/>
+-->          
+          Size <md-slider min="1" max="5" step="0.5" [value]="nodeSize" (input)="onNodeSizeChange($event.value)"></md-slider>
+        </p>
+        <p>Edge : &nbsp; &nbsp;
+<!--          
+          Color <input style="width:80px" cpOKButton="true" cpCancelButton="true" [(colorPicker)]="edgeColor" [style.background]="edgeColor" [value]="edgeColor" (blur)="onEdgeColorChange()"/>
+-->          
+          Width <md-slider min="1" max="5" step="0.5" [value]="edgeWidth" (input)="onEdgeWidthChange($event.value)"></md-slider>
+        </p>
+      </md-card-content>
+      <md-card-actions align="end">
+        <button md-button>Apply</button>
+        <button md-button>Cancel</button>
+      </md-card-actions>
+    </md-card>
+
+  </div>
+</md-dialog-content>

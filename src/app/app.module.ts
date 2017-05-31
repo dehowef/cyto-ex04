@@ -42,6 +42,8 @@ import {CustomReuseStrategy} from "./reuse-strategy";
 
 // Dialogs
 import { ShowColumnDetailComponent } from './dialogs/show-column-detail/show-column-detail.component';
+import { ImgViewerComponent } from './dialogs/img-viewer/img-viewer.component';
+import { GraphStyleComponent } from './dialogs/graph-style/graph-style.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { ShowColumnDetailComponent } from './dialogs/show-column-detail/show-col
     HelpComponent,
     WorkspaceComponent,
     ShowColumnDetailComponent,
+    ImgViewerComponent,
+    GraphStyleComponent,
   ], // directives, components, and pipes owned by this NgModule
   imports: [
     BrowserModule,
@@ -79,7 +83,9 @@ import { ShowColumnDetailComponent } from './dialogs/show-column-detail/show-col
     {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}
   ], // additional providers needed for this module
   entryComponents: [ 
-    ShowColumnDetailComponent
+    ShowColumnDetailComponent,
+    ImgViewerComponent,
+    GraphStyleComponent,
   ],
   bootstrap: [ AppComponent ],
 })
