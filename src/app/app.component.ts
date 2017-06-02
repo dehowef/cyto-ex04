@@ -100,6 +100,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/ic_chevron_right_black_24px.svg'));
     this._iconRegistry.addSvgIconInNamespace('assets', 'add',
       this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/ic_add_black_24px.svg'));
+    this._iconRegistry.addSvgIconInNamespace('assets', 'turned_in_not',
+      this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/ic_turned_in_not_black_24px.svg'));
     this._iconRegistry.addSvgIconInNamespace('assets', 'turned_in',
       this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/ic_turned_in_black_24px.svg'));
     this._iconRegistry.addSvgIconInNamespace('assets', 'cloud',

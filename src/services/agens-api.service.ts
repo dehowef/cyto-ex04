@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import * as GlobalConfig from '../app/global.config';
 import { AuthenticationService } from './authentication.service';
 
+import { AgensRequestLabel } from '../models/agens-request-label';
 import { AgensRequestQuery } from '../models/agens-request-query';
 import { AgensResponseResult } from '../models/agens-response-result';
 
@@ -19,12 +20,42 @@ export class AgensApiService {
     private auth: AuthenticationService
   ) {}
 
+  dbUser() {
+    return this.auth.getUserInfo();
+  }
+
   dbMeta() {
-    const url = `${this.apiUrl}/meta`;
+    const url = `${this.apiUrl}/db`;
     var headers = this.auth.createAuthorizationHeader(this.auth.getToken());
 
     return this.http
       .get(url,{headers: headers})
+      .toPromise()
+      .then(res => {
+        return res.json();
+      })
+      .catch(this.handleError);
+  }
+
+  dbLabel( request:AgensRequestLabel ) {
+    const url = `${this.apiUrl}/label`;
+    var headers = this.auth.createAuthorizationHeader(this.auth.getToken());
+
+    return this.http
+      .post(url, JSON.stringify(request), {headers: headers})
+      .toPromise()
+      .then(res => {
+        return res.json();
+      })
+      .catch(this.handleError);
+  }
+
+  dbLabelCount( request:AgensRequestLabel ) {
+    const url = `${this.apiUrl}/label_count`;
+    var headers = this.auth.createAuthorizationHeader(this.auth.getToken());
+
+    return this.http
+      .post(url, JSON.stringify(request), {headers: headers})
       .toPromise()
       .then(res => {
         return res.json();

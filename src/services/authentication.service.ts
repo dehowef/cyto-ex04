@@ -43,14 +43,15 @@ export class AuthenticationService {
       });
   }
 
-  public getToken():string {
-    // let data = localStorage.getItem(this.userKey);
-    // if( data && data !== "" ){
-    //   let user = JSON.parse( data );
-    //   if( user.token && user.token !== "") return user.token;
-    // }
-    // return null;
+  public getUserInfo():any {
+    let data = localStorage.getItem(this.userKey);
+    if( data && data !== "" ){
+      return JSON.parse( data );
+    }
+    return null;
+  }
 
+  public getToken():string {
     // set expiration for storage
     let expiresIn = Number(localStorage.getItem(this.userKey+'_expiresIn'));
     if( expiresIn===undefined || expiresIn===null ){ 

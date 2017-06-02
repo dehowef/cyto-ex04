@@ -16,7 +16,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: '', component: MainComponent, canActivate: [AuthGuardService], children: [
     {
-      path: '', component: DashboardComponent
+      path: '', component: DashboardComponent   //, data: { shouldDetach: true }
     },{ 
       path: 'graph', component: GraphComponent, data: { shouldDetach: true }
     },{ 

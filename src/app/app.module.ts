@@ -8,8 +8,8 @@ import { CovalentHighlightModule } from '@covalent/highlight';
 import { CovalentMarkdownModule } from '@covalent/markdown';
 
 // External Modules
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TreeModule } from 'angular-tree-component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 // Router
@@ -69,8 +69,8 @@ import { FullScreenGraphComponent } from './dialogs/full-screen-graph/full-scree
     CovalentHighlightModule,
     CovalentMarkdownModule,
     appRoutes,
-    NgxChartsModule,
     TreeModule,
+    NgxChartsModule,
     NgxDatatableModule
   ], // modules needed to run this module
   providers: [

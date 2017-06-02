@@ -13,37 +13,29 @@
         <div class="user_info" layout-gt-xs="row" layout="column" flex >
             <md-card flex layout="row" layout-align="start end" class="userinfo pad-sm">
                 <div>
-                    <h3>{{host}}</h3>
+                    <h3>{{host}}:{{port}}</h3>
                     <p>SERVER</p>
                 </div>
                 <span flex></span>
-                <md-icon>desktop_windows</md-icon>
+                <md-icon style="position: absolute; bottom: 5px; right: 20px">desktop_windows</md-icon>
             </md-card>
             <md-card flex layout="row" layout-align="start end" class="userinfo pad-sm">
                 <div>
-                    <h3>{{port}}</h3>
-                    <p>PORT</p>
-                </div>
-                <span flex></span>
-                <md-icon>bubble_chart</md-icon>
-            </md-card>
-        </div>
-        <div class="user_info" layout-gt-xs="row" layout="column" flex>
-            <md-card flex layout="row" layout-align="start end" class="userinfo pad-sm">
-                <div>
-                    <h3>{{db}}</h3>
+                    <h3>{{db}} &nbsp; &nbsp; <small>(owner: {{db_owner}})</small></h3>
+                    <p>{{db_desc}}</p>
                     <p>DATABASE</p>
                 </div>
                 <span flex></span>
-                <md-icon>cloud</md-icon>
+                <md-icon style="position: absolute; bottom: 5px; right: 20px">cloud</md-icon>
             </md-card>
             <md-card flex layout="row" layout-align="start end" class="userinfo pad-sm">
                 <div>
-                    <h3>{{user_id}}</h3>
+                    <h3>{{username}} &nbsp; &nbsp; <small>{{authorities}}</small></h3>
+                    <p><{{email}}></p>
                     <p>USERNAME</p>
                 </div>
                 <span flex></span>
-                <md-icon>person</md-icon>
+                <md-icon style="position: absolute; bottom: 5px; right: 20px">person</md-icon>
             </md-card>
         </div>
     </div>
@@ -128,42 +120,38 @@
         </div>
     </md-card>
 
+    <div class="loading-container" *ngIf="loading">
+        <md-progress-circle mode="indeterminate" color="warn">Loading...</md-progress-circle>
+    </div>
+
     <div layout-gt-xs="row" layout="column" class="dashboard">
         <md-card flex-gt-xs="30" flex>
-            <h4>Browser</h4>
-<!--
             <div class="pad-sm bgc-light-blue-700 tc-grey-50">
-                <h4>Browser</h4>
+                <h4>DB Browser</h4>
             </div>
-            -->
             <md-card-content>
                 <!--<tree-root #tree [nodes]="treeData"></tree-root>-->
                 <tree-root #tree [nodes]="treeData"
-                (onFocus)="onFocus(tree, $event)"
-                (onInitialized)="onInitialized(tree, $event)">
-                <ng-template #treeNodeTemplate let-node="node" let-index="index" let-templates="templates">
-                    <md-icon *ngIf="1 == node.level">folder</md-icon>
-                    <md-icon *ngIf="2 == node.level">insert_drive_file</md-icon>
-                    <span>{{ node.data.name }}</span>
-                    <span *ngIf="!node.isLeaf">({{ node.children.length }})</span>
-                </ng-template>
+                    (onActivate)="onTreeActivate(tree, $event)"
+                    (onUpdateData)="onTreeInitialized($event)">
+                    <ng-template #treeNodeTemplate let-node="node" let-index="index" let-templates="templates">
+                        <md-icon *ngIf="!node.isLeaf">folder</md-icon>
+                        <span>{{ node.data.name }}</span>
+                        <span *ngIf="!node.isLeaf">({{ node.children.length }})</span>
+                        <md-icon *ngIf="node.level == 4 && !node.data.loaded">turned_in_not</md-icon>
+                    </ng-template>
                 </tree-root>
-
             </md-card-content>
         </md-card>
         <md-card flex-gt-xs="70" flex>
             <div class="pad-sm bgc-light-blue-700 tc-grey-50">
-                <h4>Dashboard</h4>
+                <h4>Browser Details</h4>
             </div>
             <md-card-content>
-                <ngx-datatable class="material" 
-                [rows]="focusedNodeName" 
-                [columns]="focusedNodeColumnName"
-                (rowContextmenu)="onContextMenu($event)"
-                [columnMode]="'force'"
-                [rowHeight]="'auto'"
-                [headerHeight]="'auto'"
-                >
+                <ngx-datatable #browserTable class='material' [rows]='tableRows' [columns]='tableColumns'
+                    [loadingIndicator]="loading_label" [reorderable]="true" [limit]="5"
+                    [headerHeight]="40" [footerHeight]="40" [rowHeight]="40" [columnMode]="'force'"
+                    (page)="onPage($event)">
                 </ngx-datatable>
             </md-card-content>
         </md-card>

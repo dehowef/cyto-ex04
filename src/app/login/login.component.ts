@@ -40,9 +40,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    // reset login status
-    if( this.auth.isLogin() ) this.auth.logout();
-
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
@@ -55,6 +52,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(){
+    // reset login status
+    this.auth.logout();
   }
 
   login() {
