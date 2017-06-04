@@ -151,7 +151,7 @@
                 <ngx-datatable #browserTable class='material' [rows]='tableRows' [columns]='tableColumns'
                     [loadingIndicator]="loading_label" [reorderable]="true" [limit]="5"
                     [headerHeight]="40" [footerHeight]="40" [rowHeight]="40" [columnMode]="'force'"
-                    (page)="onPage($event)">
+                    (page)="onTablePage($event.offset)">
                 </ngx-datatable>
             </md-card-content>
         </md-card>

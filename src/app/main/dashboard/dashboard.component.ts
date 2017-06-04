@@ -1,21 +1,18 @@
 import { Component, ViewChild , OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { TdMediaService, TdDialogService } from '@covalent/core';
 import { Router } from '@angular/router';
-import { TdDataTableService, TdDataTableSortingOrder, ITdDataTableSortChangeEvent, ITdDataTableColumn } from '@covalent/core';
-import { IPageChangeEvent } from '@covalent/core';
 
 import { AgensApiService } from '../../../services/agens-api.service';
 import { AgensResponseMetaDb, AgensResponseMetaGraph, AgensResponseMetaLabel } from '../../../models/agens-response-meta';
 import { AgensRequestLabel } from '../../../models/agens-request-label';
 
 // ** NOTE : 포함하면 AOT 컴파일 오류 떨어짐 (offset 지정 기능 때문에 사용)
-// import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
+import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 
 @Component({
   selector: 'ag-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-//  viewProviders: [ ItemsService, UsersService, ProductsService, AlertsService ],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
 
@@ -42,14 +39,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   loading:boolean = false;
   loading_label:boolean = false;
 
-// ** NOTE : 포함하면 AOT 컴파일 오류 떨어짐 (offset 지정 기능 때문에 사용)
-  // @ViewChild('browserTable') browserTable: DatatableComponent;
+  // ** NOTE : 포함하면 AOT 컴파일 오류 떨어짐 (offset 지정 기능 때문에 사용)
+  @ViewChild('browserTable') browserTable: DatatableComponent;
 
   constructor(
     public media: TdMediaService,
     private el: ElementRef,
     private _dialogService: TdDialogService,
-    private _dataTableService: TdDataTableService,
     private apiSerivce: AgensApiService
   ) { }
 
@@ -78,6 +74,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   // call API: db
   loadMetaData(){
+
     this.loading = true;
     this.apiSerivce.dbMeta()
       .then(data => {
@@ -94,9 +91,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     req.open('GET', `data/demo-meta.json`);
     req.onload = () => {
       this.metaData = new AgensResponseMetaDb( JSON.parse(req.response) );
-      this.treeData = [ this.metaData.toTreeData() ];
       this.db_owner = this.metaData.owner;
       this.db_desc = this.metaData.desc;
+
+      this.treeData = [ this.metaData.toTreeData() ];
       this.loading = false;
     };
     req.send();
@@ -134,7 +132,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
               label.setProperties(data);
               this.tableRows = label.toTreeDetails();
               // ** NOTE: ngx-datatable에 offset 이 초기화 안되는 버그 있음
-              // this.browserTable.offset = 0;
+              this.browserTable.offset = 0;
+
               tree.treeModel.focusedNode.data.loaded = true;
               this.loading_label = false;
             });
@@ -142,7 +141,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         else{
           this.tableRows = label.toTreeDetails();
           // ** NOTE: ngx-datatable에 offset 이 초기화 안되는 버그 있음
-          // this.browserTable.offset = 0;
+          this.browserTable.offset = 0;
+
           this.loading_label = false;
         }          
       }        
@@ -150,7 +150,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   // Table page event
-  onPage(event) {
+  onTablePage(pageNumber:number) {
+    console.log("ngx_datatable: pageNumber="+pageNumber);
   }
 
 }

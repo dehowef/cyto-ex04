@@ -11,6 +11,7 @@ import { CovalentMarkdownModule } from '@covalent/markdown';
 import { TreeModule } from 'angular-tree-component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+// import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 
 // Router
 import { appRoutes, appRoutingProviders } from './app.routes';
@@ -61,6 +62,7 @@ import { FullScreenGraphComponent } from './dialogs/full-screen-graph/full-scree
     ImgViewerComponent,
     GraphStyleComponent,
     FullScreenGraphComponent,
+    // DatatableComponent,
   ], // directives, components, and pipes owned by this NgModule
   imports: [
     BrowserModule,

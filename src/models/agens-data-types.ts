@@ -1,10 +1,15 @@
 export class AgensTypePath {
+
   vertexes: AgensTypeVertex[] = [];
   edges: AgensTypeEdge[] = [];
   svertex: AgensTypeVertex = null;
   evertex: AgensTypeVertex = null;
 
   constructor( data:any ){
+    if( typeof data !== 'object' ){
+      console.warn("WARNING: may be not AgensTypePath!");
+      return;
+    }
     if( data.hasOwnProperty('vertexes')) {
       for( let item of data['vertexes'] ){
         this.vertexes.push( new AgensTypeVertex(item) );
@@ -43,14 +48,30 @@ export class AgensTypePath {
     }
     return eles;
   }
+
+  public toTableData():any {
+    let edge:AgensTypeEdge = this.edges[0];
+    let disp:string = `(:${this.svertex.label}<${this.svertex.vid}>)->[:${edge.label}<${edge.eid}>]->(:${this.evertex.label}<${this.evertex.vid}>)`;
+    let value:any = {
+      vertexes: this.vertexes,
+      edges: this.edges
+    };
+    return { disp: disp, value: value };
+  }
+
 };
 
 export class AgensTypeVertex {
+
   vid: string;
   label: string;
   props: any;
 
   constructor( data: any ){
+    if( typeof data !== 'object' ){
+      console.warn("WARNING: may be not AgensTypeVertex!");
+      return;
+    }
     if( data.hasOwnProperty('vid')) this.vid = data['vid'];
     if( data.hasOwnProperty('label')) this.label = data['label'];
     if( data.hasOwnProperty('props')) this.props = data['props'];
@@ -69,9 +90,21 @@ export class AgensTypeVertex {
         }, selectable: true, selected: false};
     return ele;
   }
+
+  public toTableData():any {
+    let disp:string = `(:${this.label}<${this.vid}>)`;
+    let value:any = {
+      id: this.vid,
+      label: this.label,
+      props: this.props
+    };
+    return { disp: disp, value: value };
+  }
+
 };
 
 export class AgensTypeEdge {
+
   eid: string;
   svid: string;
   evid: string;
@@ -79,6 +112,10 @@ export class AgensTypeEdge {
   props: any;
 
   constructor( data: any ){
+    if( typeof data !== 'object' ){
+      console.warn("WARNING: may be not AgensTypeEdge!");
+      return;
+    }
     if( data.hasOwnProperty('eid')) this.eid = data['eid'];
     if( data.hasOwnProperty('svid')) this.svid = data['svid'];
     if( data.hasOwnProperty('evid')) this.evid = data['evid'];
@@ -99,4 +136,44 @@ export class AgensTypeEdge {
         }, selectable: true, selected: false};
     return ele;
   }
+
+  public toTableData():any {
+    let disp:string = `(:${this.label}<${this.eid}>)`;
+    let value:any = {
+      id: this.eid,
+      label: this.label,
+      props: this.props
+    };
+    return { disp: disp, value: value };
+  }
+
 };
+
+export class AgensTypeJsonb {
+  
+  id:string = "";
+  name:string = "";
+  value:any = null;
+
+  constructor( data:any ){
+    if( typeof data !== 'object' ){
+      console.warn("WARNING: may be not AgensTypeJsonb!");
+      return;
+    }
+    if( data.hasOwnProperty('id')) this.id = String(data['id']);
+    if( data.hasOwnProperty('name')) this.name = String(data['name']);
+    else if( data.hasOwnProperty('title')) this.name = String(data['title']);
+    else if( data.hasOwnProperty('id')) this.name = String(data['id']);
+    this.value = data;
+  }
+
+  public static getType(){
+    return "jsonb";
+  }
+
+  public toTableData():any {
+    let disp:string = `{id:${this.id}, name:${this.name}, ..}`;
+    return { disp: disp, value: this.value };
+  }
+  
+}

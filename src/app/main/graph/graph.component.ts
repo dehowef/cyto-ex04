@@ -1,18 +1,17 @@
-import { Component, HostBinding, AfterViewInit, ElementRef, OnInit, Input } from '@angular/core';
+import { Component, ViewChild, HostBinding, AfterViewInit, ElementRef, OnInit, Input } from '@angular/core';
 import { TdMediaService, TdDialogService } from '@covalent/core';
-// import { MdDialog } from '@angular/material';
 import { Router } from '@angular/router';
-// import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
-
-import { TdDataTableService, TdDataTableSortingOrder, ITdDataTableSortChangeEvent, ITdDataTableColumn } from '@covalent/core';
-import { IPageChangeEvent } from '@covalent/core';
 
 import { WindowRefService } from '../../../services/window-ref.service';
 import { AgensApiService } from '../../../services/agens-api.service';
 import { DialogsService } from '../../../services/dialogs.service';
 
 import { AgensRequestQuery } from '../../../models/agens-request-query';
+import { AgensResponseMetaDb, AgensResponseMetaGraph, AgensResponseMetaLabel } from '../../../models/agens-response-meta';
 import { AgensResponseResult, AgensResponseResultMeta, AgensResponseResultQuery } from '../../../models/agens-response-result';
+
+// ** NOTE : 포함하면 AOT 컴파일 오류 떨어짐 (row detail 기능 때문에 사용)
+import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 
 
 declare var $: any;
@@ -22,21 +21,25 @@ declare var CodeMirror: any;
   selector: 'ag-graph',
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.scss'],
+  //encapsulation: ViewEncapsulation.None
 })
 export class GraphComponent implements AfterViewInit, OnInit {
   
   window:any = null;
   graph:any = null;
 
+  metaData: AgensResponseMetaDb = null;
+
   result:AgensResponseResult = null;  
-  result_json:any = null;
+  result_json:any = {};
   result_json_expand:boolean = false;
-  result_table:any = [];
-  result_table_columns: ITdDataTableColumn[] = [];
   result_table_expand:boolean = false;
+  result_table_rows:any[] = [];
+  result_table_columns: any[] = [];
   result_labels:any[] = [];
 
   loading:boolean = false;
+  loading_table:boolean = false;
 
   query:string =
 `match path=(a:production {'title': 'Haunted House'})-[]-(b:company) 
@@ -48,27 +51,14 @@ limit 10
   editor: any;
   editorRef: any;
 
-  show = false;
-  hide = false;
-  
-  newGraphOpen = true;
-  newGraphSave = true;
-
-  data: any[] = [
-    { a: 'Born', m: 'Tagline', b: 'Born' },
-  ];
-  filteredData: any[] = this.data;
-  filteredTotal: number = this.data.length; 
-  sortBy: string = 'a';
-  sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending; 
+  // ** NOTE : 포함하면 AOT 컴파일 오류 떨어짐 (offset 지정 기능 때문에 사용)
+  @ViewChild('resultTable') resultTable: any;
 
   constructor(
     public media: TdMediaService,
     private el: ElementRef,
     private dialogsService: DialogsService,
-    // public dialog: MdDialog,
     private _dialogService: TdDialogService,
-    private _dataTableService: TdDataTableService,
     private winRef: WindowRefService,
     private apiSerivce: AgensApiService
   ) {
@@ -134,7 +124,6 @@ limit 10
     this.apiSerivce.dbQuery(query)
       .then(data => {
         this.result = new AgensResponseResult(data);
-        this.setResultJson(this.result);
         this.setResultTable(this.result);
         this.result_table_expand = true;
 
@@ -142,9 +131,12 @@ limit 10
         this.window.agens.loadData( eles );
         this.result_labels = this.getLabels( eles );
 
+        // 이것 때문에 테이블의 데이터가 비정상적으로 표시됨 (이유 모름)
+        this.setResultJson(this.result);  
         this.loading = false;
       });
   }
+
   getLabels( eles:any ):any[] {
     let labels = new Map<string,any>();
     for( let item of eles['nodes'] ){
@@ -167,35 +159,30 @@ limit 10
   }
 
   setResultJson( result:AgensResponseResult ){
-    this.result_json = result.getRows();
+    let temp:string = JSON.stringify( result.getRows() );
+    this.result_json = JSON.parse( temp );
+    // console.log(this.result_json);
   }
   setResultTable( result:AgensResponseResult ){
-    let meta = result.getMeta();
-    this.result_table_columns = [];
-    for( let item of meta ){
-      let isNumber:boolean = ['int', 'number', 'long'].indexOf(item.type) >= 0;
-      let graphFormat:any = ['graphpath', 'vertex', 'edge', 'jsonb'].indexOf(item.type) >= 0 ?
-              v => JSON.stringify(v).substr(0,80)+".." : undefined ;
-      let col = { name: item.label, label: item.label, numeric: isNumber
-              , sortable: (graphFormat === undefined), format: graphFormat };
-      this.result_table_columns.push( col );
-    }
-    let rows = result.getRows();
-    this.result_table = [];
-    for( let row of rows ){
-      let index = 0;
-      let item:any = {};
-      for( let col of meta ){
-        item[col.label] = row[index++];
-        // let isGraphElement:boolean = ['graphpath', 'vertex', 'edge', 'jsonb'].indexOf(col.type) >= 0;
-        // if( isGraphElement ) item[col.label] = JSON.stringify(value).substr(0,100)+"..";
-        // else item[col.label] = value;
-      }
-      this.result_table.push( item );
-    }
+    this.result_table_columns = result.getTableColumns();
+    this.result_table_rows = result.getTableRows();
+    this.resultTable.offset = 0;
   }
+
   showColumnDetail(label: string, value: any): void {
     this.dialogsService.dlgShowColumnDetail(label, value);
+  }
+  // Table page event
+  onTablePage(pageNumber:number) {
+    console.log(`ngx_datatable: pageNumber=${pageNumber}`);
+  }
+  toggleExpandRow(row, col) {
+    // console.log('Toggled Expand Row!', row, col);
+    row._selectedColumn = col;
+    this.resultTable.rowDetail.toggleExpandRow(row);
+  }
+  onRowDetailToggle(event) {
+    // console.log('Detail Toggled', event);   // type=row, value={row}
   }
 
   clearGraph(){
@@ -203,13 +190,14 @@ limit 10
     this.graph.style( this.window.agens.defaultStyle );
 
     this.result = null;
-    this.result_json = null;
+    this.result_json = {};
     this.result_json_expand = false;
     this.result_table_expand = false;
     this.result_table_columns = [];
-    this.result_table = [];
+    this.result_table_rows = [];
     this.result_labels = [];
   }
+
   newGraph() {
     if( this.graph === undefined ) return;
     this.clearGraph();
@@ -245,35 +233,5 @@ limit 10
     this.graph.elements(`${type}[label='${labelName}']`).select();
   }
 
-  toggleError() {    
-    this.hide = !this.hide; 
-  }
-
-  toggleSaveFile(){
-    this.newGraphSave = !this.newGraphSave; 
-  }
-
-  toggleInstall() {    
-    this.show = !this.show; 
-  }
-
-  reset(): void {
-  }
-  openSaveGraph(): void {
-  }
-  openNewGraph(): void {
-  }
-
-  sort(sortEvent: ITdDataTableSortChangeEvent): void {
-    this.sortBy = sortEvent.name;
-    this.sortOrder = sortEvent.order;
-    this.filter();
-  }
-
-  filter(): void {
-    let newData: any[] = this.data;
-    newData = this._dataTableService.sortData(newData, this.sortBy, this.sortOrder);
-    this.filteredData = newData;
-  } 
 
 }

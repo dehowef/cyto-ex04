@@ -30,9 +30,9 @@ export class DialogsService {
   public dlgImgViewer(imgType: string, imgSrc: any): Observable<any> {
     let dialogRef: MdDialogRef<ImgViewerComponent>;
     dialogRef = this.dialog.open(ImgViewerComponent, {
-        width: '500px', height: '300px',
+        width: '100vw', height: '100vh',
         position: {
-          top: '24px', right: '20px'
+          top: '0px', right: '0px'
         }
     });
     dialogRef.componentInstance.imgType = imgType;
@@ -57,7 +57,10 @@ export class DialogsService {
   public dlgFullScreenGraph(graphJson: any): Observable<any> {
     let dialogRef: MdDialogRef<FullScreenGraphComponent>;
     dialogRef = this.dialog.open(FullScreenGraphComponent, {
-        width: '100vw', height: '100vh'
+        width: '100vw', height: '100vh',
+        position: {
+          top: '0px', right: '0px'
+        }
     });
 
     dialogRef.componentInstance.graphJson = graphJson;
