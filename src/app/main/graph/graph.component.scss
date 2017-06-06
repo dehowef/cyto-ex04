@@ -40,20 +40,29 @@ div.content {
 
 //------------------ GRAPH CSS 
 
-    div.gra_content { height: 600px; position: relative; resize: vertical; overflow: auto; 
-        span.gra_con { position: absolute; top: 35px; right: 8px; color: #263238; 
-                button { margin-bottom: 5px; }
+    div.gra_content { 
+        height: 600px; position: relative; resize: vertical; overflow: auto; 
+        span.gra_con { 
+            position: absolute; top: 35px; right: 8px; color: #263238; 
+            button { margin-bottom: 5px; }
         }
-        div.gra_example { margin: auto; width: 75px; height: 75px;  display: inline-block; margin: 10px; font-size:12px; color: rgb(245,245,245); text-align: center; line-height: 75px; border-radius: 50%; background-color: cornflowerblue; cursor:pointer; }
-        div.gra_info { width: 70%; height: 25px; line-height:25px; position: absolute; left: 25px; bottom: 25px; background-color: rgba(0,255,255, 0.5); border-radius: 30px; padding: 8px 20px; 
+        div.gra_example { 
+            margin: auto; width: 75px; height: 75px;  display: inline-block; margin: 10px; 
+            font-size:12px; color: rgb(245,245,245); text-align: center; line-height: 75px; 
+            border-radius: 50%; background-color: cornflowerblue; cursor:pointer; 
+            }
+        div.gra_info { 
+            width: 70%; height: 25px; line-height:25px; position: absolute; left: 25px; bottom: 25px; 
+            background-color: rgba(0,255,255, 0.5); border-radius: 30px; padding: 8px 20px; 
             span { display: none; font-size: 14px; }
         }
         md-chip-list { position: absolute; bottom: 75px; left: 25px; }
-        div#one1 { position: absolute; top: 50%; left: 50%; 
-            &:hover ~ div span.one { display: block; } }
-        div#one2 { position: absolute; top: 30%; left: 35%; 
+        
+        div#ag_property_box { position: absolute; top: 50%; left: 50%; 
+            &:hover ~ div span.one { display: block; }}
+        div#ag_img_viewer { position: absolute; top: 30%; left: 35%; 
             &:hover ~ div span.two { display: block; }}
-        div#one3 { position: absolute; top: 25%; left: 75%; 
+        div#ag_add_node { position: absolute; top: 25%; left: 75%; 
             &:hover ~ div span.three { display: block; }}
     } 
 }
@@ -69,16 +78,12 @@ div.content {
 }
 
 /////////////////////////////////////////////////
+//  Dialog Boxes
 
-.node-a {
-    background-color: yellow;
-}
-.node-b {
-    background-color: red;
-}
-.node-c {
-    background-color: violet;
-}
-.node-d {
-    background-color: green;
+.custom-red { background: red; }
+.ui-widget-header,.ui-state-default, ui-button {
+    background:#b9cd6d;
+    border: 1px solid #b9cd6d;
+    color: #FFFFFF;
+    font-weight: bold;
 }

@@ -9,10 +9,17 @@
   <meta name="theme-color" content="#000000">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- CSS -->  
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!--<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">  -->
-  <link href="assets/css/animate.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" type="text/css" href="assets/css/jquery.qtip.min.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/themes/ui-lightness/jquery-ui.min.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/themes/ui-lightness/theme.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/cytoscape.js-panzoom.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/animate.min.css" />
+
+  <link rel="stylesheet" type="text/css" href="assets/css/agens-graph.css" />
 
   <!-- JQuery -->  
   <script type="text/javascript" src="assets/js/jquery.min.js"></script>
@@ -24,11 +31,10 @@
   <script src="assets/js/cypher.js"></script>  
 
   <!-- cytoscope -->
+  <!--<script type="text/javascript" src="assets/js/arbor.js"></script>-->
+  <script type="text/javascript" src="assets/js/cola.js"></script>
+  <script type="text/javascript" src="assets/js/dagre.js"></script>
   <script type="text/javascript" src="assets/js/cytoscape.min.js"></script>
-
-  <link rel="stylesheet" type="text/css" href="assets/css/jquery.qtip.min.css" />
-  <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css" />
-  <link rel="stylesheet" type="text/css" href="assets/css/cytoscape.js-panzoom.css" />
 
   <!-- Cytoscape.js: PlugIns -->
   <script type="text/javascript" src="assets/js/jquery.qtip.min.js"></script>
@@ -41,20 +47,77 @@
   <script type="text/javascript" src="assets/js/cytoscape-view-utilities.js"></script>
 
   <!-- Cytoscape.js: Layouts -->
-  <script type="text/javascript" src="assets/js/cytoscape-cose-bilkent.js"></script>
-  <script type="text/javascript" src="assets/js/cola.js"></script>
+  <!--<script type="text/javascript" src="assets/js/cytoscape-arbor.js"></script> -->
   <script type="text/javascript" src="assets/js/cytoscape-cola.js"></script> 
-  <script type="text/javascript" src="assets/js/dagre.js"></script>
+  <script type="text/javascript" src="assets/js/cytoscape-cose-bilkent.js"></script>
   <script type="text/javascript" src="assets/js/cytoscape-dagre.js"></script>   
 
+  <!-- Etc. : UI, File -->
+  <script type="text/javascript" src="assets/js/jscolor.min.js"></script>   
+  <script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>   
+  <script type="text/javascript" src="assets/js/underscore-min.js"></script>   
+  <script type="text/javascript" src="assets/js/filesaver.min.js"></script>
 </head>
-<body>
+<body oncontextmenu="return false;">
   <ag-app>
     <div style="padding: 20%;text-align:center;">
       <img src="assets/img/logo_32px.png" width="">
       <md-progress-spinner mode="indeterminate"></md-progress-spinner>
     </div>
   </ag-app>
+
+  <!--
+    ******************************************
+    ** Dialog Templates
+    ******************************************
+    -->
+
+  <!-- sbgn layout table will be shown here -->
+  <div id="agens-node-box" title="Add Node" style="width: auto; height: auto; display: none;"
+          class="ui-dialog-content ui-widget-content">
+    <span class="ui-state-default">
+      <span class="ui-icon ui-icon-info" style="float:left; margin:0 7px 0 0;"></span>
+    </span>
+    <table><tbody><tr>
+      <td><span class="add-on layout-text"> Name </span></td>
+      <td><input id="new-node-name" type="text" value="newNode"></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Width </span></td>
+      <td><input id="new-node-width" type="text" value="40"></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Height </span></td>
+      <td><input id="new-node-height" type="text" value="40"></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Border Color </span></td>
+      <td><input id="new-node-border-color" type="color" value="#000000"></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> X </span></td>
+      <td><input id="new-node-x" type="text" value="100"></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Y </span></td>
+      <td><input id="new-node-y" type="text" value="100"></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Color </span></td>
+      <td><input id="new-node-color" type="color" value="#ffffff"></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Shape </span></td>
+      <td><select id="new-node-shape">
+        <option value="rectangle">Rectangle</option>
+        <option value="triangle">Triangle</option>
+        <option value="ellipse">Ellipse</option>
+        <option value="roundrectangle">Round Rectangle</option>
+        <option value="pentagon">Pentagon</option>
+      </select></td>
+    </tr></tbody></table>
+  </div>
+
+  <div id="agens-property-box" title="Properties" style="display: inline;resize: none;">
+      <!-- sbgn layout table will be shown here -->
+  </div>
+  <div id="agens-style-box" title="Styles" style="display: inline;resize: none;">
+      <!-- sbgn layout table will be shown here -->
+  </div>
+
   <script type="text/javascript" src="assets/js/agens-graph.js"></script>
 </body>
 </html>

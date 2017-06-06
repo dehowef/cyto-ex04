@@ -91,7 +91,7 @@ limit 10
     });
 
     // AgensGraph Factory
-    this.graph = this.window.agens.graphFactory(
+    this.graph = this.window.agens.graph.graphFactory(
         this.el.nativeElement.querySelector('div#agens-graph')
       );
     // Cytoscape의 canvas가 영역을 전부 덮어버리기 때문에, zIndex 우선순위를 올려야 함
@@ -99,13 +99,13 @@ limit 10
     // this.el.nativeElement.querySelector('md-chip-list#agens-graph-labels').style.zIndex = "9";
 
     // md-chip TEST
-    this.result_labels = this.getLabels( this.window.agens.defaultElements );
+    this.result_labels = this.getLabels( this.window.agens.graph.demoData[0] );
   }
 
   // cytoscape makeLayout & run
   changeLayout(index){
-    if( this.window.agens === undefined || this.graph === undefined ) return;
-    let selectedLayout = this.window.agens.layoutTypes[Number(index)];
+    if( this.window.agens.graph === undefined || this.graph === undefined ) return;
+    let selectedLayout = this.window.agens.graph.layoutTypes[Number(index)];
     console.log( "change layout : "+selectedLayout.name );
 
     var layout = this.graph.makeLayout(selectedLayout);
@@ -128,7 +128,7 @@ limit 10
         this.result_table_expand = true;
 
         let eles = this.result.getCyElements();
-        this.window.agens.loadData( eles );
+        this.window.agens.graph.loadData( eles );
         this.result_labels = this.getLabels( eles );
 
         // 이것 때문에 테이블의 데이터가 비정상적으로 표시됨 (이유 모름)
@@ -187,7 +187,7 @@ limit 10
 
   clearGraph(){
     this.graph.elements().remove();
-    this.graph.style( this.window.agens.defaultStyle );
+    this.graph.style( this.window.agens.graph.defaultStyle );
 
     this.result = null;
     this.result_json = {};
