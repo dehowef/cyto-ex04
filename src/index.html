@@ -73,51 +73,107 @@
     -->
 
   <!-- sbgn layout table will be shown here -->
-  <div id="agens-node-box" title="Add Node" style="width: auto; height: auto; display: none;"
+  <div id="agens-node-box" style="width: auto; height: auto; display: none;"
           class="ui-dialog-content ui-widget-content">
-    <span class="ui-state-default">
+    <!--<span class="ui-state-default">
       <span class="ui-icon ui-icon-info" style="float:left; margin:0 7px 0 0;"></span>
-    </span>
+    </span>-->
     <table><tbody><tr>
       <td><span class="add-on layout-text"> Name </span></td>
-      <td><input id="new-node-name" type="text" value="newNode"></td>
+      <td><input id="property-node-name" type="text" value="New Node"></td>
     </tr><tr>
       <td><span class="add-on layout-text"> Width </span></td>
-      <td><input id="new-node-width" type="text" value="40"></td>
+      <td><input id="property-node-width" type="text" value="40px"></td>
     </tr><tr>
       <td><span class="add-on layout-text"> Height </span></td>
-      <td><input id="new-node-height" type="text" value="40"></td>
+      <td><input id="property-node-height" type="text" value="40px"></td>
     </tr><tr>
       <td><span class="add-on layout-text"> Border Color </span></td>
-      <td><input id="new-node-border-color" type="color" value="#000000"></td>
-    </tr><tr>
-      <td><span class="add-on layout-text"> X </span></td>
-      <td><input id="new-node-x" type="text" value="100"></td>
-    </tr><tr>
-      <td><span class="add-on layout-text"> Y </span></td>
-      <td><input id="new-node-y" type="text" value="100"></td>
+      <td><input id="property-node-border-color" style="width:80px" class="jscolor" value="#000000"></td>
     </tr><tr>
       <td><span class="add-on layout-text"> Color </span></td>
-      <td><input id="new-node-color" type="color" value="#ffffff"></td>
+      <td><input id="property-node-color" style="width:80px" class="jscolor" value="#c80000"></td>
     </tr><tr>
       <td><span class="add-on layout-text"> Shape </span></td>
-      <td><select id="new-node-shape">
-        <option value="rectangle">Rectangle</option>
+      <td><select id="property-node-shape">
+        <option value="rectangle" selected>Rectangle</option>
         <option value="triangle">Triangle</option>
         <option value="ellipse">Ellipse</option>
         <option value="roundrectangle">Round Rectangle</option>
+        <option value="cutrectangle">Cut Rectangle</option>
+        <option value="hexagon">Hexagon</option>
+        <option value="heptagon">Heptagon</option>
+        <option value="octagon">Octagon</option>
+        <option value="star">Star</option>
+        <option value="diamond">Diamond</option>
+        <option value="vee">Vee</option>
+        <option value="rhomboid">Rhomboid</option>
+        <option value="polygon">Polygon</option>
         <option value="pentagon">Pentagon</option>
       </select></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Property </span></td>
+      <td><div><textarea id="property-node-props" name="props" rows="5" cols="20" style="width:100%; font-size: 10px;">
+{
+  "label": ""
+}
+      </textarea></div></td>
     </tr></tbody></table>
   </div>
 
-  <div id="agens-property-box" title="Properties" style="display: inline;resize: none;">
+  <div id="agens-edge-box" style="width: auto; height: auto; display: none;"
+          class="ui-dialog-content ui-widget-content">
       <!-- sbgn layout table will be shown here -->
+    <table><tbody><tr>
+      <td><span class="add-on layout-text"> Name </span></td>
+      <td><input id="property-name" type="text" value="New Edge"></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Width </span></td>
+      <td><input id="property-width" type="text" value="40px"></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Height </span></td>
+      <td><input id="property-height" type="text" value="40px"></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Border Color </span></td>
+      <td><input id="property-border-color" style="width:80px" class="jscolor" value="#000000"></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Color </span></td>
+      <td><input id="property-color" style="width:80px" class="jscolor" value="#c80000"></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Shape </span></td>
+      <td><select id="new-node-shape">
+        <option value="rectangle" selected>Rectangle</option>
+        <option value="triangle">Triangle</option>
+        <option value="ellipse">Ellipse</option>
+        <option value="roundrectangle">Round Rectangle</option>
+        <option value="cutrectangle">Cut Rectangle</option>
+        <option value="hexagon">Hexagon</option>
+        <option value="heptagon">Heptagon</option>
+        <option value="octagon">Octagon</option>
+        <option value="star">Star</option>
+        <option value="diamond">Diamond</option>
+        <option value="vee">Vee</option>
+        <option value="rhomboid">Rhomboid</option>
+        <option value="polygon">Polygon</option>
+        <option value="pentagon">Pentagon</option>
+      </select></td>
+    </tr><tr>
+      <td><span class="add-on layout-text"> Property </span></td>
+      <td><div><textarea id="new-edge-props" name="props" rows="5" cols="20" style="width:100%; font-size: 10px;">
+{
+  "label": ""
+}
+      </textarea></div></td>
+    </tr></tbody></table>      
   </div>
-  <div id="agens-style-box" title="Styles" style="display: inline;resize: none;">
-      <!-- sbgn layout table will be shown here -->
+
+  <!-- Dialog: Image Export -->
+  <div id="agens-image-export" title="Styles" style="width: auto; height: auto; display: none;"
+          class="ui-dialog-content ui-widget-content">
+    <div class="wrap"><img style="width:98%" src="" /></div>
   </div>
 
   <script type="text/javascript" src="assets/js/agens-graph.js"></script>
+  <script type="text/javascript" src="assets/js/agens-demo-data.js"></script>
 </body>
 </html>

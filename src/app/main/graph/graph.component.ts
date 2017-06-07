@@ -94,12 +94,21 @@ limit 10
     this.graph = this.window.agens.graph.graphFactory(
         this.el.nativeElement.querySelector('div#agens-graph')
       );
+      
     // Cytoscape의 canvas가 영역을 전부 덮어버리기 때문에, zIndex 우선순위를 올려야 함
     this.el.nativeElement.querySelector('span#agens-graph-toolbar').style.zIndex = "9";
     // this.el.nativeElement.querySelector('md-chip-list#agens-graph-labels').style.zIndex = "9";
 
     // md-chip TEST
     this.result_labels = this.getLabels( this.window.agens.graph.demoData[0] );
+  }
+
+  loadDemoData(index){
+    if( this.window.agens.graph === undefined || this.graph === undefined ) return;
+    console.log( `load SampleData(${index})` );
+
+    // for TEST
+    this.window.agens.graph.loadData( this.window.agens.graph.demoData[index] );
   }
 
   // cytoscape makeLayout & run
@@ -203,18 +212,13 @@ limit 10
     this.clearGraph();
   }
 
-  dlgImgViewer(imgType:string){
-    if( this.graph === undefined ) return;
-    let imgSrc:any = null;
-    if( imgType === 'PNG' ) imgSrc = this.graph.png();
-    else imgSrc = this.graph.jpg();
-
-    this.dialogsService.dlgImgViewer(imgType, imgSrc);
+  dlgExportImage(){
+    if( this.window.agens.dialog === undefined ) return;
+    this.window.agens.dialog.openImageExport();
   }
 
   dlgFullScreen(){
     if( this.graph === undefined ) return;
-
     this.dialogsService.dlgFullScreenGraph( this.graph.json() );
   }
 

@@ -2,28 +2,19 @@
   <span layout="row" layout-align="center center">
     <h4 class="page_title">GRAPH <small class="block">Learn one way to build applications with Angular and reuse your code </small></h4>
     <span flex></span>
-    <span class="page_title_icon">
+    <span class="page_title_icon" style="margin-right: 50px">
       <a mdTooltip="New" mdTooltipPosition="before" (click)="newGraph()"><md-icon>add</md-icon></a>
       <a [mdMenuTriggerFor]="folderOpen" mdTooltip="Open" mdTooltipPosition="before"><md-icon>folder_open</md-icon></a>
-      <md-menu #folderOpen="mdMenu">
+      <md-menu #folderOpen="mdMenu" [attr.x-position]="before" [attr.y-position]="below">
         <div class="Open_M_Head">
           <h4>SELECT FILE <br><small>OPEN YOUR GRAPH FILE</small></h4>
         </div>
         <md-divider></md-divider>
-        <button md-menu-item>
-          <md-icon>insert_drive_file</md-icon>
-          <h4>File name #1 <small>2017.09.22</small></h4> 
-        </button>
+        <button md-menu-item (click)="loadDemoData(0)"><div layout="column"><h4>Sameple#1</h4></div></button>
         <md-divider></md-divider>
-        <button md-menu-item>
-          <md-icon>insert_drive_file</md-icon>
-          <h4>File name #1 <small>2017.09.22</small></h4> 
-        </button>
+        <button md-menu-item (click)="loadDemoData(1)"><div layout="column"><h4>Sameple#2</h4></div></button>
         <md-divider></md-divider>
-        <button md-menu-item>
-          <md-icon>insert_drive_file</md-icon>
-          <h4>File name #1 <small>2017.09.22</small></h4> 
-        </button>
+        <button md-menu-item (click)="loadDemoData(2)"><div layout="column"><h4>Sameple#3</h4></div></button>
       </md-menu>
     </span>
   </span>
@@ -54,7 +45,7 @@
   </div>
 
   <!-- NOTE: td-expansion-panel 안에 ngx-datatable을 넣으면 테이블 렌더링이 엉망이 됨!! -->
-  <div class="mat-table-container">
+  <div class="mat-table-container" style="margin-left:10px; margin-right: 40px;">
     <ngx-datatable #resultTable class='material expandable' 
         [rows]='result_table_rows' [columns]='result_table_columns'
         [loadingIndicator]="loading_table" [reorderable]="true" [limit]="10"
@@ -171,7 +162,7 @@
 
           <span id="agens-graph-toolbar" class="gra_con" layout="column">
             <button [mdMenuTriggerFor]="layoutMenu" md-icon-button mdTooltip="LAYOUT" mdTooltipPosition="before"><md-icon>web</md-icon></button>
-            <md-menu #layoutMenu="mdMenu">
+            <md-menu #layoutMenu="mdMenu" [attr.x-position]="before" [attr.y-position]="below">
               <div class="Open_M_Head">
                 <h4>LAYOUT<br><small>SELECT YOUR GRAPH LAYOUT</small></h4>
               </div>
@@ -203,15 +194,15 @@
             <button md-icon-button mdTooltip="INSERT photo" mdTooltipPosition="before"><md-icon>photo</md-icon></button>
 
             <button [mdMenuTriggerFor]="exportMenu" md-icon-button mdTooltip="EXPORT" mdTooltipPosition="before"><md-icon>file_download</md-icon></button>
-            <md-menu #exportMenu="mdMenu" xPosition="before" yPosition="below">
-              <div class="Open_M_Head"><h4>EXPORT <br><small>Select image type</small></h4></div>                                    
+            <md-menu #exportMenu="mdMenu" [attr.x-position]="before" [attr.y-position]="above">
+              <div class="Open_M_Head"><h4>EXPORT <br><small>select type</small></h4></div>                                    
               <md-divider></md-divider>
-              <button md-menu-item (click)="dlgImgViewer('PNG')">
-                <md-icon>gradient</md-icon> &nbsp; <span>PNG</span>
+              <button md-menu-item (click)="dlgExportImage()">
+                <md-icon>gradient</md-icon> &nbsp; <span>Image(PNG)</span>
               </button>    
               <md-divider></md-divider>
-              <button md-menu-item (click)="dlgImgViewer('JPG')">
-                <md-icon>image</md-icon> &nbsp; <span>JPG</span>
+              <button md-menu-item (click)="dlgExportJson()">
+                <md-icon>image</md-icon> &nbsp; <span>JSON File</span>
               </button>            
             </md-menu>
             

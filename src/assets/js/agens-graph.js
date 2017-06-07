@@ -45,7 +45,7 @@
           'text-outline-width': 2,
           'text-outline-color': '#888',
           'border-width': 1
-      }},{
+      }}, {
       selector: 'node:parent',
       css: {
           'content': 'data(name)',
@@ -120,63 +120,6 @@
           'source-arrow-color': 'red'
       }
   }];
-
-  // Public Property : demoData
-  agens.graph.demoData = [
-  // demoData[0]
-  { nodes: [
-      { data: { id: 'a', label: 'vertex-A', name: 'node A', href: 'http://js.cytoscape.org#a' }, classes: 'node-a', selectable: true, selected: false },
-      { data: { id: 'b', label: 'vertex-A', name: 'node B', href: 'http://js.cytoscape.org#b' }, classes: 'node-a', selectable: true, selected: false },
-      { data: { id: 'c', label: 'vertex-A', name: 'node C', href: 'http://js.cytoscape.org#c' }, classes: 'node-b', selectable: true, selected: false },
-      { data: { id: 'd', label: 'vertex-B', name: 'node D', href: 'http://js.cytoscape.org#d' }, classes: 'node-b', selectable: true, selected: false },
-      { data: { id: 'e', label: 'vertex-B', name: 'node E', href: 'http://js.cytoscape.org#e' }, classes: 'node-c', selectable: true, selected: false },
-      { data: { id: 'f', label: 'vertex-A', name: 'node F', href: 'http://js.cytoscape.org#f' }, classes: 'node-c', selectable: true, selected: false },
-      { data: { id: 'g', label: 'vertex-C', name: 'node G', href: 'http://js.cytoscape.org#g' }, classes: 'node-c', selectable: true, selected: false },
-      { data: { id: 'h', label: 'vertex-C', name: 'node H', href: 'http://js.cytoscape.org#h' }, classes: 'node-a', selectable: true, selected: false },
-      { data: { id: 'i', label: 'vertex-C', name: 'node I', href: 'http://js.cytoscape.org#i' }, classes: 'node-a', selectable: true, selected: false },
-      { data: { id: 'j', label: 'vertex-A', name: 'node J', href: 'http://js.cytoscape.org#j' }, classes: 'node-a', selectable: true, selected: false },
-      { data: { id: 'k', label: 'vertex-A', name: 'node K', href: 'http://js.cytoscape.org#k' }, classes: 'node-a', selectable: true, selected: false },
-      { data: { id: 'l', label: 'vertex-D', name: 'node L', href: 'http://js.cytoscape.org#l' }, classes: 'node-d', selectable: true, selected: false },
-      { data: { id: 'm', label: 'vertex-D', name: 'node M', href: 'http://js.cytoscape.org#m' }, classes: 'node-d', selectable: true, selected: false },
-      { data: { id: 'n', label: 'vertex-D', name: 'node N', href: 'http://js.cytoscape.org#n' }, classes: 'node-d', selectable: true, selected: false },
-      { data: { id: 'o', label: 'vertex-D', name: 'node O', href: 'http://js.cytoscape.org#o' }, classes: 'node-d', selectable: true, selected: false },
-      { data: { id: 'p', label: 'vertex-A', name: 'node P', href: 'http://js.cytoscape.org#p' }, classes: 'node-d', selectable: true, selected: false },
-      { data: { id: 'q', label: 'vertex-F', name: 'node Q', href: 'http://js.cytoscape.org#q' }, selectable: true, selected: false },
-      { data: { id: 'r', label: 'vertex-F', name: 'node R', href: 'http://js.cytoscape.org#r' }, selectable: true, selected: false },
-    ],           
-    edges: [
-      { data: { id: 'ae', label: 'edge-X', name: 'edge AE', weight: 1, source: 'a', target: 'e' } },
-      { data: { id: 'ab', label: 'edge-X', name: 'edge AB', weight: 3, source: 'a', target: 'b' } },
-      { data: { id: 'be', label: 'edge-X', name: 'edge BE', weight: 4, source: 'b', target: 'e' } },
-      { data: { id: 'bc', label: 'edge-X', name: 'edge BC', weight: 5, source: 'b', target: 'c' } },
-      { data: { id: 'ce', label: 'edge-X', name: 'edge CE', weight: 6, source: 'c', target: 'e' } },
-      { data: { id: 'cd', label: 'edge-X', name: 'edge CD', weight: 2, source: 'c', target: 'd' } },
-      { data: { id: 'de', label: 'edge-X', name: 'edge DE', weight: 7, source: 'd', target: 'e' } },
-      { data: { id: 'af', label: 'edge-Y', name: 'edge AF', weight: 8, source: 'a', target: 'f' } },
-      { data: { id: 'bh', label: 'edge-Y', name: 'edge BH', weight: 7, source: 'b', target: 'h' } },
-      { data: { id: 'bo', label: 'edge-Y', name: 'edge BO', weight: 2, source: 'b', target: 'o' } },
-      { data: { id: 'bp', label: 'edge-Y', name: 'edge BP', weight: 3, source: 'b', target: 'p' } },
-      { data: { id: 'br', label: 'edge-Y', name: 'edge BR', weight: 4, source: 'b', target: 'r' } },
-      { data: { id: 'cg', label: 'edge-Y', name: 'edge CG', weight: 5, source: 'c', target: 'g' } },
-      { data: { id: 'cj', label: 'edge-Y', name: 'edge CJ', weight: 6, source: 'c', target: 'j' } },
-      { data: { id: 'co', label: 'edge-Y', name: 'edge CO', weight: 2, source: 'c', target: 'o' } },
-      { data: { id: 'di', label: 'edge-Y', name: 'edge DI', weight: 7, source: 'd', target: 'i' } },
-      { data: { id: 'dq', label: 'edge-Y', name: 'edge DQ', weight: 6, source: 'd', target: 'q' } },
-      { data: { id: 'eh', label: 'edge-Z', name: 'edge EH', weight: 2, source: 'e', target: 'h' } },
-      { data: { id: 'fk', label: 'edge-Z', name: 'edge FK', weight: 9, source: 'f', target: 'k' } },
-      { data: { id: 'kl', label: 'edge-Z', name: 'edge kl', weight: 5, source: 'k', target: 'l' } },
-      { data: { id: 'ke', label: 'edge-Z', name: 'edge KE', weight: 5, source: 'k', target: 'e' } },
-      { data: { id: 'kn', label: 'edge-Z', name: 'edge KN', weight: 7, source: 'k', target: 'n' } },
-      { data: { id: 'mj', label: 'edge-Z', name: 'edge MJ', weight: 1, source: 'm', target: 'j' } },
-      { data: { id: 'na', label: 'edge-Z', name: 'edge NA', weight: 1, source: 'n', target: 'a' } },
-      { data: { id: 'np', label: 'edge-Z', name: 'edge np', weight: 2, source: 'n', target: 'p' } },
-      { data: { id: 'pe', label: 'edge-Z', name: 'edge PE', weight: 3, source: 'p', target: 'e' } },
-      { data: { id: 'pf', label: 'edge-Z', name: 'edge PF', weight: 8, source: 'p', target: 'f' } },
-      { data: { id: 'pg', label: 'edge-Z', name: 'edge PG', weight: 4, source: 'p', target: 'g' } },
-      { data: { id: 'rk', label: 'edge-Z', name: 'edge RK', weight: 8, source: 'r', target: 'k' } },
-    ]},
-
-  ];
 
   // Public Property : Layout Options
   agens.graph.layoutTypes = [
@@ -387,7 +330,7 @@
   agens.graph.defaultSetting = {
     container: document.getElementById('agens-graph'),
     style: agens.graph.defaultStyle,
-    elements: agens.graph.demoData[0],    
+    elements: { nodes: [], edges: [] },   // agens.graph.demoData[0],
     layout: agens.graph.layoutTypes[0],
     // initial viewport state:
     zoom: 1,
@@ -459,10 +402,66 @@
       }
     });
 
+    var panProps = ({
+        zoomFactor: 0.05, // zoom factor per zoom tick
+        zoomDelay: 45, // how many ms between zoom ticks
+        minZoom: 0.1, // min zoom level
+        maxZoom: 10, // max zoom level
+        fitPadding: 50, // padding when fitting
+        panSpeed: 10, // how many ms in between pan ticks
+        panDistance: 10, // max pan distance per tick
+        panDragAreaSize: 75, // the length of the pan drag box in which the vector for panning is calculated (bigger = finer control of pan speed and direction)
+        panMinPercentSpeed: 0.25, // the slowest speed we can pan by (as a percent of panSpeed)
+        panInactiveArea: 8, // radius of inactive area in pan drag box
+        panIndicatorMinOpacity: 0.5, // min opacity of pan indicator (the draggable nib); scales from this to 1.0
+        autodisableForMobile: true, // disable the panzoom completely for mobile (since we don't really need it with gestures like pinch to zoom)
+        // icon class names
+        sliderHandleIcon: 'fa fa-minus',
+        zoomInIcon: 'fa fa-plus',
+        zoomOutIcon: 'fa fa-minus',
+        resetIcon: 'fa fa-expand'    });
+    agens.cy.panzoom(panProps);
+
     // adjust layout
     agens.cy.makeLayout(agens.graph.layoutTypes[0]).run();
     agens.cy.fit( agens.cy.elements(), 50 ); // fit to all the layouts
     agens.cy.resize();    
+  };
+
+  // private Function 
+  var makeid = function(){
+    var text = "_id_";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+  }
+
+  // public Function : addNode
+  agens.graph.addNode = function( name, w, h, color, shape, borderColor, property ) {
+    var props = {};
+    try {
+      props = JSON.parse( property );
+      if( props.hasOwnProperty('name') && props.name != "" ) name = props.name;
+    }catch(e){
+      console.error("addNode(): json.parse error on property!\n"+property);
+    }
+
+    props.vid = makeid();
+    props.name = name;
+    if( !props.hasOwnProperty('label') || props.label == "" ) props.label = "none";
+    var newNode = {
+        group: "nodes",
+        data: { 'id': props.id, 'name': props.name, 'label': props.label, 'props': props },
+        position: { x: agens.graph.cyPosition.x, y: agens.graph.cyPosition.y },
+        selectable: true, selected: false, classes: 'user-add',
+        css: {
+          'content': 'data(name)',
+          'shape': shape, 'width': w, 'height': h, 'background-color': color,
+          'text-valign': 'center', 'text-outline-width': 2, 'text-outline-color': '#888',
+          'border-width': 1, 'border-color': borderColor
+    }};
+    agens.cy.add(newNode);
   };
 
   // Public Function : graphFactory()
@@ -500,24 +499,27 @@
       selector: 'node, edge',
       menuRadius: 80,
       fillColor: 'rgba(50, 0, 0, 0.65)',
-      commands: [{
-          content: '<span>Styles</span>',
-          select: function(ele){
-            console.log( ele.id() );
-          }
-        },{
-          content: '<span>Properties</span>',
+      commands: [
+        // {
+        //   content: '<span style="display:inline-block; width:20px; font-size:10pt">Styles</span>',
+        //   select: function(ele){
+        //     console.log( ele.id() );
+        //   }
+        // },
+        {
+          content: '<span style="display:inline-block; width:20px; font-size:10pt">Property</span>',
           select: function(ele){
             console.log( ele.data('name') );
+            agens.dialog.openPropertyBox( ele );
           }
           //, disabled: true
         },{
-          content: '<span>remove</span>',
+          content: '<span style="display:inline-block; width:20px; font-size:10pt">remove</span>',
           select: function(ele){
             agens.cy.$("#"+ele.id()).remove();
           }
         },{
-          content: '<span>hide</span>',
+          content: '<span style="display:inline-block; width:20px; font-size:10pt">hide</span>',
           select: function(){
             agens.api.view.hide(agens.cy.$(":selected"));
           }
@@ -532,22 +534,20 @@
       fillColor: 'rgba(0, 60, 0, 0.65)',
       commands: [
         {
-          content: '<span>add Node</span>',
+          content: '<span style="display:inline-block; width:20px; font-size:10pt">add Node</span>',
           select: function(){
             event.preventDefault();
-            agens.dialog.propertyBox.dialog( "open" );
-            // addNode();
+            agens.dialog.openAddNodeBox("open");
           }
         },{
-          content: '<span>show All</span>',
+          content: '<span style="display:inline-block; width:20px; font-size:10pt">show All</span>',
           select: function(){
             agens.api.view.show(agens.cy.elements());
           },
-          //disabled: true
         },{
-          content: '<span>select Theme</span>',
+          content: '<span style="display:inline-block; width:20px; font-size:10pt">make Compound for selected</span>',
           select: function(){
-            console.log("Menu: select Theme")
+            console.log("Menu: make Compound for selected");
           }
         }
       ]
@@ -640,42 +640,207 @@
 
   agens.dialog.ready = function(){
     $("#agens-node-box").hide();
-    $("#agens-property-box").hide();
-    $("#agens-style-box").hide();
+    $("#agens-edge-box").hide();
+    $("#agens-image-export").hide();
+  }
+  agens.dialog.ready();
+
+  agens.dialog.setting = {
+    'addNode': {
+        autoOpen: false,
+        title: 'New Node Box',
+        modal: true,
+        maxWidth: 400,
+        maxHeight: 600,
+        draggable: true,
+        resizable: false,
+        position: { my: "center", at: "center", of: window },
+        show: 'fade',      // 'blind'
+        hide: 'fade',      // 'fade'
+        closeText: 'close',
+        buttons: [{
+          text: "Done",
+          icons: {
+            primary: "ui-icon-heart"
+          },
+          click: function() {
+              var name = $("#property-node-name").val().trim();
+              var property = $("#property-node-props").val().trim();
+              var w = $("#property-node-width").val() == "" ? null : Number($("#property-node-width").val());
+              var h = $("#property-node-height").val() == "" ? null : Number($("#property-node-height").val());
+              var color = $("#property-node-color").val();
+              var shape = $("#property-node-shape").val();
+              var borderColor = $("#property-node-border-color").val();
+
+              agens.graph.addNode(name, w, h, color, shape, borderColor, property);
+              $(this).dialog("close");
+          }
+      }]      
+    },
+    'nodeProperty': {
+        autoOpen: false,
+        title: 'Node Property Box',
+        modal: true,
+        maxWidth: 400,
+        maxHeight: 600,
+        draggable: true,
+        resizable: false,
+        position: { my: "center", at: "center", of: window },
+        show: 'fade',      // 'blind'
+        hide: 'fade',      // 'fade'
+        closeText: 'close',
+        buttons: [{
+          text: "Update",
+          icons: {
+            primary: "ui-icon-heart"
+          },
+          click: function() {
+              var name = $("#property-node-name").val().trim();
+              var property = $("#property-node-props").val().trim();
+              var w = $("#property-node-width").val() == "" ? null : Number($("#property-node-width").val());
+              var h = $("#property-node-height").val() == "" ? null : Number($("#property-node-height").val());
+              var color = $("#property-node-color").val();
+              var shape = $("#property-node-shape").val();
+              var borderColor = $("#property-node-border-color").val();
+
+              agens.graph.updateNode(name, w, h, color, shape, borderColor, property);
+              $(this).dialog("close");
+          }
+      }]      
+    },
+    'edgeProperty': {
+        autoOpen: false,
+        title: 'Edge Property Box',
+        modal: true,
+        maxWidth: 400,
+        maxHeight: 600,
+        draggable: true,
+        resizable: false,
+        position: { my: "center", at: "center", of: window },
+        show: 'fade',      // 'blind'
+        hide: 'fade',      // 'fade'
+        closeText: 'close',
+        buttons: [{
+          text: "Update",
+          icons: {
+            primary: "ui-icon-heart"
+          },
+          click: function() {
+              var name = $("#property-edge-name").val().trim();
+              var property = $("#property-edge-props").val().trim();
+              var w = $("#property-edge-width").val() == "" ? null : Number($("#property-edge-width").val());
+              var h = $("#property-edge-height").val() == "" ? null : Number($("#property-edge-height").val());
+              var color = $("#property-edge-color").val();
+              var shape = $("#property-edge-shape").val();
+              var borderColor = $("#property-edge-border-color").val();
+
+              agens.graph.updateEdge(name, w, h, color, shape, borderColor, property);
+              $(this).dialog("close");
+          }
+      }]      
+    },
+    'imageExport': {
+        autoOpen: false,
+        title: 'Image Export Box',
+        modal: true,
+        minWidth: 800,
+        minHeight: 400,
+        draggable: true,
+        resizable: true,
+        position: { my: "center", at: "center", of: window },
+        show: 'fade',      // 'blind'
+        hide: 'fade',      // 'fade'
+        closeText: 'close',
+        buttons: [{
+          text: "Export",
+          icons: {
+            primary: "ui-icon-heart"
+          },
+          click: function() {
+            var pngContent = $("#agens-image-export").find("img").attr("src");
+            // this is to remove the beginning of the pngContent: data:img/png;base64,
+            var b64data = pngContent.substr(pngContent.indexOf(",") + 1);
+            saveAs(b64toBlob(b64data, "image/png"), "agens-graph-export.png");
+          }
+      },{
+          text: "Cancel",
+          click: function() { $(this).dialog("close"); }        
+      }]
+    }
   };
 
-  agens.dialog.propertyBox = $( "#agens-node-box" ).dialog({
-      autoOpen: false,
-      title: 'Property Box',
-      modal: true,
-      maxWidth: 400,
-      maxHeight: 600,
-      draggable: true,
-      resizable: false,
-      position: { my: "center", at: "center", of: window },
-      show: 'fade',      // 'blind'
-      hide: 'fade',      // 'fade'
-      closeText: 'close',
-      buttons: [{
-        text: "Done",
-        icons: {
-          primary: "ui-icon-heart"
-        },
-        click: function() {
-            var name = $("#new-node-name").val();
-            var w = $("#new-node-width").val() == "" ? null : Number($("#new-node-width").val());
-            var h = $("#new-node-height").val() == "" ? null : Number($("#new-node-height").val());
-            var x = $("#new-node-x").val() == "" ? null : Number($("#new-node-x").val());
-            var y = $("#new-node-y").val() == "" ? null : Number($("#new-node-y").val());
-            var color = $("#new-node-color").val();
-            var shape = $("#new-node-shape").val();
-            var borderColor = $("#new-node-border-color").val();
-            console.log(name, x, y, w, h, color, shape,borderColor/*, borderWidth */);
-            $(this).dialog("close");
-        }
-    }]      
-  });
+  agens.dialog.openAddNodeBox = function(){
+    var element = $("#agens-node-box");
+    element.find("#property-node-name").val("node#0");
+    element.find("#property-node-props").val(`{\n  "label": ""\n}`);
+    element.find("#property-node-width").val('40px');
+    element.find("#property-node-height").val('40px');
+    element.find("#property-node-color").val("#c80000");
+    element.find("#property-node-shape").val("rectangle");
+    element.find("#property-node-border-color").val("#000000");
+
+    element.dialog( agens.dialog.setting.addNode );
+    element.dialog( "open" );
+  }
+
+  agens.dialog.openPropertyBox = function( ele ){
+    var element = null;
+    // Node Property
+    if( ele.isNode() ){
+      element = $("#agens-node-box");
+      element.find("#property-node-name").val(ele.data('name'));
+      element.find("#property-node-props").val(JSON.stringify( ele.data('props') ));
+      element.find("#property-node-width").val(ele.style("width"));
+      element.find("#property-node-height").val(ele.style("height"));
+      element.find("#property-node-color").val(ele.style("background-color"));
+      element.find("#property-node-shape").val(ele.style("shape"));
+      element.find("#property-node-border-color").val(ele.style("border-color"));
+      element.dialog( agens.dialog.setting.nodeProperty );
+    }
+    // Edge Property
+    else {
+      element = $("#agens-edge-box");
+      element.dialog( agens.dialog.setting.edgeProperty );
+    }
+
+    element.dialog( "open" );
+  }
+
+  agens.dialog.openImageExport = function(){
+    var element = $("#agens-image-export");
+    var png64 = agens.cy.png({scale : 3, full : true});
+    element.find("img").attr("src", png64);
+
+    element.dialog( agens.dialog.setting.imageExport );
+    element.dialog( "open" );
+  }
+
   /////////////////////////////////////////////////////////
   console.log("agens-graph.js is loaded!");
  
 }( window.agens = window.agens || {}, jQuery ));
+
+// see http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+}
