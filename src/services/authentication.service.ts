@@ -12,7 +12,7 @@ import { AgensRequestConnect } from '../models/agens-request-connect';
 export class AuthenticationService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
-  private apiUrl = GlobalConfig.AGENS_DEMO_API;
+  private apiUrl = `${window.location.protocol}//${window.location.host}/${GlobalConfig.AGENS_DEMO_API}`;
   private userKey = GlobalConfig.USER_KEY;
   private isDoing = false;
   
@@ -26,6 +26,7 @@ export class AuthenticationService {
 
   public login(request:AgensRequestConnect) {
     const url = `${this.apiUrl}/connect`;
+    console.log( `try login ==> ${url}`);
 
     return this.http
       .post(url, JSON.stringify(request), {headers: this.headers})
@@ -90,6 +91,7 @@ export class AuthenticationService {
 
     // release connection in server
     const url = `${this.apiUrl}/is_login`;
+    
     return this.http.get(url, {headers: this.createAuthorizationHeader(token)})
       .toPromise()
       .then((response: Response) => {
@@ -107,6 +109,14 @@ export class AuthenticationService {
     
     // remove user from local storage to log user out
     this.removeStorage( this.userKey );
+    // if userKey, release connection in server (Async)
+    if( !this.isDoing ) {
+      this.releaseConnection(token).subscribe(
+        data => {
+          console.log('releaseConnection() is done!');
+          this.isDoing = false;
+        });
+    }
     return true;
   }
 
@@ -120,6 +130,7 @@ export class AuthenticationService {
 
     // release connection in server
     const url = `${this.apiUrl}/disconnect`;
+    
     return this.http.get(url, {headers: this.createAuthorizationHeader(token)})
       .map((response: Response) => {
         console.log('logout() => '+JSON.stringify(response.json()));

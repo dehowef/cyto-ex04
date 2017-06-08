@@ -13,8 +13,8 @@ import { HelpComponent } from './main/help/help.component';
 import { AuthGuardService } from '../services/auth-guard.service';
 
 const routes: Routes = [
-  {path: 'login', component: LoginComponent},
-  {path: '', component: MainComponent, canActivate: [AuthGuardService], children: [
+  { path: 'login', component: LoginComponent },
+  { path: '', component: MainComponent, canActivate: [AuthGuardService], children: [
     {
       path: '', component: DashboardComponent   //, data: { shouldDetach: true }
     },{ 

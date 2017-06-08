@@ -44,8 +44,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
     // for TEST
-    this.request.host = '27.117.163.21';
-    this.request.port = '15602';
+    // this.request.host = '27.117.163.21';
+    // this.request.port = '15602';
+    this.request.host = '127.0.0.1';
+    this.request.port = '6179';
     this.request.db = 'imdb';
     this.request.user_id = 'agraph';
     this.request.user_pw = '';

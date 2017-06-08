@@ -13,7 +13,7 @@ import { AgensResponseResult } from '../models/agens-response-result';
 @Injectable()
 export class AgensApiService {
   
-  private apiUrl = GlobalConfig.AGENS_DEMO_API;
+  private apiUrl = `${window.location.protocol}//${window.location.host}/${GlobalConfig.AGENS_DEMO_API}`;
 
   constructor (
     private http: Http,
@@ -27,6 +27,7 @@ export class AgensApiService {
   dbMeta() {
     const url = `${this.apiUrl}/db`;
     var headers = this.auth.createAuthorizationHeader(this.auth.getToken());
+    console.log( `try dbMeta ==> ${url}`);
 
     return this.http
       .get(url,{headers: headers})
@@ -40,6 +41,7 @@ export class AgensApiService {
   dbLabel( request:AgensRequestLabel ) {
     const url = `${this.apiUrl}/label`;
     var headers = this.auth.createAuthorizationHeader(this.auth.getToken());
+    console.log( `try dbLabel ==> ${url}`);
 
     return this.http
       .post(url, JSON.stringify(request), {headers: headers})
@@ -53,6 +55,7 @@ export class AgensApiService {
   dbLabelCount( request:AgensRequestLabel ) {
     const url = `${this.apiUrl}/label_count`;
     var headers = this.auth.createAuthorizationHeader(this.auth.getToken());
+    console.log( `try dbLabelCount ==> ${url}`);
 
     return this.http
       .post(url, JSON.stringify(request), {headers: headers})
@@ -69,6 +72,7 @@ export class AgensApiService {
   dbQuery( request:AgensRequestQuery ){
     const url = `${this.apiUrl}/query`;
     var headers = this.auth.createAuthorizationHeader(this.auth.getToken());
+    console.log( `try dbQuery ==> ${url}`);
 
     return this.http
       .post(url, JSON.stringify(request), {headers: headers})

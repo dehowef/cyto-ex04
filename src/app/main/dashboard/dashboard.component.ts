@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   // call API: db
   loadMetaData(){
-/*
+
     this.loading = true;
     this.apiSerivce.dbMeta()
       .then(data => {
@@ -85,7 +85,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.treeData = [ this.metaData.toTreeData() ];
         this.loading = false;
       });
-*/
+/*/
     // TEST using json file
     const req = new XMLHttpRequest();
     req.open('GET', `data/demo-meta.json`);
@@ -98,7 +98,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.loading = false;
     };
     req.send();
-    
+*/    
   }
 
   // Tree initialize event   
