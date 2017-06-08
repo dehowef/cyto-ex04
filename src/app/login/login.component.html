@@ -62,9 +62,8 @@
                   </div>
               </div>
               <div layout="column"> 
-                  <md-checkbox color="accent" class="text-md inline-block tc-grey-600">Remember Me</md-checkbox>  
+                  <md-checkbox [(ngModel)]="isChecked" (change)="onChangeCheckbox($event)" color="accent" class="inline-block tc-grey-600">Remember Me</md-checkbox>
                   <button md-ripple md-raised-button [routerLink]="['/']" color="primary" [disabled]="!loginForm.form.valid" (click)="login()" flex> SIGN-IN</button>
-                  <a [routerLink]="['/register']" class="text-md text-center" flex>Don't have an Account? <u>SIGN-UP</u></a>  
               </div> 
               <ag-alert></ag-alert>
 

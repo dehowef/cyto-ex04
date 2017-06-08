@@ -18,7 +18,9 @@ export class AuthenticationService {
   
   constructor(
     private http: Http
-  ) { }
+  ) { 
+    if( GlobalConfig.DEV_MODE ) this.apiUrl = GlobalConfig.DEV_DEMO_API;    
+  }
 
   public createAuthorizationHeader( token:String ):Headers {
     return new Headers({'Content-Type': 'application/json', 'Authorization':token}); 
@@ -138,7 +140,7 @@ export class AuthenticationService {
       .catch(this.handleError);
   }
 
-  private removeStorage(key) {
+  public removeStorage(key) {
     try {
         localStorage.removeItem(key);
         localStorage.removeItem(key + '_expiresIn');
@@ -149,7 +151,7 @@ export class AuthenticationService {
     return true; 
   }
 
-  private getStorage(key) {
+  public getStorage(key) {
     // set expiration for storage
     var expiresIn = Number(localStorage.getItem(key+'_expiresIn'));
     if( expiresIn===undefined || expiresIn===null ){ 
@@ -172,7 +174,7 @@ export class AuthenticationService {
     }
   }
 
-  private setStorage(key, value, expires) {
+  public setStorage(key, value, expires) {
     if( expires===undefined || expires===null ){
         expires = (1*60*60);  // default: seconds for 1 hour
     } else {

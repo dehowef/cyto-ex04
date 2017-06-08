@@ -18,7 +18,9 @@ export class AgensApiService {
   constructor (
     private http: Http,
     private auth: AuthenticationService
-  ) {}
+  ) {
+    if( GlobalConfig.DEV_MODE ) this.apiUrl = GlobalConfig.DEV_DEMO_API;
+  }
 
   dbUser() {
     return this.auth.getUserInfo();

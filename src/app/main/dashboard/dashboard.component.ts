@@ -2,6 +2,7 @@ import { Component, ViewChild , OnInit, ElementRef, AfterViewInit } from '@angul
 import { TdMediaService, TdDialogService } from '@covalent/core';
 import { Router } from '@angular/router';
 
+import * as GlobalConfig from '../../global.config';
 import { AgensApiService } from '../../../services/agens-api.service';
 import { AgensResponseMetaDb, AgensResponseMetaGraph, AgensResponseMetaLabel } from '../../../models/agens-response-meta';
 import { AgensRequestLabel } from '../../../models/agens-request-label';
@@ -75,30 +76,33 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   // call API: db
   loadMetaData(){
 
-    this.loading = true;
-    this.apiSerivce.dbMeta()
-      .then(data => {
-        this.metaData = new AgensResponseMetaDb(data);
+    // for TEST
+    if( !GlobalConfig.DEV_MODE ){
+      this.loading = true;
+      this.apiSerivce.dbMeta()
+        .then(data => {
+          this.metaData = new AgensResponseMetaDb(data);
+          this.db_owner = this.metaData.owner;
+          this.db_desc = this.metaData.desc;
+
+          this.treeData = [ this.metaData.toTreeData() ];
+          this.loading = false;
+        });
+    }
+    else{
+      // TEST using json file
+      const req = new XMLHttpRequest();
+      req.open('GET', `data/demo-meta.json`);
+      req.onload = () => {
+        this.metaData = new AgensResponseMetaDb( JSON.parse(req.response) );
         this.db_owner = this.metaData.owner;
         this.db_desc = this.metaData.desc;
 
         this.treeData = [ this.metaData.toTreeData() ];
         this.loading = false;
-      });
-/*/
-    // TEST using json file
-    const req = new XMLHttpRequest();
-    req.open('GET', `data/demo-meta.json`);
-    req.onload = () => {
-      this.metaData = new AgensResponseMetaDb( JSON.parse(req.response) );
-      this.db_owner = this.metaData.owner;
-      this.db_desc = this.metaData.desc;
-
-      this.treeData = [ this.metaData.toTreeData() ];
-      this.loading = false;
-    };
-    req.send();
-*/    
+      };
+      req.send();
+    }
   }
 
   // Tree initialize event   

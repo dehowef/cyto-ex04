@@ -457,9 +457,9 @@
         selectable: true, selected: false, classes: 'user-add',
         css: {
           'content': 'data(name)',
-          'shape': shape, 'width': w, 'height': h, 'background-color': color,
+          'shape': shape, 'width': w, 'height': h, 'background-color': '#'+color,
           'text-valign': 'center', 'text-outline-width': 2, 'text-outline-color': '#888',
-          'border-width': 1, 'border-color': borderColor
+          'border-width': 1, 'border-color': '#'+borderColor
     }};
     agens.cy.add(newNode);
   };
@@ -604,12 +604,12 @@
       agens.api.view.removeHighlights();
       agens.api.view.highlightNeighbors( e.cyTarget );
     });
-    agens.cy.on('mouseover', 'node', function(e){
-      this.addClass('highlighted');
-    });
-    agens.cy.on('mouseout', 'node', function(e){
-      this.removeClass('highlighted');
-    });
+    // agens.cy.on('mouseover', 'node', function(e){
+    //   this.addClass('highlighted');
+    // });
+    // agens.cy.on('mouseout', 'node', function(e){
+    //   this.removeClass('highlighted');
+    // });
     agens.cy.on('cxttapstart', function(e){
       agens.graph.cyPosition = e.cyPosition;
     });
@@ -770,21 +770,24 @@
   };
 
   agens.dialog.openAddNodeBox = function(){
+    jscolor.installByClassName("jscolor");
     var element = $("#agens-node-box");
     element.find("#property-node-name").val("node#0");
     element.find("#property-node-props").val(`{\n  "label": ""\n}`);
     element.find("#property-node-width").val('40px');
     element.find("#property-node-height").val('40px');
-    element.find("#property-node-color").val("#c80000");
+    element.find("#property-node-color").val("c80000");
     element.find("#property-node-shape").val("rectangle");
-    element.find("#property-node-border-color").val("#000000");
+    element.find("#property-node-border-color").val("000000");
 
     element.dialog( agens.dialog.setting.addNode );
     element.dialog( "open" );
   }
 
   agens.dialog.openPropertyBox = function( ele ){
+   jscolor.installByClassName("jscolor");
     var element = null;
+
     // Node Property
     if( ele.isNode() ){
       element = $("#agens-node-box");
@@ -792,9 +795,9 @@
       element.find("#property-node-props").val(JSON.stringify( ele.data('props') ));
       element.find("#property-node-width").val(ele.style("width"));
       element.find("#property-node-height").val(ele.style("height"));
-      element.find("#property-node-color").val(ele.style("background-color"));
+      element.find("#property-node-color").val(ele.style("background-color").replace('#',''));
       element.find("#property-node-shape").val(ele.style("shape"));
-      element.find("#property-node-border-color").val(ele.style("border-color"));
+      element.find("#property-node-border-color").val(ele.style("border-color").replace('#',''));
       element.dialog( agens.dialog.setting.nodeProperty );
     }
     // Edge Property
