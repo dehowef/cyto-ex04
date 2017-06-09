@@ -60,7 +60,13 @@
         </ng-template>
       </ngx-datatable-row-detail>
 
-      <ngx-datatable-column *ngFor="let col of result_table_columns" name="{{col.name}}" 
+      <ngx-datatable-column name="ROWNUM" [width]="80" [maxWidth]="80" [canAutoResize]="false">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <span>{{ row.rowNum }}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column *ngFor="let col of result_table_columns | slice:1" name="{{col.name}}" 
           [canAutoResize]="true" [minWidth]="100" [width]="120">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <button *ngIf="col.isAgensType" md-icon-button mdTooltip="Expand/Collapse Row"
