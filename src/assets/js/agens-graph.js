@@ -30,6 +30,8 @@
   agens.api = agens.api || {};
   agens.dialog = agens.dialog || {};
 
+  imageFilename = "Test.png";
+
   /////////////////////////////////////////////////////////
   //  NAMESPACE: agens.graph
   /////////////////////////////////////////////////////////
@@ -642,13 +644,14 @@
     $("#agens-node-box").hide();
     $("#agens-edge-box").hide();
     $("#agens-image-export").hide();
+    $("#agens-json-export").hide();
   }
   agens.dialog.ready();
 
   agens.dialog.setting = {
     'addNode': {
         autoOpen: false,
-        title: 'New Node Box',
+        title: 'New Node',
         modal: true,
         maxWidth: 400,
         maxHeight: 600,
@@ -679,7 +682,7 @@
     },
     'nodeProperty': {
         autoOpen: false,
-        title: 'Node Property Box',
+        title: 'Node Property',
         modal: true,
         maxWidth: 400,
         maxHeight: 600,
@@ -710,7 +713,7 @@
     },
     'edgeProperty': {
         autoOpen: false,
-        title: 'Edge Property Box',
+        title: 'Edge Property',
         modal: true,
         maxWidth: 400,
         maxHeight: 600,
@@ -741,7 +744,7 @@
     },
     'imageExport': {
         autoOpen: false,
-        title: 'Image Export Box',
+        title: 'Image Export',
         modal: true,
         minWidth: 800,
         minHeight: 400,
@@ -758,9 +761,42 @@
           },
           click: function() {
             var pngContent = $("#agens-image-export").find("img").attr("src");
+            //var png64 = agens.cy.png({scale : 3, background: $("image-export-background-color").val(), full : true}).src;
+            var element = $("#image-export-file-name");
+
             // this is to remove the beginning of the pngContent: data:img/png;base64,
             var b64data = pngContent.substr(pngContent.indexOf(",") + 1);
-            saveAs(b64toBlob(b64data, "image/png"), "agens-graph-export.png");
+            //var b64data = png64.substr(png64.indexOf(",") + 1);
+            saveAs(b64toBlob(b64data, "image/png"), element.val());
+          }
+      },{
+          text: "Cancel",
+          click: function() { $(this).dialog("close"); }        
+      }]
+    },
+    'JsonExport': {
+        autoOpen: false,
+        title: 'JSON Export',
+        modal: true,
+        minWidth: 400,
+        minHeight: 100,
+        draggable: true,
+        resizable: true,
+        position: { my: "center", at: "center", of: window },
+        show: 'fade',      // 'blind'
+        hide: 'fade',      // 'fade'
+        closeText: 'close',
+        buttons: [{
+          text: "Export",
+          icons: {
+            primary: "ui-icon-heart"
+          },
+          click: function() {
+            var element = $("#json-export-file-name");
+            //console.log(element.val());
+            //console.log(JSON.stringify(agens.cy.json()));
+            blob = new Blob([JSON.stringify(agens.cy.json())], {type: "text/plain;charset=utf-8"});
+            saveAs( blob, element.val());
           }
       },{
           text: "Cancel",
@@ -816,6 +852,16 @@
 
     element.dialog( agens.dialog.setting.imageExport );
     element.dialog( "open" );
+    element.find("#image-export-file-name").val(ele.data('name'));
+    element.find("#image-export-background-color").val(ele.data('name'));
+  }
+
+    agens.dialog.openJsonExport = function(){
+    var element = $("#agens-json-export");
+
+    element.dialog( agens.dialog.setting.JsonExport );
+    element.dialog( "open" );
+    element.find("#json-export-file-name").val(ele.data('name'));
   }
 
   /////////////////////////////////////////////////////////
