@@ -1,4 +1,4 @@
-export const DEV_MODE: boolean = true;
+export const DEV_MODE: boolean = false;
 export const DEV_DEMO_API: string = 'http://127.0.0.1:8085/api/v1/demo';
 export const DEV_AUTH_API: string = 'http://127.0.0.1:8085/api/v1/auth';
 

@@ -36,6 +36,16 @@
 
   // Public Property : defaultStyle
   agens.graph.defaultStyle = [{
+      selector: 'core',
+			css: {
+					"selection-box-color": "#11bf1c",
+					"selection-box-opacity": 0.25,
+					"selection-box-border-color": "#aaa",
+					"selection-box-border-width": 1,
+					"panning-cursor": "grabbing",
+					"active-bg-color": "black",
+					"active-bg-opacity": 0.15,
+			}}, {
       selector: 'node',
       css: {
           'content': 'data(name)',
@@ -58,9 +68,17 @@
       }}, {
       selector: 'node:selected',
       css: {
-          'background-color': 'black',
+          'background-color': 'back',
           'text-outline-color': 'black',
           'border-color': 'black',
+          'border-width': 3,
+          'opacity': 1
+      }},{
+      selector: 'node:locked',
+      css: {
+          'background-color': 'red',
+          'text-outline-color': 'black',
+          'border-color': 'white',
           'border-width': 3,
           'opacity': 1
       }},{
@@ -82,6 +100,13 @@
           'width': 4,
           'opacity':1,
           'target-arrow-color': 'black',
+      }},{
+      selector: 'edge:locked',
+      css: {
+          'line-color': 'red',
+          'width': 4,
+          'opacity':1,
+          'target-arrow-color': 'red',
       }},{
       selector: '.highlighted',
       css: {
@@ -442,14 +467,14 @@
     var props = {};
     try {
       props = JSON.parse( property );
-      if( props.hasOwnProperty('name') && props.name != "" ) name = props.name;
     }catch(e){
       console.error("addNode(): json.parse error on property!\n"+property);
     }
 
-    props.vid = makeid();
     props.name = name;
+    props.vid = makeid();
     if( !props.hasOwnProperty('label') || props.label == "" ) props.label = "none";
+
     var newNode = {
         group: "nodes",
         data: { 'id': props.id, 'name': props.name, 'label': props.label, 'props': props },
@@ -462,6 +487,32 @@
           'border-width': 1, 'border-color': '#'+borderColor
     }};
     agens.cy.add(newNode);
+  };
+
+  // public Function: updateNode
+  agens.graph.updateNode = function( id, name, w, h, color, shape, borderColor, property ) {
+    var props = {};
+    try {
+      props = JSON.parse( property );
+    }catch(e){
+      console.error("addNode(): json.parse error on property!\n"+property);
+    }
+
+    props.name = name;
+    if( !props.hasOwnProperty('vid') || props.vid == "" ) props.vid = makeid();
+    if( !props.hasOwnProperty('label') || props.label == "" ) props.label = "none";
+
+    agens.cy.$('#'+id)
+      .data('name', name)
+      .data('label', props.label)
+      .data('props', props)
+      .addClass('user-update')
+      .style({
+          'content': 'data(name)',
+          'shape': shape, 'width': w, 'height': h, 'background-color': '#'+color,
+          'text-valign': 'center', 'text-outline-width': 2, 'text-outline-color': '#888',
+          'border-width': 1, 'border-color': '#'+borderColor
+      });
   };
 
   // Public Function : graphFactory()
@@ -499,28 +550,28 @@
       selector: 'node, edge',
       menuRadius: 80,
       fillColor: 'rgba(50, 0, 0, 0.65)',
-      commands: [
-        // {
-        //   content: '<span style="display:inline-block; width:20px; font-size:10pt">Styles</span>',
-        //   select: function(ele){
-        //     console.log( ele.id() );
-        //   }
-        // },
-        {
+      commands: [{
+          content: '<span style="display:inline-block; width:20px; font-size:10pt">Lock</span>',
+          select: function(ele){
+            agens.cy.$('#'+ele.id()).select();
+            if( agens.cy.$('#'+ele.id()).locked() ) agens.cy.$(":selected").unlock();
+            else agens.cy.$(":selected").lock();
+          }
+        },{
           content: '<span style="display:inline-block; width:20px; font-size:10pt">Property</span>',
           select: function(ele){
-            console.log( ele.data('name') );
             agens.dialog.openPropertyBox( ele );
           }
-          //, disabled: true
         },{
           content: '<span style="display:inline-block; width:20px; font-size:10pt">remove</span>',
           select: function(ele){
-            agens.cy.$("#"+ele.id()).remove();
+            agens.cy.$('#'+ele.id()).select();
+            agens.cy.$(":selected").remove();
           }
         },{
           content: '<span style="display:inline-block; width:20px; font-size:10pt">hide</span>',
-          select: function(){
+          select: function(ele){
+            agens.cy.$('#'+ele.id()).select();
             agens.api.view.hide(agens.cy.$(":selected"));
           }
         }
@@ -532,8 +583,7 @@
       menuRadius: 80,
       selector: 'core',
       fillColor: 'rgba(0, 60, 0, 0.65)',
-      commands: [
-        {
+      commands: [{
           content: '<span style="display:inline-block; width:20px; font-size:10pt">add Node</span>',
           select: function(){
             event.preventDefault();
@@ -542,12 +592,12 @@
         },{
           content: '<span style="display:inline-block; width:20px; font-size:10pt">show All</span>',
           select: function(){
-            agens.api.view.show(agens.cy.elements());
+            agens.api.view.show(agens.cy.$(":hidden"));
           },
         },{
-          content: '<span style="display:inline-block; width:20px; font-size:10pt">make Compound for selected</span>',
+          content: '<span style="display:inline-block; width:20px; font-size:10pt">unlock All</span>',
           select: function(){
-            console.log("Menu: make Compound for selected");
+            agens.cy.$(":locked").unlock();
           }
         }
       ]
@@ -666,8 +716,8 @@
           click: function() {
               var name = $("#property-node-name").val().trim();
               var property = $("#property-node-props").val().trim();
-              var w = $("#property-node-width").val() == "" ? null : Number($("#property-node-width").val());
-              var h = $("#property-node-height").val() == "" ? null : Number($("#property-node-height").val());
+              var w = $("#property-node-width").val().replace(' ','');
+              var h = $("#property-node-height").val().replace(' ','');
               var color = $("#property-node-color").val();
               var shape = $("#property-node-shape").val();
               var borderColor = $("#property-node-border-color").val();
@@ -695,15 +745,16 @@
             primary: "ui-icon-heart"
           },
           click: function() {
+              var id = $("#property-node-id").val().trim();
               var name = $("#property-node-name").val().trim();
               var property = $("#property-node-props").val().trim();
-              var w = $("#property-node-width").val() == "" ? null : Number($("#property-node-width").val());
-              var h = $("#property-node-height").val() == "" ? null : Number($("#property-node-height").val());
+              var w = $("#property-node-width").val().replace(' ','');
+              var h = $("#property-node-height").val().replace(' ','');
               var color = $("#property-node-color").val();
               var shape = $("#property-node-shape").val();
               var borderColor = $("#property-node-border-color").val();
 
-              agens.graph.updateNode(name, w, h, color, shape, borderColor, property);
+              agens.graph.updateNode(id, name, w, h, color, shape, borderColor, property);
               $(this).dialog("close");
           }
       }]      
@@ -726,18 +777,19 @@
             primary: "ui-icon-heart"
           },
           click: function() {
+              var id = $("#property-edge-id").val().trim();
               var name = $("#property-edge-name").val().trim();
               var property = $("#property-edge-props").val().trim();
-              var w = $("#property-edge-width").val() == "" ? null : Number($("#property-edge-width").val());
-              var h = $("#property-edge-height").val() == "" ? null : Number($("#property-edge-height").val());
+              var w = $("#property-edge-width").val().replace(' ','');
+              var h = $("#property-edge-height").val().replace(' ','');
               var color = $("#property-edge-color").val();
               var shape = $("#property-edge-shape").val();
               var borderColor = $("#property-edge-border-color").val();
 
-              agens.graph.updateEdge(name, w, h, color, shape, borderColor, property);
+              agens.graph.updateEdge(id, name, w, h, color, shape, borderColor, property);
               $(this).dialog("close");
           }
-      }]      
+      }]
     },
     'imageExport': {
         autoOpen: false,
@@ -791,6 +843,7 @@
     // Node Property
     if( ele.isNode() ){
       element = $("#agens-node-box");
+      element.find("#property-node-id").val(ele.id());
       element.find("#property-node-name").val(ele.data('name'));
       element.find("#property-node-props").val(JSON.stringify( ele.data('props') ));
       element.find("#property-node-width").val(ele.style("width"));
@@ -803,6 +856,14 @@
     // Edge Property
     else {
       element = $("#agens-edge-box");
+      element.find("#property-edge-id").val(ele.id());
+      element.find("#property-edge-name").val(ele.data('name'));
+      element.find("#property-edge-props").val(JSON.stringify( ele.data('props') ));
+      element.find("#property-edge-width").val(ele.style("width"));
+      element.find("#property-edge-height").val(ele.style("height"));
+      element.find("#property-edge-color").val(ele.style("background-color").replace('#',''));
+      element.find("#property-edge-shape").val(ele.style("shape"));
+      element.find("#property-edge-border-color").val(ele.style("border-color").replace('#',''));
       element.dialog( agens.dialog.setting.edgeProperty );
     }
 
