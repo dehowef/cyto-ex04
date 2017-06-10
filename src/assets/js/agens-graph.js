@@ -43,8 +43,6 @@
 					"selection-box-border-color": "#aaa",
 					"selection-box-border-width": 1,
 					"panning-cursor": "grabbing",
-					"active-bg-color": "black",
-					"active-bg-opacity": 0.15,
 			}}, {
       selector: 'node',
       css: {
@@ -502,7 +500,7 @@
     if( !props.hasOwnProperty('vid') || props.vid == "" ) props.vid = makeid();
     if( !props.hasOwnProperty('label') || props.label == "" ) props.label = "none";
 
-    agens.cy.$('#'+id)
+    agens.cy.$(`[id='${id}']`)
       .data('name', name)
       .data('label', props.label)
       .data('props', props)
@@ -553,8 +551,8 @@
       commands: [{
           content: '<span style="display:inline-block; width:20px; font-size:10pt">Lock</span>',
           select: function(ele){
-            agens.cy.$('#'+ele.id()).select();
-            if( agens.cy.$('#'+ele.id()).locked() ) agens.cy.$(":selected").unlock();
+            agens.cy.$(`[id='${ele.id()}']`).select();
+            if( agens.cy.$(`[id='${ele.id()}']`).locked() ) agens.cy.$(":selected").unlock();
             else agens.cy.$(":selected").lock();
           }
         },{
@@ -565,13 +563,13 @@
         },{
           content: '<span style="display:inline-block; width:20px; font-size:10pt">remove</span>',
           select: function(ele){
-            agens.cy.$('#'+ele.id()).select();
+            agens.cy.$(`[id='${ele.id()}']`).select();
             agens.cy.$(":selected").remove();
           }
         },{
           content: '<span style="display:inline-block; width:20px; font-size:10pt">hide</span>',
           select: function(ele){
-            agens.cy.$('#'+ele.id()).select();
+            agens.cy.$(`[id='${ele.id()}']`).select();
             agens.api.view.hide(agens.cy.$(":selected"));
           }
         }
@@ -809,10 +807,13 @@
             primary: "ui-icon-heart"
           },
           click: function() {
-            var pngContent = $("#agens-image-export").find("img").attr("src");
+            // var pngContent = $("#agens-image-export").find("img").attr("src");
+            var bgcolor = $("#image-export-bgcolor").val();
+            var filename = $("#image-export-filename").val().replace(' ','');
+            var pngContent = agens.cy.png({scale : 3, full : true, bg: '#'+bgcolor});
             // this is to remove the beginning of the pngContent: data:img/png;base64,
             var b64data = pngContent.substr(pngContent.indexOf(",") + 1);
-            saveAs(b64toBlob(b64data, "image/png"), "agens-graph-export.png");
+            saveAs(b64toBlob(b64data, "image/png"), filename+".png");
           }
       },{
           text: "Cancel",
@@ -872,9 +873,11 @@
 
   agens.dialog.openImageExport = function(){
     var element = $("#agens-image-export");
-    var png64 = agens.cy.png({scale : 3, full : true});
+    var png64 = agens.cy.png({scale : 3, full : true });
     element.find("img").attr("src", png64);
-
+    element.find("#image-export-filename").val('agens-graph-export');
+    element.find("#image-export-bgcolor").val('FFFFFF');
+    element.find('#image-export-wrap')[0].style.backgroundColor = "#"+element.find("#image-export-bgcolor").val();
     element.dialog( agens.dialog.setting.imageExport );
     element.dialog( "open" );
   }
@@ -907,4 +910,8 @@ function b64toBlob(b64Data, contentType, sliceSize) {
 
     var blob = new Blob(byteArrays, {type: contentType});
     return blob;
+}
+
+function onImageExportChangeColor(jscolor){
+  $('#image-export-wrap')[0].style.backgroundColor = "#"+jscolor;
 }
