@@ -86,7 +86,7 @@ export class AgensTypeVertex {
         : (this.props.hasOwnProperty('title') ? this.props['title'] : this.vid);
     // name = '<b>111&nbsp; '+name+'</b>';    // 모두 텍스트로만 출력됨
     let ele = {'data': { 
-        'id': this.vid, 'label': this.label, 'name': name, 'props': this.props 
+        'id': ''+this.vid, 'label': this.label, 'name': name, 'props': this.props 
         }, selectable: true, selected: false};
     return ele;
   }
@@ -131,8 +131,8 @@ export class AgensTypeEdge {
     let name = this.props.hasOwnProperty('name') ? this.props['name']
         : (this.props.hasOwnProperty('title') ? this.props['title'] : this.eid);
     let ele = {'data': { 
-        'id': this.eid, 'label': this.label, 'name': name, 'props': this.props,
-        'source': this.svid, 'target': this.evid
+        'id': ''+this.eid, 'label': this.label, 'name': name, 'props': this.props,
+        'source': ''+this.svid, 'target': ''+this.evid
         }, selectable: true, selected: false};
     return ele;
   }

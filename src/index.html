@@ -75,9 +75,7 @@
   <!-- sbgn layout table will be shown here -->
   <div id="agens-node-box" style="width: auto; height: auto; display: none;"
           class="ui-dialog-content ui-widget-content">
-    <!--<span class="ui-state-default">
-      <span class="ui-icon ui-icon-info" style="float:left; margin:0 7px 0 0;"></span>
-    </span>-->
+    <input id="property-node-id" type="hidden" value="">
     <table><tbody><tr>
       <td><span class="add-on layout-text"> Name </span></td>
       <td><input id="property-node-name" type="text" value="New Node"></td>
@@ -123,25 +121,25 @@
 
   <div id="agens-edge-box" style="width: auto; height: auto; display: none;"
           class="ui-dialog-content ui-widget-content">
-      <!-- sbgn layout table will be shown here -->
+    <input id="property-edge-id" type="hidden" value="">
     <table><tbody><tr>
       <td><span class="add-on layout-text"> Name </span></td>
-      <td><input id="property-name" type="text" value="New Edge"></td>
+      <td><input id="property-edge-name" type="text" value="New Edge"></td>
     </tr><tr>
       <td><span class="add-on layout-text"> Width </span></td>
-      <td><input id="property-width" type="text" value="40px"></td>
+      <td><input id="property-edge-width" type="text" value="40px"></td>
     </tr><tr>
       <td><span class="add-on layout-text"> Height </span></td>
-      <td><input id="property-height" type="text" value="40px"></td>
+      <td><input id="property-edge-height" type="text" value="40px"></td>
     </tr><tr>
       <td><span class="add-on layout-text"> Border Color </span></td>
-      <td><input id="property-border-color" style="width:80px" class="jscolor" value="000000"></td>
+      <td><input id="property-edge-border-color" style="width:80px" class="jscolor" value="000000"></td>
     </tr><tr>
       <td><span class="add-on layout-text"> Color </span></td>
-      <td><input id="property-color" style="width:80px" class="jscolor" value="c80000"></td>
+      <td><input id="property-edge-color" style="width:80px" class="jscolor" value="c80000"></td>
     </tr><tr>
       <td><span class="add-on layout-text"> Shape </span></td>
-      <td><select id="new-node-shape">
+      <td><select id="property-edge-shape">
         <option value="rectangle" selected>Rectangle</option>
         <option value="triangle">Triangle</option>
         <option value="ellipse">Ellipse</option>
@@ -159,7 +157,7 @@
       </select></td>
     </tr><tr>
       <td><span class="add-on layout-text"> Property </span></td>
-      <td><div><textarea id="new-edge-props" name="props" rows="5" cols="20" style="width:100%; font-size: 10px;">
+      <td><div><textarea id="property-edge-props" name="props" rows="5" cols="20" style="width:100%; font-size: 10px;">
 {
   "label": ""
 }

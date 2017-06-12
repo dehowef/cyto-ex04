@@ -56,8 +56,21 @@
     ]},
     // demoData[1]
     { 
-      nodes: [],
-      edges: []
+      nodes: [
+      { data: { id: 'a', label: 'vertex-A', name: 'node A', props:{ href: 'http://js.cytoscape.org#a' }}, classes: 'demo-data', selectable: true, selected: false },
+      { data: { id: 'a', label: 'vertex-A', name: 'node A', props:{ href: 'http://js.cytoscape.org#a' }}, classes: 'demo-data', selectable: true, selected: false },
+      { data: { id: 'a', label: 'vertex-A', name: 'node A', props:{ href: 'http://js.cytoscape.org#a' }}, classes: 'demo-data', selectable: true, selected: false },
+      { data: { id: 'a', label: 'vertex-A', name: 'node A', props:{ href: 'http://js.cytoscape.org#a' }}, classes: 'demo-data', selectable: true, selected: false },
+      { data: { id: 'a', label: 'vertex-A', name: 'node A', props:{ href: 'http://js.cytoscape.org#a' }}, classes: 'demo-data', selectable: true, selected: false },
+      { data: { id: 'a', label: 'vertex-A', name: 'node A', props:{ href: 'http://js.cytoscape.org#a' }}, classes: 'demo-data', selectable: true, selected: false },
+      { data: { id: 'b', label: 'vertex-A', name: 'node B', props:{ href: 'http://js.cytoscape.org#b' }}, classes: 'demo-data', selectable: true, selected: false },
+      { data: { id: '11', label: 'vertex-A', name: 'node 11', props:{ href: 'http://js.cytoscape.org#a' }}, classes: 'demo-data', selectable: true, selected: false },
+      { data: { id: '12', label: 'vertex-A', name: 'node 12', props:{ href: 'http://js.cytoscape.org#b' }}, classes: 'demo-data', selectable: true, selected: false },
+      ],
+      edges: [
+      { data: { id: 'ab', label: 'edge-X', name: 'edge AB', weight: 1, source: 'a', target: 'b' }, classes: 'demo-data', selectable: true, selected: false },
+      { data: { id: '1112', label: 'edge-X', name: 'edge 1112', weight: 1, source: '11', target: '12' }, classes: 'demo-data', selectable: true, selected: false },
+      ]
     },
     // demoData[2]
     { 
