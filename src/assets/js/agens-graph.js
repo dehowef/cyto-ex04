@@ -515,6 +515,32 @@
       });
   };
 
+    // public Function: updateEdge
+  agens.graph.updateEdge = function( id, name, w, color, /*borderColor,*/ property ) {
+    var props = {};
+    try {
+      props = JSON.parse( property );
+    }catch(e){
+      console.error("addEdge(): json.parse error on property!\n"+property);
+    }
+
+    props.name = name;
+    if( !props.hasOwnProperty('eid') || props.eid == "" ) props.eid = makeid();
+    if( !props.hasOwnProperty('label') || props.label == "" ) props.label = "none";
+
+    agens.cy.$(`[id='${id}']`)
+      .data('name', name)
+      .data('label', props.label)
+      .data('props', props)
+      .addClass('user-update')
+      .style({
+          'content': 'data(name)',
+          'width': w,'line-color': '#'+color, 'target-arrow-color': '#'+color,
+          'text-valign': 'center', 'text-outline-width': 2, 'text-outline-color': '#888',
+          //'border-width': 1, 'border-color': '#'+borderColor
+      });
+  };
+
   // Public Function : graphFactory()
   agens.graph.graphFactory = function(target){
     agens.graph.defaultSetting.container = target;
@@ -782,12 +808,11 @@
               var name = $("#property-edge-name").val().trim();
               var property = $("#property-edge-props").val().trim();
               var w = $("#property-edge-width").val().replace(' ','');
-              var h = $("#property-edge-height").val().replace(' ','');
               var color = $("#property-edge-color").val();
-              var shape = $("#property-edge-shape").val();
-              var borderColor = $("#property-edge-border-color").val();
+              //var shape = $("#property-edge-shape").val();
+              //var borderColor = $("#property-edge-border-color").val();
 
-              agens.graph.updateEdge(id, name, w, h, color, shape, borderColor, property);
+              agens.graph.updateEdge(id, name, w, color, property);
               $(this).dialog("close");
           }
       }]
