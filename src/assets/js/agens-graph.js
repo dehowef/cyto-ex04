@@ -929,7 +929,7 @@
     element.find("#image-export-background-color").val(ele.data('name'));
   }
 
-    agens.dialog.openJsonExport = function(){
+  agens.dialog.openJsonExport = function(){
     var element = $("#agens-json-export");
 
     element.dialog( agens.dialog.setting.JsonExport );
