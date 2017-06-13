@@ -915,7 +915,7 @@
       element = $("#agens-node-box");
       element.find("#property-node-id").val(ele.id());
       element.find("#property-node-name").val(ele.data('name'));
-      element.find("#property-node-props").val(JSON.stringify( ele.data('props') ));
+      element.find("#property-node-props").val(JSON.stringify( ele.data('props'), null, 2));
       element.find("#property-node-width").val(ele.style("width"));
       element.find("#property-node-height").val(ele.style("height"));
       element.find("#property-node-color").val(ele.style("background-color").replace('#',''));
@@ -929,7 +929,7 @@
       element = $("#agens-edge-box");
       element.find("#property-edge-id").val(ele.id());
       element.find("#property-edge-name").val(ele.data('name'));
-      element.find("#property-edge-props").val(JSON.stringify( ele.data('props') ));
+      element.find("#property-edge-props").val(JSON.stringify( ele.data('props'), null, 2 ));
       element.find("#property-edge-width").val(ele.style("width"));
       element.find("#property-edge-height").val(ele.style("height"));
       element.find("#property-edge-color").val(ele.style("background-color").replace('#',''));
