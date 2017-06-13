@@ -571,7 +571,7 @@
       }
     });
 
-    // cxt menu for node
+    // cxt menu for node and edge
     agens.cy.cxtmenu({
       selector: 'node, edge',
       menuRadius: 80,
@@ -604,7 +604,7 @@
       ]
     });
 
-    // cxt menu for edge
+    // cxt menu for core
     agens.cy.cxtmenu({
       menuRadius: 80,
       selector: 'core',
@@ -909,8 +909,7 @@
 
   agens.dialog.openPropertyBox = function( ele ){
    jscolor.installByClassName("jscolor");
-    var element = null;
-
+    var element = null;;
     // Node Property
     if( ele.isNode() ){
       element = $("#agens-node-box");
@@ -923,6 +922,7 @@
       element.find("#property-node-shape").val(ele.style("shape"));
       element.find("#property-node-border-color").val(ele.style("border-color").replace('#',''));
       element.dialog( agens.dialog.setting.nodeProperty );
+      updateBackgroundColor("property-node-color",ele.style("background-color"));
     }
     // Edge Property
     else {
@@ -936,6 +936,7 @@
       element.find("#property-edge-shape").val(ele.style("shape"));
       element.find("#property-edge-border-color").val(ele.style("border-color").replace('#',''));
       element.dialog( agens.dialog.setting.edgeProperty );
+      updateBackgroundColor("property-edge-color",ele.style("background-color"));
     }
 
     element.dialog( "open" );
@@ -994,4 +995,10 @@ function b64toBlob(b64Data, contentType, sliceSize) {
 
 function onImageExportChangeColor(jscolor){
   $('#image-export-wrap')[0].style.backgroundColor = "#"+jscolor;
+}
+
+function updateBackgroundColor(id, jscolor) {
+    // 'jscolor' instance can be used as a string
+    document.getElementById(id).style.backgroundColor = jscolor;
+    document.getElementById(id).value = jscolor;
 }
