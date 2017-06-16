@@ -24,6 +24,10 @@
   <!-- JQuery -->  
   <script type="text/javascript" src="assets/js/jquery.min.js"></script>
 
+  <!--jQuery plugin Watermark -->
+  <script type="text/javascript" src="assets/js/jquery.watermark.min.js"></script>
+  <script type="text/javascript" src="assets/js/watermark.js"></script>
+
   <!-- CodeMirror -->  
   <link rel="stylesheet" href="assets/css/codemirror.css" />
   <link rel="stylesheet" href="assets/css/eclipse.css" />
@@ -172,7 +176,7 @@
   <!-- Dialog: Image Export -->
   <div id="agens-image-export" title="Styles" style="width: auto; height: auto; display: none;"
           class="ui-dialog-content ui-widget-content">
-    <div class="wrap" id="image-export-wrap"><img style="width:98%" src="" /></div>
+    <div class="wrap" id="image-export-wrap"><img id="image-export"style="width:98%" src="" /></div>
 
     <table><tbody><tr>
     <td><span class="add-in layout-text"> Filename </span></td>
@@ -180,6 +184,20 @@
     </tr><tr>
     <td><span class="add-on layout-text"> Background Color </span></td>
     <td><input id="image-export-bgcolor" onchange="onImageExportChangeColor(this.jscolor)" style="width:80px" class="jscolor" value="FFFFFF"></td>
+    </tr><tr>
+     <td><span class="add-on layout-text"> Watermark </span></td>
+     <td><input id="image-export-watermark" onchange="onImageExportChangeWatermark()" value="bitnine.net"></td>
+    </tr><tr>
+     <td><span class="add-on layout-text"> Width </span></td>
+     <td><input id="image-export-watermark-width" type="number" min="0" style="width:80px" onchange="onImageExportChangeWatermark()" value="130"></td>
+     <td><span class="add-on layout-text"> Size </span></td>
+     <td><input id="image-export-watermark-size" type="number"  min="0" style="width:80px" onchange="onImageExportChangeWatermark()" value="40"></td>
+    </tr><tr>
+     <td><span class="add-on layout-text"> Color </span></td>
+     <td><input id="image-export-watermark-color" style="width:80px" onchange="onImageExportChangeWatermark()" class="jscolor" value="FFFFFF"></td>
+     <td><span class="add-on layout-text"> Opacity </span></td>
+     <td><input id="image-export-watermark-opacity" style="width:80px" 
+     type="number" min="0" max="1" step="0.01" onchange="onImageExportChangeWatermark()" value="0.7"></td>
     </tr></tbody></table>
   </div>
 

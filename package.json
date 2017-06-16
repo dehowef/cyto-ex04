@@ -53,6 +53,8 @@
     "rxjs": "^5.2.0",
     "showdown": "1.6.4",
     "underscore": "^1.8.3",
+    "watermark": "^1.0.1",
+    "watermarkjs": "^2.0.0",
     "zone.js": "^0.8.5"
   },
   "devDependencies": {
