@@ -848,39 +848,28 @@
             // this is to remove the beginning of the pngContent: data:img/png;base64,
             var b64data = pngContent.substr(pngContent.indexOf(",") + 1);
             var blob = b64toBlob(b64data, "image/png");
-            var blobUrl = URL.createObjectURL(blob);
-            //$(function(){
-              $('<img>', {
-                src: blobUrl
-              }).watermark({
-                text: watermark,
-                textSize: watermarkSize,
-                textWidth: watermarkWidth,
-                textColor: watermarkColor,
-                opacity: watermarkOpacity,
-                outputType: "png",
-                done: function(imgURL){
-                  var b64data2 = imgURL.substr(imgURL.indexOf(",") + 1);
-                  var blob2 = b64toBlob(b64data2, "image/png")
-                  saveAs(blob2, filename+".png");
-                }
-              });
-            //});
-
-
-
-            //saveAs(blob, filename+".png");
-
-
-            /*
-            var pngContent = $("#agens-image-export").find("img").attr("src");
-            var element = $("#image-export-file-name").val();
-
-            // this is to remove the beginning of the pngContent: data:img/png;base64,
-            var b64data = pngContent.substr(pngContent.indexOf(",") + 1);
-            //var b64data = png64.substr(png64.indexOf(",") + 1);
-            saveAs(b64toBlob(b64data, "image/png"), element);
-            */
+            
+            if(document.getElementById("image-export-watermark-checkbox").checked){
+              var blobUrl = URL.createObjectURL(blob);
+              //$(function(){
+               $('<img>', {
+                 src: blobUrl
+               }).watermark({
+                 text: watermark,
+                 textSize: watermarkSize,
+                 textWidth: watermarkWidth,
+                 textColor: watermarkColor,
+                 opacity: watermarkOpacity,
+                 outputType: "png",
+                 done: function(imgURL){
+                   var b64data2 = imgURL.substr(imgURL.indexOf(",") + 1);
+                   var blob2 = b64toBlob(b64data2, "image/png")
+                   saveAs(blob2, filename+".png");
+                 }
+               });
+            } else{
+              saveAs(blob, filename+".png");
+            }
           }
       },{
           text: "Cancel",
@@ -977,15 +966,15 @@
     element.find("#image-export-filename").val('agens-graph-export');
     element.find("#image-export-bgcolor").val('FFFFFF');
     element.find('#image-export-wrap')[0].style.backgroundColor = "#"+element.find("#image-export-bgcolor").val();
-    element.dialog( agens.dialog.setting.imageExport );
-    element.dialog( "open" );
-    element.find("#image-export-file-name").val(ele.data('name'));
-    element.find("#image-export-background-color").val(ele.data('name'));
     element.find("image-export-watermark").val('bitnine.net');
-    element.find("image-export-watermark-width").val(130);
+    element.find("image-export-watermark-width").val(200);
     element.find("image-export-watermark-size").val(40);
     element.find("image-export-watermark-color").val("FFFFFF");
     element.find("image-export-watermark-opacity").val(0.7);
+    updateImageExportChangeWatermark();
+    element.dialog( agens.dialog.setting.imageExport );
+    element.dialog( "open" );
+
   }
 
   agens.dialog.openJsonExport = function(){
@@ -1031,23 +1020,76 @@ function onImageExportChangeColor(jscolor){
 }
 
 
-function onImageExportChangeWatermark(){
-  console.log(typeof document.getElementById("image-export-watermark-size").value)
-  $("#image-export").watermark({
-    text: document.getElementById("image-export-watermark").value,
-    textWidth: Number(document.getElementById("image-export-watermark-width").value),
-    textSize: Number(document.getElementById("image-export-watermark-size").value),
-    opacity: Number(document.getElementById("image-export-watermark-opacity").value),
-    textColor: "#"+ document.getElementById("image-export-watermark-color").value,
-    outputType: "png",
-    fail: function(){console.log("FAILURE");}
-  });
-}
+function updateImageExportChangeWatermark(){
 
+  var pngContent = agens.cy.png({scale : 3, full : true});
+  if(document.getElementById("image-export-watermark-checkbox").checked){
+  var bgcolor = $("#image-export-bgcolor").val();
+  var filename = $("#image-export-filename").val().replace(' ','');
+  var watermark = $("#image-export-watermark").val();
+  var watermarkSize = Number($("#image-export-watermark-size").val());
+  var watermarkWidth = Number($("#image-export-watermark-width").val());
+  var watermarkColor = '#'+ $("#image-export-watermark-color").val();
+  var watermarkOpacity = Number($("image-export-watermark-opacity").val());
+
+  $('<img>', {
+    src: pngContent
+  }).watermark({
+    text: watermark,
+    textSize: watermarkSize,
+    textWidth: watermarkWidth,
+    textColor: watermarkColor,
+    opacity: watermarkOpacity,
+    outputType: "png",
+    done: function(imgURL){
+      var element = $("#agens-image-export");
+      element.find("img").attr("src", imgURL);
+      }
+    });
+  }
+  else{
+    var element = $("#agens-image-export");
+    element.find("img").attr("src", pngContent);
+  }
+
+}
 
 
 function updateBackgroundColor(id, jscolor) {
     // 'jscolor' instance can be used as a string
     document.getElementById(id).style.backgroundColor = jscolor;
     document.getElementById(id).value = jscolor;
+}
+
+function limitInput(input){
+  if(input.value < input.min) input.value = input.min;
+  if(input.value > input.max) input.value = input.max;
+};
+
+function watermarkToggle(){
+
+  $("#image-export-watermark-checkbox").change(function(){
+    if(this.checked == true){
+      color = $("#image-export-watermark-color").val()
+      $("#image-export-watermark").prop("disabled", false);
+      $("#image-export-watermark-width").prop("disabled", false);
+      $("#image-export-watermark-size").prop("disabled", false);
+      $("#image-export-watermark-opacity").prop("disabled", false);
+      $("#image-export-watermark-color").replaceWith("<input id='image-export-watermark-color' style='width:80px' onchange='updateImageExportChangeWatermark()' class='jscolor'>");
+      $("#image-export-watermark-color").val(color);
+      jscolor.installByClassName("jscolor");
+      updateImageExportChangeWatermark();
+    }
+
+    if(this.checked == false){
+      color = $("#image-export-watermark-color").val()
+      $("#image-export-watermark").prop("disabled", true);
+      $("#image-export-watermark-width").prop("disabled", true);
+      $("#image-export-watermark-size").prop("disabled", true);
+      $("#image-export-watermark-opacity").prop("disabled", true);
+      $("#image-export-watermark-color").replaceWith("<input id='image-export-watermark-color' style='width:80px' value='FFFFFF' disabled>");
+      $("#image-export-watermark-color").val(color);
+      updateImageExportChangeWatermark();
+    }
+  });
 }
