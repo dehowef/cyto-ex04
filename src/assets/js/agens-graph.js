@@ -30,8 +30,6 @@
   agens.api = agens.api || {};
   agens.dialog = agens.dialog || {};
 
-  imageFilename = "Test.png";
-
   /////////////////////////////////////////////////////////
   //  NAMESPACE: agens.graph
   /////////////////////////////////////////////////////////
@@ -72,6 +70,7 @@
           'text-outline-color': 'black',
           'border-color': 'black',
           'border-width': 3,
+          //'border-width': 1,
           'opacity': 1
       }},{
       selector: 'node:locked',
@@ -940,6 +939,7 @@
       element.find("#property-node-border-color").val(ele.style("border-color").replace('#',''));
       element.dialog( agens.dialog.setting.nodeProperty );
       updateBackgroundColor("property-node-color", ele.style("background-color"));
+      updateBorderColor("property-node-border-color", ele.style("border-color"));
     }
     // Edge Property
     else {
@@ -954,6 +954,7 @@
       element.find("#property-edge-border-color").val(ele.style("border-color").replace('#',''));
       element.dialog( agens.dialog.setting.edgeProperty );
       updateBackgroundColor("property-edge-color", ele.style("background-color"));
+      updateBorderColor("property-node-border-color", ele.style("border-color"));
     }
 
     element.dialog( "open" );
@@ -1058,6 +1059,12 @@ function updateImageExportChangeWatermark(){
 function updateBackgroundColor(id, jscolor) {
     // 'jscolor' instance can be used as a string
     document.getElementById(id).style.backgroundColor = jscolor;
+    document.getElementById(id).value = jscolor;
+}
+
+function updateBorderColor(id, jscolor) {
+    // 'jscolor' instance can be used as a string
+    document.getElementById(id).style.borderColor = jscolor;
     document.getElementById(id).value = jscolor;
 }
 
